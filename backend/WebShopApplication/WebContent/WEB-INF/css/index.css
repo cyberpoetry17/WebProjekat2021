@@ -1,0 +1,122 @@
+.menu-btn {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    background-color: #68506b;
+    color: white;
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: none;
+    width: 100%;
+ }
+ .dropdown-menu {
+    position: relative;
+    display: inline-block;
+ }
+ .menu-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background-color: #68506b;
+    min-width: 160px;
+    z-index: 1;
+ }
+ nav{
+    background-color: #68506b;
+    width: 100%;
+ }
+ .links,.links-hidden{
+    display: inline-block;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px;
+ }
+ .links-hidden:hover,.links:hover {
+    background-color: rgb(109, 155, 127);
+ }
+ .dropdown-menu:hover .menu-content {
+    display: block;
+ }
+ .dropdown-menu:hover .menu-btn {
+    background-color: #87bd89;
+ }
+ .hamburger {
+    color: white;
+    font-weight: bolder;
+    display: none;
+ }
+ @media screen and (max-width: 880px) {
+       nav a:not(:first-child) {
+       display: none;
+    }
+    nav a.hamburger {
+       float: right;
+       display: block;
+       padding: 12px;
+    }
+    .dropdown-menu{
+       display: none;
+    }
+    nav.openNav a.hamburger {
+       position: relative;
+    }
+    nav.openNav a {
+       float: none;
+       display: block;
+       text-align: center;
+    }
+ }
+ nav.openNav div.dropdown-menu{
+    display: block;
+    width: 100%;
+ }
+
+
+ .content {
+	background-color: #fff;
+	border-radius: 8px;
+	box-sizing: border-box;
+	color: #666;
+	font-size: 1.6em;
+	line-height: 1.4em;
+	margin: 20px auto;
+	margin-top: 50px;
+	padding: 20px;
+	width: 100%;
+	max-width: 1000px;
+}
+.content ul {
+	margin: .5em 2em;
+	padding: 0;
+}
+
+
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
