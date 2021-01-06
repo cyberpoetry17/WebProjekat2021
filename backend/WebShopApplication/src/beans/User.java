@@ -13,15 +13,14 @@ public class User {
 	private String name;
     private Role role;
     private Gender gender;
-    private List<Apartment> ApartmentsForRent;
-    private List<Apartment> RentedApartments;
+  //  private List<Apartment> ApartmentsForRent;
+  //  private List<Apartment> RentedApartments;
     
     
     public User() {
 		super();
 	}
-	public User(String username, String password, String surname, String name, Role role, Gender gender,
-			List<Apartment> apartmentsForRent, List<Apartment> rentedApartments, List<Reservation> reservations) {
+	public User(String username, String password, String surname, String name, Role role, Gender gender) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -29,9 +28,9 @@ public class User {
 		this.name = name;
 		this.role = role;
 		this.gender = gender;
-		ApartmentsForRent = apartmentsForRent;
-		RentedApartments = rentedApartments;
-		Reservations = reservations;
+		//ApartmentsForRent = apartmentsForRent;
+		//RentedApartments = rentedApartments;
+		//Reservations = reservations;
 	}
 	public String getUsername() {
 		return username;
@@ -69,23 +68,10 @@ public class User {
 	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
-	public List<Apartment> getApartmentsForRent() {
-		return ApartmentsForRent;
+	
+	@Override
+	public String toString() {
+		return "User [userName =" + username + ", password=" + password + ", name=" + name + ", surname=" + surname
+				+ ", gender=" + gender + "]";
 	}
-	public void setApartmentsForRent(List<Apartment> apartmentsForRent) {
-		ApartmentsForRent = apartmentsForRent;
-	}
-	public List<Apartment> getRentedApartments() {
-		return RentedApartments;
-	}
-	public void setRentedApartments(List<Apartment> rentedApartments) {
-		RentedApartments = rentedApartments;
-	}
-	public List<Reservation> getReservations() {
-		return Reservations;
-	}
-	public void setReservations(List<Reservation> reservations) {
-		Reservations = reservations;
-	}
-	private List<Reservation> Reservations;
 }
