@@ -18,7 +18,7 @@ public class Address {
 
 	public Address(){}
 	
-	public Address(String street,int num,String placeName,int postalCode){
-		address=street+" "+num+","+placeName+postalCode;
+	public Address(String street,int number,String place,int postalCode){
+		address=street+" "+ number +","+place +postalCode;
 	}
 }
