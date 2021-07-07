@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebProjekat2021</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+	<div id="app" class="content">
+        <v-app>
+            <router-view>
+
+            </router-view>
+        </v-app>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="js/vuex.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/httpVueLoader.js"></script>
+    <script>
+    	Vue.use(httpVueLoader);
+
+        const routes = [
+            {
+                path: "/test",
+                name: "Test",
+                component: httpVueLoader("components/Test.vue")
+            }
+        ];
+
+        const router = new VueRouter ({
+            routes: routes
+        });
+
+        const store = new Vuex.Store ({
+            strict: true,
+            state: {
+                counter: 5
+            },
+            getters: {
+                getCounter(state) {
+                    return state.counter
+                }
+            },
+            mutations: {
+                
+            },
+            actions: {
+                
+            }
+        });
+
+        const vuetify = new Vuetify();
+
+        new Vue ({
+            el: "#app",
+            router: router,
+            store: store,
+            vuetify: vuetify
+        }).$mount("#app");
+    </script>
+
+</body>
+</html>
