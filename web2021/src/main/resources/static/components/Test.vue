@@ -1,5 +1,6 @@
 <template>
-    <div class="text-center">
+  <div class="text-center">
+    <p>This is component.</p>
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">Click Me</v-btn>
@@ -20,20 +21,24 @@
 </template>
 
 <script>
-    module.exports = 
-    {
-        name: 'Test',
-        computed: {
-            counter() {
-                return this.$store.getters.getCounter
-            }
-        },
-        data() {
-            return {
-                dialog: false
-            }
+
+module.exports = {
+    name: 'Test',
+    computed: {
+        counter() {
+            return this.$store.getters.getCounter
         }
+    },
+    data() {
+        return {
+            dialog: false
+        }
+    },
+    mounted() {
+      console.log("Test is mounted.")
     }
+}
+
 </script>
 
 <style scoped>
