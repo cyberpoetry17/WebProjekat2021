@@ -11,16 +11,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Test implements Serializable {
-	
-	private static final long serialVersionUID = -5787801295529615493L;
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -8207261429084622354L;
 
 	private Long id;
 	
-	private boolean isDeleted;
+	private String Name;
 	
-	private String name;
-	
-	private User user;
+	private String Surname;
 	
 }

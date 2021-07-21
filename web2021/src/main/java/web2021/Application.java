@@ -17,6 +17,9 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import web2021.controller.*;
+import web2021.service.TestService;
+
 public class Application
 {
 
@@ -25,6 +28,8 @@ public class Application
 	public static Gson gson;
 
 	public static File uploadDir;
+	
+	public static TestService testService;
 
 	public static String parseJws(Request request)
 	{
@@ -80,6 +85,8 @@ public class Application
 	{
 		gson = new Gson();
 		
+		testService = new TestService("tests.json");
+		
 		uploadDir = new File("upload");
 		uploadDir.mkdir();
 
@@ -90,12 +97,14 @@ public class Application
 		
 		get("/", serveStaticResource);
 		
-//		get("*", (request, response) ->
-//		{
-//			System.out.println("Redirecting...");
-//			response.redirect("/");
-//			return response;
-//		});
+		get("rest/test/get-all", TestController.getAll);
+		
+		get("*", (request, response) ->
+		{
+			System.out.println("Redirecting...");
+			response.redirect("/");
+			return response;
+		});
 		
 	}
 
