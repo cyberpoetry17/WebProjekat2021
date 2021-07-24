@@ -4,6 +4,10 @@
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn color="red lighten-2" dark v-bind="attrs" v-on="on">Click Me</v-btn>
+        <v-btn color="red lighten-2" dark v-on:click="buttonClickDelete">Delete test</v-btn>
+        <v-btn color="red lighten-2" dark v-on:click="buttonClickUpdate">Update test</v-btn>
+        <v-btn color="red lighten-2" dark v-on:click="buttonClickCreate">Create test</v-btn>
+        <v-btn color="red lighten-2" dark v-on:click="buttonClickGetAll">Get all tests</v-btn>
       </template>
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">Privacy Policy</v-card-title>
@@ -31,7 +35,60 @@ module.exports = {
     },
     data() {
         return {
-            dialog: false
+            dialog: false,
+            test: null
+        }
+    },
+    methods: {
+        buttonClickGetAll() {
+          axios.get("http://localhost:8080/rest/test/get-all")
+            .then(r => {
+              this.test = r.data[0]
+            })
+        },
+        buttonClickCreate() {
+          var test = {
+            isDeleted: true,
+            name: 'Test 1',
+            user: {
+              name: 'Nikola',
+              surname: 'Antonic'
+            }
+          }
+          axios.post("http://localhost:8080/rest/test/add-test", test)
+            .then(r => {
+              console.log(r.data)
+            })
+        },
+        buttonClickUpdate() {
+          if(this.test == null) {
+            alert("Select some test/click get all")
+            return
+          }
+          var test = {
+            id: this.test.id,
+            isDeleted: false,
+            name: 'Izmenjeni test',
+            user: {
+              id: this.test.user.id,
+              name: 'Bojana',
+              surname: 'Pjevalica'
+            }
+          }
+          axios.put("http://localhost:8080/rest/test/update-test", test)
+            .then(r => {
+              console.log(r.data)
+            })
+        },
+        buttonClickDelete() {
+          if(this.test == null) {
+            alert("Select some test/click get all")
+            return
+          }
+          axios.delete("http://localhost:8080/rest/test/delete-test/" + this.test.id)
+            .then(r => {
+              console.log(r.data)
+            })
         }
     },
     mounted() {

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import web2021.dto.TestDTO;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,5 +23,13 @@ public class Test implements Serializable {
 	private String name;
 	
 	private User user;
+	
+	public Test(TestDTO testDTO) {
+		this.id = System.currentTimeMillis();
+		this.isDeleted = false;
+		this.name = testDTO.getName();
+		this.user = testDTO.getUser();
+		this.user.setId(System.currentTimeMillis());
+	}
 	
 }

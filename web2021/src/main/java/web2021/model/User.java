@@ -17,8 +17,8 @@ public class User implements Serializable {
 
 	private Long id;
 	
-	private String Name;
+	private String name;
 	
-	private String Surname;
+	private String surname;
 	
 }
