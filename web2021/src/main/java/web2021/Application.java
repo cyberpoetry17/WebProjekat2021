@@ -4,6 +4,9 @@ import static spark.Spark.before;
 import static spark.Spark.get;
 import static spark.Spark.options;
 import static spark.Spark.port;
+import static spark.Spark.post;
+import static spark.Spark.delete;
+import static spark.Spark.put;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
@@ -91,13 +94,24 @@ public class Application
 		uploadDir.mkdir();
 
 		port(8080);
-		staticFiles.location("/static");
+//		uncomment if creating jar
+//		staticFiles.location("/static");
+//		comment if creating jar
+		String projectDir = System.getProperty("user.dir");
+		String staticDir = "/src/main/resources/static";
+		staticFiles.externalLocation(projectDir + staticDir);
 		
 		enableCORS("*", "*", "*");
 		
 		get("/", serveStaticResource);
 		
+		post("rest/test/add-test", TestController.addTest);
+		
+		put("rest/test/update-test", TestController.updateTest);
+		
 		get("rest/test/get-all", TestController.getAll);
+		
+		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		
 		get("*", (request, response) ->
 		{

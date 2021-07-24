@@ -73,7 +73,7 @@ public class TestRepository {
 		ArrayList<Test> tests = getAll();
 		boolean exist = false;
 		for(Test test : tests) {
-			if(test.getId() == newTest.getId()) {
+			if(test.getId().equals(newTest.getId())) {
 				exist = true;
 				break;
 			}
@@ -90,7 +90,7 @@ public class TestRepository {
 	{
 		ArrayList<Test> tests = (ArrayList<Test>) this.getAll();
 		for (int i = 0; i < tests.size(); i++) {
-			if(tests.get(i).getId() == updateTest.getId()) {
+			if(tests.get(i).getId().equals(updateTest.getId())) {
 				tests.set(i, updateTest);
 				this.saveAll(tests);
 				return tests.get(i);
@@ -101,7 +101,7 @@ public class TestRepository {
 	
 	public Test getById(Long id) {
 		for(Test test : getAll()) {
-			if(test.getId() == id) {
+			if(test.getId().equals(id)) {
 				return test;
 			}
 		}
