@@ -10,9 +10,20 @@ import static spark.Spark.put;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.security.Key;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -21,18 +32,36 @@ import spark.Response;
 import spark.Route;
 
 import web2021.controller.*;
+import web2021.service.CustomerService;
+import web2021.service.CustomerTypeService;
 import web2021.service.TestService;
+import web2021.service.UserService;
 
 public class Application
 {
 
 	public static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-	public static Gson gson;
+	public static Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+//        @Override
+//        public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+//            return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString());
+//        }
+		
+		@Override
+	    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+	        Instant instant = Instant.ofEpochMilli(json.getAsJsonPrimitive().getAsLong());
+	        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+	    }
+		
+    }).create();
 
 	public static File uploadDir;
 	
 	public static TestService testService;
+	public static UserService userService;
+	public static CustomerService customerService;
+	public static CustomerTypeService customerTypeService;
 
 	public static String parseJws(Request request)
 	{
@@ -86,9 +115,12 @@ public class Application
 
 	public static void main(String args[])
 	{
-		gson = new Gson();
+//		gson = new Gson();
 		
 		testService = new TestService("tests.json");
+		userService = new UserService("users.json");
+		customerService = new CustomerService("customers.json");
+		customerTypeService  = new CustomerTypeService("customertypes.json");
 		
 		uploadDir = new File("upload");
 		uploadDir.mkdir();
@@ -106,6 +138,7 @@ public class Application
 		get("/", serveStaticResource);
 		
 		post("rest/test/add-test", TestController.addTest);
+		post("rest/customer/register", CustomerController.register);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		

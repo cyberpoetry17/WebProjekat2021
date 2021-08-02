@@ -1,8 +1,6 @@
 <template>
-  <div class="text-center">
-    <p>Home page.</p>
-    <p>This is view.</p>
-    <Test/>
+  <div class="background">
+    <Navbar></Navbar>
   </div>
 </template>
 
@@ -15,5 +13,10 @@ module.exports = {
 </script>
 
 <style scoped>
-    
+  .background {
+    background-color: #3498db;
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+  }
 </style>

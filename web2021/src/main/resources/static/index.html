@@ -32,12 +32,23 @@
     	Vue.use(httpVueLoader);
 
         Vue.component("test", httpVueLoader("components/Test.vue"))
+        Vue.component("navbar", httpVueLoader("components/Navbar.vue"))
 
         const routes = [
             {
                 path: "/",
                 name: "Home",
                 component: httpVueLoader("views/Home.vue")
+            },
+            {
+                path: "/login",
+                name: "Login",
+                component: httpVueLoader("views/Login.vue")
+            },
+            {
+                path: "/registration",
+                name: "Registration",
+                component: httpVueLoader("views/Registration.vue")
             }
         ];
 
@@ -48,18 +59,34 @@
         const store = new Vuex.Store ({
             strict: true,
             state: {
-                counter: 5
+                counter: 5,
+                user: null
             },
             getters: {
                 getCounter(state) {
                     return state.counter
+                },
+                getUser(state) {
+                    return state.user
+                },
+                getIsUserLogged(state) {
+                    if(state.user == null) {
+                        return false
+                    }
+                    else {
+                        return true
+                    }
                 }
             },
             mutations: {
-                
+                updateUser(state, user) {
+                    state.user = user
+                }
             },
             actions: {
-                
+                updateUser(context, user) {
+                    context.commit(user)
+                }
             }
         });
 
