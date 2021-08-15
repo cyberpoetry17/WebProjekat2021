@@ -105,10 +105,12 @@ module.exports = {
 <style scoped>
 
   .background {
-    background-color: #3498db;
+    background-image: url("../img/background.jpg");
     min-width: 100%;
     min-height: 100%;
-    position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   .container-column {
