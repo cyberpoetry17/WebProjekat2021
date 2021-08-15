@@ -86,7 +86,7 @@ module.exports = {
           username: this.username,
           password: this.password
         }
-        axios.post("http://localhost:8080/rest/customer/login", login)
+        axios.post("http://localhost:8080/rest/user/login", login)
           .then(r => {
               if(r.data != null) {
                 this.$store.dispatch('updateUser', r.data);

@@ -23,8 +23,11 @@ import spark.Response;
 import spark.Route;
 
 import web2021.controller.*;
+import web2021.service.AdministratorService;
+import web2021.service.CourierService;
 import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
+import web2021.service.ManagerService;
 import web2021.service.TestService;
 import web2021.service.UserService;
 import web2021.utils.LocalDateTimeDeserializer;
@@ -59,7 +62,10 @@ public class Application
 	public static UserService userService;
 	public static CustomerService customerService;
 	public static CustomerTypeService customerTypeService;
-
+	public static ManagerService managerService;
+	public static AdministratorService administratorService;
+	public static CourierService courierService;
+	
 	public static String parseJws(Request request)
 	{
 		String auth = request.headers("Authorization");
@@ -121,10 +127,13 @@ public class Application
 	{
 		gson = createCustomGson();
 		
-		testService = new TestService("tests.json");
-		userService = new UserService("users.json");
+//		testService = new TestService("tests.json");
+		userService = new UserService();
 		customerService = new CustomerService("customers.json");
 		customerTypeService  = new CustomerTypeService("customertypes.json");
+		managerService = new ManagerService("managers.json");
+		administratorService = new AdministratorService("administrators.json");
+		courierService = new CourierService("couriers.json");
 		
 		uploadDir = new File("upload");
 		uploadDir.mkdir();
@@ -144,7 +153,7 @@ public class Application
 		
 		post("rest/test/add-test", TestController.addTest);
 		post("rest/customer/register", CustomerController.register);
-		post("rest/customer/login", CustomerController.login);
+		post("rest/user/login", UserController.login);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		
