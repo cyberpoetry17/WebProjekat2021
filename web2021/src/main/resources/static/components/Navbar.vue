@@ -1,8 +1,7 @@
 <template>
     <div>
-        <v-app-bar color="deep-purple accent-4" dense dark>
-            <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            
+        <v-app-bar color="#d40078" dense dark>
+            <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
             <router-link to="/" style="color:white;text-decoration:none;">
                 <v-toolbar-title>Welcome to GetFood.com</v-toolbar-title>
             </router-link>
