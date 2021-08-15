@@ -2,7 +2,7 @@
   <div class="background container-column">
     <Navbar></Navbar>
     <div class="container-1 item-1">
-      <v-card style="width:400px;height:280px;margin-bottom:150px;">
+      <v-card style="width:400px;margin-bottom:150px;">
         <v-card-title primary-title class="justify-center" style="font-size:36px;">
           Welcome
         </v-card-title>
@@ -29,6 +29,8 @@
             style="margin-left:10px;margin-right:10px;"
           ></v-text-field>
 
+          <p v-if="this.messageShow == true" style="color:red;"><b>{{this.message}}</b></p>
+
           <v-btn
             :disabled="!valid"
             color="success"
@@ -43,7 +45,6 @@
             <v-btn
               color="error"
               class="mr-4"
-              @click="reset"
             >
               Sign up
             </v-btn>
@@ -64,28 +65,40 @@ module.exports = {
             valid: true,
             username: '',
             usernameRules: [
-              v => !!v || 'Username is required',
-              v => (v && v.length <= 10) || 'Username must be less than 10 characters'
+              v => !!v || 'Username is required'
             ],
             password: '',
             passwordRules: [
-              v => !!v || 'Password is required',
-              v => /.+@.+\..+/.test(v) || 'Password must be valid',
-            ]
+              v => !!v || 'Password is required'
+            ],
+            message: 'Username or password is not valid!',
+            messageShow: false
         }
     },
     methods: {
-       validate () {
-        this.$refs.form.validate()
+      validate () {
+        if(this.$refs.form.validate()) {
+          this.login()
+        }
       },
-      reset () {
-        this.$refs.form.reset()
-      },
-      resetValidation () {
-        this.$refs.form.resetValidation()
+      login() {
+        var login = {
+          username: this.username,
+          password: this.password
+        }
+        axios.post("http://localhost:8080/rest/customer/login", login)
+          .then(r => {
+              if(r.data != null) {
+                this.$store.dispatch('updateUser', r.data);
+                this.$router.push({name: 'Home'});
+              }
+              else {
+                this.messageShow = true
+              }
+          })
       }
     }
-}
+  }
 
 </script>
 

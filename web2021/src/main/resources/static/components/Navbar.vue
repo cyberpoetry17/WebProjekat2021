@@ -23,9 +23,9 @@
                 </v-list>
             </v-menu>
 
-            <router-link v-if="isUserLogged" to="/">
-                <v-btn icon>
-                    <v-icon>mdi-import</v-icon>
+            <router-link v-if="isUserLogged" to="/login">
+                <v-btn v-on:click="logout" icon>
+                    <v-icon>mdi-export</v-icon>
                 </v-btn>
             </router-link>
 
@@ -45,11 +45,20 @@ module.exports = {
     computed: {
         isUserLogged() {
             return this.$store.getters.getIsUserLogged
+        },
+        user() {
+            return this.$store.getters.getUser
         }
     },
     data() {
         return {
             drawer: false
+        }
+    },
+    methods: {
+        logout() {
+            var user = null;
+            this.$store.dispatch('updateUser', user);
         }
     }
 }

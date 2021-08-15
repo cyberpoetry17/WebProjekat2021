@@ -1,5 +1,5 @@
 <template>
-    <div class="background container-column">
+  <div class="background container-column">
     <Navbar></Navbar>
     <div class="container-1 item-1">
       <v-card style="width:400px;margin-bottom:150px;">
@@ -14,6 +14,7 @@
         >
           <v-text-field
             v-model="user.username"
+            v-on:input="checkIsUsernameValid"
             :rules="usernameRules"
             label="enter username"
             required
@@ -158,13 +159,24 @@ module.exports = {
     },
     methods: {
         validate () {
-            this.$refs.form.validate()
-            if(this.validate) {
-                this.register()
+            if(this.$refs.form.validate()) {
+              this.register()
             }
         },
+        checkIsUsernameValid() {
+          axios.get("http://localhost:8080/rest/customer/check-username/" + this.user.username)
+            .then(r => {
+              if(r.data == "taken") {
+                this.validUsername = false
+                this.$refs.form.validate()
+              }
+              else {
+                this.validUsername = true
+                this.$refs.form.validate()
+              }
+            })
+        },
         register() {
-            console.log(this.user.birthday.toString())
             var date = this.getDateTimeFromString(this.user.birthday.toString(), "00:00").getTime()
             var user = {
                 username: this.user.username,
@@ -177,8 +189,8 @@ module.exports = {
             }
             axios.post("http://localhost:8080/rest/customer/register", user)
                 .then(r => {
-                    console.log(r.data)
-                })
+                    this.$router.push({name: 'Login'});
+                }) 
         },
         // Expected yy-mm-dd and HH:mm format
         getDateTimeFromString: function(dstr, tstr) {

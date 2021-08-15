@@ -16,18 +16,18 @@
             </router-view>
         </v-app>
     </div>
-    <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/vuex/dist/vuex.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
-    <script src="https://unpkg.com/http-vue-loader/src/httpVueLoader.js"></script> -->
-    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/http-vue-loader/src/httpVueLoader.js"></script>
+    <!-- <script src="js/vue.js"></script>
     <script src="js/vue-router.js"></script>
     <script src="js/vuex.js"></script>
     <script src="js/axios.js"></script>
     <script src="js/vuetify.js"></script>
-    <script src="js/httpVueLoader.js"></script>
+    <script src="js/httpVueLoader.js"></script> -->
     <script>
     	Vue.use(httpVueLoader);
 
@@ -85,7 +85,7 @@
             },
             actions: {
                 updateUser(context, user) {
-                    context.commit(user)
+                    context.commit('updateUser', user)
                 }
             }
         });

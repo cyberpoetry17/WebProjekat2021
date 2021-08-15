@@ -1,6 +1,7 @@
 package web2021.service;
 
 import web2021.dto.CustomerRegisterDTO;
+import web2021.dto.LoginDTO;
 import web2021.model.Customer;
 import web2021.repository.CustomerRepository;
 
@@ -18,6 +19,15 @@ public class CustomerService {
 		this.customerRepository = new CustomerRepository(path);
 	}
 	
+	public boolean checkIsUsernameTaken(String username) {
+		for(Customer customer : customerRepository.getAll()) {
+			if(customer.getUsername().toLowerCase().equals(username.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Customer register(CustomerRegisterDTO customerRegisterDTO) {
 		Customer customer = new Customer();
 		customer.setId(System.currentTimeMillis());
@@ -30,12 +40,24 @@ public class CustomerService {
 		customer.setBirthday(customerRegisterDTO.getBirthday());
 		customer.setUserType(customerRegisterDTO.getUserType());
 		customer.getShoppingCart().setId(customer.getId());
-		customer.getShoppingCart().setCustomer(customer);
+//		customer.getShoppingCart().setCustomer(customer);
 		customer.getShoppingCart().setPrice(0);
 		customer.setPoints(0);
 		customer.setCustomerType(customerTypeService.getCustomerTypeByPoints(0));
 		return customerRepository.add(customer);
-//		return null;
 	}
 	
+	public Customer login(LoginDTO loginDTO) {
+		for(Customer customer : customerRepository.getAll()) {
+			if(customer.getUsername().equals(loginDTO.getUsername())) {
+				if(customer.getPassword().equals(loginDTO.getPassword())) {
+					return customer;
+				}
+				else {
+					return null;
+				}
+			}
+		}
+		return null;
+	}
 }

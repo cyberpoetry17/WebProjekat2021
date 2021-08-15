@@ -10,20 +10,11 @@ import static spark.Spark.put;
 import static spark.Spark.staticFiles;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.security.Key;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -36,25 +27,31 @@ import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
 import web2021.service.TestService;
 import web2021.service.UserService;
+import web2021.utils.LocalDateTimeDeserializer;
+import web2021.utils.LocalDateTimeSerializer;
 
 public class Application
 {
 
 	public static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-	public static Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-//        @Override
-//        public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-//            return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString());
-//        }
-		
-		@Override
-	    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-	        Instant instant = Instant.ofEpochMilli(json.getAsJsonPrimitive().getAsLong());
-	        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-	    }
-		
-    }).create();
+	private static GsonBuilder gsonBuilder = new GsonBuilder();
+	
+	public static Gson gson;
+	
+//	public static Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+////        @Override
+////        public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+////            return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString());
+////        }
+//		
+//		@Override
+//	    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+//	        Instant instant = Instant.ofEpochMilli(json.getAsJsonPrimitive().getAsLong());
+//	        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+//	    }
+//		
+//    }).create();
 
 	public static File uploadDir;
 	
@@ -112,10 +109,17 @@ public class Application
 	        response.type("application/json");
 	    });
 	}
-
+	
+	public static Gson createCustomGson() {
+		gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+		gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+		Gson gson = gsonBuilder.create();
+		return gson;
+	}
+	
 	public static void main(String args[])
 	{
-//		gson = new Gson();
+		gson = createCustomGson();
 		
 		testService = new TestService("tests.json");
 		userService = new UserService("users.json");
@@ -128,6 +132,7 @@ public class Application
 		port(8080);
 //		uncomment if creating jar
 //		staticFiles.location("/static");
+
 //		comment if creating jar
 		String projectDir = System.getProperty("user.dir");
 		String staticDir = "/src/main/resources/static";
@@ -139,10 +144,12 @@ public class Application
 		
 		post("rest/test/add-test", TestController.addTest);
 		post("rest/customer/register", CustomerController.register);
+		post("rest/customer/login", CustomerController.login);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		
 		get("rest/test/get-all", TestController.getAll);
+		get("rest/customer/check-username/:username", CustomerController.checkUsername);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

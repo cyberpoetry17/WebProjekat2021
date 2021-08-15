@@ -21,7 +21,7 @@ public class ShoppingCart implements Serializable {
 	
 	private List<ArticleQuantity> articles = new ArrayList<ArticleQuantity>();
 	
-	private Customer customer;
+//	private Customer customer;
 	
 	private double price;
 	
