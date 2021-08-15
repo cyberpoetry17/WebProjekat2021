@@ -47,17 +47,4 @@ public class CustomerService {
 		return customerRepository.add(customer);
 	}
 	
-	public Customer login(LoginDTO loginDTO) {
-		for(Customer customer : customerRepository.getAll()) {
-			if(customer.getUsername().equals(loginDTO.getUsername())) {
-				if(customer.getPassword().equals(loginDTO.getPassword())) {
-					return customer;
-				}
-				else {
-					return null;
-				}
-			}
-		}
-		return null;
-	}
 }
