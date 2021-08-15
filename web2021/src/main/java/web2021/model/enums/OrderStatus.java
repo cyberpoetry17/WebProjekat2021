@@ -1,0 +1,9 @@
+package web2021.model.enums;
+
+public enum OrderStatus {
+	PROCESSING,
+	INTHEPREPARATION,
+	WAITINGFORDELIVERY,
+	INTRANSPORT,
+	DELIVERED
+}
