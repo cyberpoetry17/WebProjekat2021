@@ -6,6 +6,8 @@ import web2021.repository.CustomerRepository;
 
 import static web2021.Application.customerTypeService;
 
+import java.util.List;
+
 public class CustomerService {
 	
 	private CustomerRepository customerRepository;
@@ -16,15 +18,6 @@ public class CustomerService {
 	
 	public CustomerService(String path) {
 		this.customerRepository = new CustomerRepository(path);
-	}
-	
-	public boolean checkIsUsernameTaken(String username) {
-		for(Customer customer : customerRepository.getAll()) {
-			if(customer.getUsername().toLowerCase().equals(username.toLowerCase())) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public Customer register(CustomerRegisterDTO customerRegisterDTO) {
@@ -44,6 +37,10 @@ public class CustomerService {
 		customer.setPoints(0);
 		customer.setCustomerType(customerTypeService.getCustomerTypeByPoints(0));
 		return customerRepository.add(customer);
+	}
+	
+	public List<Customer> getAllCustomers() {
+		return customerRepository.getAll();
 	}
 	
 }

@@ -32,6 +32,30 @@ public class UserService {
 		this.customerRepository = new CustomerRepository(customer);
 	}
 	
+	public boolean checkIsUsernameTaken(String username) {
+		for(Customer customer : customerRepository.getAll()) {
+			if(customer.getUsername().toLowerCase().equals(username.toLowerCase())) {
+				return true;
+			}
+		}
+		for(Manager manager : managerRepository.getAll()) {
+			if(manager.getUsername().toLowerCase().equals(username.toLowerCase())) {
+				return true;
+			}
+		}
+		for(User user : administratorRepository.getAll()) {
+			if(user.getUsername().toLowerCase().equals(username.toLowerCase())) {
+				return true;
+			}
+		}
+		for(Courier courier : courierRepository.getAll()) {
+			if(courier.getUsername().toLowerCase().equals(username.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public User loginAsAdministrator(LoginDTO loginDTO) {
 		for(User user : administratorRepository.getAll()) {
 			if(user.getUsername().equals(loginDTO.getUsername())) {

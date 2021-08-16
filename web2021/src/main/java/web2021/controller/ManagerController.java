@@ -17,4 +17,9 @@ public class ManagerController {
 		String json = gson.toJson(manager);
 		return json;
 	};
+	
+	public static Route getAllManagers = (Request request, Response response) -> {
+		String json = gson.toJson(managerService.getAllManagers());
+		return json;
+	};
 }

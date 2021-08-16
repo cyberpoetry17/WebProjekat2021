@@ -1,5 +1,7 @@
 package web2021.service;
 
+import java.util.List;
+
 import web2021.dto.CustomerRegisterDTO;
 import web2021.model.Manager;
 import web2021.repository.ManagerRepository;
@@ -28,6 +30,10 @@ public class ManagerService {
 		manager.setBirthday(customerRegisterDTO.getBirthday());
 		manager.setUserType(customerRegisterDTO.getUserType());
 		return managerRepository.add(manager);
+	}
+	
+	public List<Manager> getAllManagers() {
+		return managerRepository.getAll();
 	}
 	
 }

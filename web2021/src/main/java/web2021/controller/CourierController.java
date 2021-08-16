@@ -17,4 +17,9 @@ public class CourierController {
 		String json = gson.toJson(courier);
 		return json;
 	};
+	
+	public static Route getAllCouriers = (Request request, Response response) -> {
+		String json = gson.toJson(courierService.getAllCouriers());
+		return json;
+	};
 }
