@@ -7,6 +7,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import web2021.dto.LoginDTO;
+import web2021.dto.UserDTO;
+import web2021.model.enums.UserType;
 
 public class UserController {
 
@@ -35,6 +37,25 @@ public class UserController {
 			return json;
 		}
 		
+		return json;
+	};
+	
+	public static Route editProfile = (Request request, Response response) -> {
+		String payload = request.body();
+		UserDTO userDTO = gson.fromJson(payload, UserDTO.class);
+		String json = null;
+		if(userDTO.getUserType() == UserType.ADMINISTRATOR) {
+			json = gson.toJson(userService.editProfileAdministrator(userDTO));
+		}
+		else if(userDTO.getUserType() == UserType.MANAGER) {
+			json = gson.toJson(userService.editProfileManager(userDTO));
+		}
+		else if(userDTO.getUserType() == UserType.COURIER) {
+			json = gson.toJson(userService.editProfileCourier(userDTO));	
+		}
+		else if(userDTO.getUserType() == UserType.CUSTOMER) {
+			json = gson.toJson(userService.editProfileCustomer(userDTO));
+		}
 		return json;
 	};
 	
