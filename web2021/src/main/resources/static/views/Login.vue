@@ -89,6 +89,7 @@ module.exports = {
         axios.post("http://localhost:8080/rest/user/login", login)
           .then(r => {
               if(r.data != null) {
+                r.data.birthday = this.formatDate(new Date(r.data.birthday));
                 this.$store.dispatch('updateUser', r.data);
                 this.$router.push({name: 'Home'});
               }
@@ -96,6 +97,19 @@ module.exports = {
                 this.messageShow = true
               }
           })
+      },
+      formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
+
+        return [year, month, day].join('-');
       }
     }
   }

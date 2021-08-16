@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer permanent expand-on-hover>
+    <v-navigation-drawer color="purple lighten-3" permanent expand-on-hover>
       <v-list>
         <v-list-item class="px-2">
           <v-list-item-avatar>
@@ -8,18 +8,28 @@
           </v-list-item-avatar>
         </v-list-item>
 
-        <v-list-item link>
-          <v-list-item-content>
-            <v-list-item-title v-if="isUserLogged" class="text-h6">
-              {{user.name}} {{user.surname}}
-            </v-list-item-title>
-            <v-list-item-title v-else class="text-h6">
-              Please log in
-            </v-list-item-title>
-            <v-list-item-subtitle v-if="isUserLogged">{{user.username}}</v-list-item-subtitle>
-            <v-list-item-subtitle v-else>User is not logged</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+        <router-link v-if="isUserLogged" to="/editProfile" style="text-decoration:none;">
+            <v-list-item link>
+                <v-list-item-content>
+                    <v-list-item-title class="text-h6">
+                    {{user.name}} {{user.surname}}
+                    </v-list-item-title>
+                    <v-list-item-subtitle>{{user.username}}</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+        </router-link>
+
+        <router-link v-else to="/login" style="text-decoration:none;">
+            <v-list-item link>
+                <v-list-item-content>
+                    <v-list-item-title class="text-h6">
+                    Please log in
+                    </v-list-item-title>
+                    <v-list-item-subtitle>User is not logged</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+        </router-link>
+
       </v-list>
 
       <v-divider></v-divider>
@@ -92,3 +102,7 @@ module.exports = {
     }
 }
 </script>
+
+<style scoped>
+
+</style>

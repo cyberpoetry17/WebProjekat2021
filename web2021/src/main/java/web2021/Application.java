@@ -156,6 +156,7 @@ public class Application
 		post("rest/user/login", UserController.login);
 		
 		put("rest/test/update-test", TestController.updateTest);
+		put("rest/user/edit-profile", UserController.editProfile);
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/customer/check-username/:username", CustomerController.checkUsername);

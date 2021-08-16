@@ -1,6 +1,7 @@
 package web2021.service;
 
 import web2021.dto.LoginDTO;
+import web2021.dto.UserDTO;
 import web2021.model.Courier;
 import web2021.model.Customer;
 import web2021.model.Manager;
@@ -85,6 +86,46 @@ public class UserService {
 			}
 		}
 		return null;
+	}
+	
+	public User editProfileAdministrator(UserDTO userDTO) {
+		User user = administratorRepository.getById(userDTO.getId());
+		user.setUsername(userDTO.getUsername());
+		if(!userDTO.getPassword().equals("")) user.setPassword(userDTO.getPassword());
+		user.setName(userDTO.getName());
+		user.setSurname(userDTO.getSurname());
+		user.setBirthday(userDTO.getBirthday());
+		return administratorRepository.update(user);
+	}
+	
+	public Manager editProfileManager(UserDTO userDTO) {
+		Manager manager = managerRepository.getById(userDTO.getId());
+		manager.setUsername(userDTO.getUsername());
+		if(!userDTO.getPassword().equals("")) manager.setPassword(userDTO.getPassword());
+		manager.setName(userDTO.getName());
+		manager.setSurname(userDTO.getSurname());
+		manager.setBirthday(userDTO.getBirthday());
+		return managerRepository.update(manager);
+	}
+	
+	public Courier editProfileCourier(UserDTO userDTO) {
+		Courier courier = courierRepository.getById(userDTO.getId());
+		courier.setUsername(userDTO.getUsername());
+		if(!userDTO.getPassword().equals("")) courier.setPassword(userDTO.getPassword());
+		courier.setName(userDTO.getName());
+		courier.setSurname(userDTO.getSurname());
+		courier.setBirthday(userDTO.getBirthday());
+		return courierRepository.update(courier);
+	}
+	
+	public Customer editProfileCustomer(UserDTO userDTO) {
+		Customer customer = customerRepository.getById(userDTO.getId());
+		customer.setUsername(userDTO.getUsername());
+		if(!userDTO.getPassword().equals("")) customer.setPassword(userDTO.getPassword());
+		customer.setName(userDTO.getName());
+		customer.setSurname(userDTO.getSurname());
+		customer.setBirthday(userDTO.getBirthday());
+		return customerRepository.update(customer);
 	}
 	
 }
