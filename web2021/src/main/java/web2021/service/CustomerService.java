@@ -1,7 +1,6 @@
 package web2021.service;
 
 import web2021.dto.CustomerRegisterDTO;
-import web2021.dto.LoginDTO;
 import web2021.model.Customer;
 import web2021.repository.CustomerRepository;
 

@@ -22,6 +22,7 @@
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
     <script src="https://unpkg.com/http-vue-loader/src/httpVueLoader.js"></script>
+    <script src="https://unpkg.com/vuex-persistedstate/dist/vuex-persistedstate.umd.js"></script>
     <!-- <script src="js/vue.js"></script>
     <script src="js/vue-router.js"></script>
     <script src="js/vuex.js"></script>
@@ -55,6 +56,11 @@
                 path: "/editProfile",
                 name: "EditProfile",
                 component: httpVueLoader("views/EditProfile.vue")
+            },
+            {
+                path: "/addManagerCourier",
+                name: "AddManagerCourier",
+                component: httpVueLoader("views/AddManagerCourier.vue")
             }
         ];
 
@@ -93,7 +99,10 @@
                 updateUser(context, user) {
                     context.commit('updateUser', user)
                 }
-            }
+            },
+            plugins: [window.createPersistedState({
+                storage: window.sessionStorage
+            })]
         });
 
         const vuetify = new Vuetify();

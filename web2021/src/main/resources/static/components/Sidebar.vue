@@ -34,34 +34,50 @@
 
       <v-divider></v-divider>
 
-      <v-list v-if="isUserLogged" nav dense>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-folder</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>My Files</v-list-item-title>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-account-multiple</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Shared with me</v-list-item-title>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-icon>
-            <v-icon>mdi-star</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Starred</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <div v-if="isUserLogged">
+        <v-list v-if="user.userType == 'ADMINISTRATOR'" nav dense>
+          <router-link to="/addManagerCourier" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-account-multiple-plus</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Create manager or courier</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
+        </v-list>
+
+        <v-list v-if="user.userType == 'MANAGER'" nav dense>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-folder</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>My Files</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-account-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Shared with me</v-list-item-title>
+          </v-list-item>
+          <v-list-item link>
+            <v-list-item-icon>
+              <v-icon>mdi-star</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Starred</v-list-item-title>
+          </v-list-item>
+        </v-list>
+
+
+      </div>
 
       <template v-slot:append>
         <v-list nav dense>
-            <v-list-item v-if="isUserLogged" link>
+            <v-list-item v-on:click="logout" v-if="isUserLogged" link>
                 <v-list-item-icon>
                 <v-icon>mdi-export</v-icon>
                 </v-list-item-icon>
-                <v-list-item-title v-on:click="logout">Logout</v-list-item-title>
+                <v-list-item-title>Logout</v-list-item-title>
             </v-list-item>
             <router-link v-else to="/login" style="text-decoration:none;">
                 <v-list-item link>
@@ -95,6 +111,7 @@ module.exports = {
     },
     methods: {
         logout() {
+            window.sessionStorage.clear();
             var user = null;
             this.$store.dispatch('updateUser', user);
             this.$router.push({name: 'Login'});
