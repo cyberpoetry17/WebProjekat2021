@@ -41,20 +41,6 @@ public class Application
 	private static GsonBuilder gsonBuilder = new GsonBuilder();
 	
 	public static Gson gson;
-	
-//	public static Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-////        @Override
-////        public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-////            return LocalDateTime.parse(json.getAsJsonPrimitive().getAsString());
-////        }
-//		
-//		@Override
-//	    public LocalDateTime deserialize(JsonElement json, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-//	        Instant instant = Instant.ofEpochMilli(json.getAsJsonPrimitive().getAsLong());
-//	        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-//	    }
-//		
-//    }).create();
 
 	public static File uploadDir;
 	
@@ -127,7 +113,7 @@ public class Application
 	{
 		gson = createCustomGson();
 		
-//		testService = new TestService("tests.json");
+		testService = new TestService("tests.json");
 		userService = new UserService();
 		customerService = new CustomerService("customers.json");
 		customerTypeService  = new CustomerTypeService("customertypes.json");
@@ -161,7 +147,10 @@ public class Application
 		put("rest/user/edit-profile", UserController.editProfile);
 		
 		get("rest/test/get-all", TestController.getAll);
-		get("rest/customer/check-username/:username", CustomerController.checkUsername);
+		get("rest/user/check-username/:username", UserController.checkUsername);
+		get("rest/customer/get-all-customers", CustomerController.getAllCustomers);
+		get("rest/courier/get-all-couriers", CourierController.getAllCouriers);
+		get("rest/manager/get-all-managers", ManagerController.getAllManagers);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

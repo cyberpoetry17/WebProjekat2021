@@ -1,5 +1,7 @@
 package web2021.service;
 
+import java.util.List;
+
 import web2021.dto.CustomerRegisterDTO;
 import web2021.model.Courier;
 import web2021.repository.CourierRepository;
@@ -28,6 +30,10 @@ public class CourierService {
 		courier.setBirthday(customerRegisterDTO.getBirthday());
 		courier.setUserType(customerRegisterDTO.getUserType());
 		return courierRepository.add(courier);
+	}
+	
+	public List<Courier> getAllCouriers() {
+		return courierRepository.getAll();
 	}
 	
 }

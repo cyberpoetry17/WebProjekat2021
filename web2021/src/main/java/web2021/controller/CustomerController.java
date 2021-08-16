@@ -12,22 +12,16 @@ import static web2021.Application.customerService;
 
 public class CustomerController {
 	
-	public static Route checkUsername = (Request request, Response response) -> {
-		String username = request.params(":username");
-		boolean isTaken = customerService.checkIsUsernameTaken(username);
-		if(isTaken) {
-			return "taken";
-		}
-		else {
-			return "not_taken";
-		}
-	};
-	
 	public static Route register = (Request request, Response response) -> {
 		String payload = request.body();
 		CustomerRegisterDTO customerRegisterDTO = gson.fromJson(payload, CustomerRegisterDTO.class);
 		Customer customer = customerService.register(customerRegisterDTO);
 		String json = gson.toJson(customer);
+		return json;
+	};
+	
+	public static Route getAllCustomers = (Request request, Response response) -> {
+		String json = gson.toJson(customerService.getAllCustomers());
 		return json;
 	};
 	

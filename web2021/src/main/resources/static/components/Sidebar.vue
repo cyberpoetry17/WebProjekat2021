@@ -45,6 +45,15 @@
             </v-list-item>
           </router-link>
 
+          <router-link to="/allRegisteredUsers" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-account-group</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Registered users</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
         </v-list>
 
         <v-list v-if="user.userType == 'MANAGER'" nav dense>

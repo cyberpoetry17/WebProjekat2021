@@ -11,7 +11,18 @@ import web2021.dto.UserDTO;
 import web2021.model.enums.UserType;
 
 public class UserController {
-
+	
+	public static Route checkUsername = (Request request, Response response) -> {
+		String username = request.params(":username");
+		boolean isTaken = userService.checkIsUsernameTaken(username);
+		if(isTaken) {
+			return "taken";
+		}
+		else {
+			return "not_taken";
+		}
+	};
+	
 	public static Route login = (Request request, Response response) -> {
 		String payload = request.body();
 		LoginDTO loginDTO = gson.fromJson(payload, LoginDTO.class);
