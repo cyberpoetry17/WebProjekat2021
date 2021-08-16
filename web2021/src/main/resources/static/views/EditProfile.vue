@@ -6,7 +6,7 @@
       <div class="container-1 item-1">
         <v-card style="width:400px;margin-bottom:150px;">
           <v-card-title primary-title class="justify-center" style="font-size:36px;">
-            SIGN UP
+            EDIT PROFILE
           </v-card-title>
           <v-form
             ref="form"
@@ -138,7 +138,7 @@ module.exports = {
             },
             usernameRules: [
               v => !!v || 'Username is required',
-              v => (v && v.length <= 10) || 'Username must be less than 10 characters',
+              v => (v && v.length <= 15) || 'Username must be less than 10 characters',
               v => (v && this.validUsername) || 'This username is already taken'
             ],
             validPassword: true,
@@ -253,6 +253,7 @@ module.exports = {
             }
             axios.put("http://localhost:8080/rest/user/edit-profile", user)
                 .then(r => {
+                    r.data.birthday = this.formatDate(new Date(r.data.birthday));
                     this.$store.dispatch('updateUser', r.data);
                     this.$router.push({name: 'Home'})
                 }) 
@@ -263,6 +264,19 @@ module.exports = {
             let tparts = tstr.split(':');
             // -1 because js counts months from 0
             return new Date(dparts[0], dparts[1] - 1, dparts[2], tparts[0], tparts[1]);
+        },
+        formatDate(date) {
+          var d = new Date(date),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+
+          if (month.length < 2) 
+              month = '0' + month;
+          if (day.length < 2) 
+              day = '0' + day;
+
+          return [year, month, day].join('-');
         }
     }
 }

@@ -154,6 +154,8 @@ public class Application
 		post("rest/test/add-test", TestController.addTest);
 		post("rest/customer/register", CustomerController.register);
 		post("rest/user/login", UserController.login);
+		post("rest/courier/register", CourierController.register);
+		post("rest/manager/register", ManagerController.register);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);

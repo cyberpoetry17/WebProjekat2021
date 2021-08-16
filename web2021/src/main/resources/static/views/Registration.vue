@@ -132,7 +132,7 @@ module.exports = {
             },
             usernameRules: [
               v => !!v || 'Username is required',
-              v => (v && v.length <= 10) || 'Username must be less than 10 characters',
+              v => (v && v.length <= 15) || 'Username must be less than 10 characters',
               v => (v && this.validUsername) || 'This username is already taken'
             ],
             passwordRules: [

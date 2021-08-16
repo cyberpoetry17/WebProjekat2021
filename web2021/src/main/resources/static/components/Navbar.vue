@@ -56,8 +56,10 @@ module.exports = {
     },
     methods: {
         logout() {
+            window.sessionStorage.clear();
             var user = null;
             this.$store.dispatch('updateUser', user);
+            this.$router.push({name: 'Login'});
         }
     }
 }
