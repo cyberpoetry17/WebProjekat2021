@@ -161,6 +161,7 @@ public class Application
 		get("rest/manager/get-all-managers", ManagerController.getAllManagers);
 		get("rest/manager/get-managers-without-restaurant", ManagerController.getManagersWithoutRestaurant);
 		get("rest/restaurant/get-all-restaurant-types", RestaurantController.getAllRestaurantTypes);
+		get("rest/restaurant/get-all-restaurants", RestaurantController.getAllRestaurants);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

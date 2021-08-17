@@ -32,7 +32,7 @@ public class FileService {
         }
         
         String[] split = tempFile.toString().split("/");
-        String location = "'../upload/" + split[split.length-1] + "'";
+        String location = "../upload/" + split[split.length-1];
         return location;
     };
     

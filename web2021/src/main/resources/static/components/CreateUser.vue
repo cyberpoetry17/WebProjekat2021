@@ -128,7 +128,7 @@
 
 <script>
 module.exports = {
-    name: 'Registration',
+    name: 'CreateUser',
     props: {
         value: Boolean
     },

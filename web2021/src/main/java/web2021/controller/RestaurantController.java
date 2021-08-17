@@ -26,4 +26,9 @@ public class RestaurantController {
 		return json;
 	};
 	
+	public static Route getAllRestaurants = (Request request, Response response) -> {
+		String json = gson.toJson(restaurantService.getAllRestaurants());
+		return json;
+	};
+	
 }

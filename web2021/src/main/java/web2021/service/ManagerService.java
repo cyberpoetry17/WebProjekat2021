@@ -35,6 +35,7 @@ public class ManagerService {
 		manager.setGenderType(customerRegisterDTO.getGenderType());
 		manager.setBirthday(customerRegisterDTO.getBirthday());
 		manager.setUserType(customerRegisterDTO.getUserType());
+		manager.setImage("../img/profile.jpg");
 		return managerRepository.add(manager);
 	}
 	

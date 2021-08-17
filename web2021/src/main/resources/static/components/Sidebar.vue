@@ -1,9 +1,9 @@
 <template>
-    <v-navigation-drawer color="purple lighten-3" permanent expand-on-hover>
+    <v-navigation-drawer color="deep-purple lighten-3" permanent expand-on-hover>
       <v-list>
         <v-list-item class="px-2">
           <v-list-item-avatar>
-            <v-img v-if="isUserLogged" src="https://randomuser.me/api/portraits/women/88.jpg"></v-img>
+            <v-img v-if="isUserLogged" :src="user.image"></v-img>
             <v-img v-else src="../img/profile.jpg"></v-img>
           </v-list-item-avatar>
         </v-list-item>
@@ -35,7 +35,7 @@
       <v-divider></v-divider>
 
       <div v-if="isUserLogged">
-        <v-list v-if="user.userType == 'ADMINISTRATOR'" nav dense>
+        <v-list shaped v-if="user.userType == 'ADMINISTRATOR'" nav dense>
           <router-link to="/addManagerCourier" style="text-decoration:none;">
             <!-- <v-list-item link @click.stop="showDialog=true"> -->
             <v-list-item link>

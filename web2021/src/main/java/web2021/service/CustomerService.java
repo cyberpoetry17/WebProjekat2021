@@ -31,6 +31,7 @@ public class CustomerService {
 		customer.setGenderType(customerRegisterDTO.getGenderType());
 		customer.setBirthday(customerRegisterDTO.getBirthday());
 		customer.setUserType(customerRegisterDTO.getUserType());
+		customer.setImage("../img/profile.jpg");
 		customer.getShoppingCart().setId(customer.getId());
 //		customer.getShoppingCart().setCustomer(customer);
 		customer.getShoppingCart().setPrice(0);
