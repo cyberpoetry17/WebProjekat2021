@@ -4,7 +4,7 @@
         <v-list-item class="px-2">
           <v-list-item-avatar>
             <v-img v-if="isUserLogged" src="https://randomuser.me/api/portraits/women/88.jpg"></v-img>
-            <v-img v-else src="https://www.donkey.bike/wp-content/uploads/2020/12/user-member-avatar-face-profile-icon-vector-22965342-e1608640557889.jpg"></v-img>
+            <v-img v-else src="../img/profile.jpg"></v-img>
           </v-list-item-avatar>
         </v-list-item>
 
@@ -37,8 +37,9 @@
       <div v-if="isUserLogged">
         <v-list v-if="user.userType == 'ADMINISTRATOR'" nav dense>
           <router-link to="/addManagerCourier" style="text-decoration:none;">
+            <!-- <v-list-item link @click.stop="showDialog=true"> -->
             <v-list-item link>
-              <v-list-item-icon>
+              <v-list-item-icon >
                 <v-icon>mdi-account-multiple-plus</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Create manager or courier</v-list-item-title>
@@ -51,6 +52,15 @@
                 <v-icon>mdi-account-group</v-icon>
               </v-list-item-icon>
               <v-list-item-title>Registered users</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
+          <router-link to="/createRestaurant" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-silverware-fork-knife</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Create restaurant</v-list-item-title>
             </v-list-item>
           </router-link>
 
@@ -98,7 +108,7 @@
             </router-link>
         </v-list>
       </template>
-
+      <!-- <CreateUser v-model="showDialog"></CreateUser> -->
     </v-navigation-drawer>
 </template>
 
@@ -115,7 +125,8 @@ module.exports = {
     },
     data() {
         return {
-            drawer: false
+            drawer: false,
+            showDialog: false
         }
     },
     methods: {

@@ -1,5 +1,6 @@
 package web2021.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import web2021.dto.CustomerRegisterDTO;
@@ -34,6 +35,16 @@ public class ManagerService {
 	
 	public List<Manager> getAllManagers() {
 		return managerRepository.getAll();
+	}
+	
+	public List<Manager> getManagersWithoutRestaurant() {
+		List<Manager> managers = new ArrayList<Manager>();
+		for(Manager manager : managerRepository.getAll()) {
+			if(manager.getRestaurant() == null) {
+				managers.add(manager);
+			}
+		}
+		return managers;
 	}
 	
 }
