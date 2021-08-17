@@ -31,7 +31,11 @@
                     hide-details
                 ></v-text-field>
             </v-card-title>
+            <v-data-table v-if="selectedUserType == null || selectedUserType != 'CUSTOMERS'" :headers="headers2" :items="users" :search="search">
+
+            </v-data-table>
             <v-data-table
+            v-else
             :headers="headers"
             :items="users"
             :search="search"
@@ -52,9 +56,18 @@ module.exports = {
                 { text: 'Username', value: 'username' },
                 { text: 'Name', value: 'name' },
                 { text: 'Surname', value: 'surname' },
-                { text: 'Gender', value: 'genderType' },
-                { text: 'Birthday', value: 'birthday' },
-                { text: 'User Type', value: 'userType'}
+                { text: 'Gender', filterable: false, sortable: false, value: 'genderType' },
+                { text: 'Birthday', filterable: false, sortable: false, value: 'birthday' },
+                { text: 'User Type', filterable: false, sortable: false, value: 'userType'},
+                { text: 'Points', filterable: false, value: 'points'}
+            ],
+            headers2: [
+                { text: 'Username', value: 'username' },
+                { text: 'Name', value: 'name' },
+                { text: 'Surname', value: 'surname' },
+                { text: 'Gender', filterable: false, sortable: false, value: 'genderType' },
+                { text: 'Birthday', filterable: false, sortable: false, value: 'birthday' },
+                { text: 'User Type', filterable: false, sortable: false, value: 'userType'},
             ],
             users: []
         }

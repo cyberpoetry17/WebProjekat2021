@@ -195,7 +195,7 @@ module.exports = {
             }
         },
         checkIsUsernameValid() {
-          axios.get("http://localhost:8080/rest/customer/check-username/" + this.user.username)
+          axios.get("http://localhost:8080/rest/user/check-username/" + this.user.username)
             .then(r => {
               if(r.data == "taken") {
                 this.validUsername = false

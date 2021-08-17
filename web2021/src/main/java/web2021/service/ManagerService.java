@@ -5,18 +5,23 @@ import java.util.List;
 
 import web2021.dto.CustomerRegisterDTO;
 import web2021.model.Manager;
+import web2021.model.Restaurant;
 import web2021.repository.ManagerRepository;
+import web2021.repository.RestaurantRepository;
 
 public class ManagerService {
 	
 	private ManagerRepository managerRepository;
+	private RestaurantRepository restaurantRepository;
 	
 	public ManagerService() {
 		this.managerRepository = new ManagerRepository();
+		this.restaurantRepository = new RestaurantRepository();
 	}
 	
 	public ManagerService(String path) {
 		this.managerRepository = new ManagerRepository(path);
+		this.restaurantRepository = new RestaurantRepository();
 	}
 	
 	public Manager register(CustomerRegisterDTO customerRegisterDTO) {
@@ -45,6 +50,13 @@ public class ManagerService {
 			}
 		}
 		return managers;
+	}
+	
+	public void assignRestaurantToManager(Long managerId, Long restaurantId) {
+		Manager manager = managerRepository.getById(managerId);
+		Restaurant restaurant = restaurantRepository.getById(restaurantId);
+		manager.setRestaurant(restaurant);
+		managerRepository.update(manager);
 	}
 	
 }
