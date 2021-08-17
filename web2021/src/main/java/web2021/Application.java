@@ -27,7 +27,9 @@ import web2021.service.AdministratorService;
 import web2021.service.CourierService;
 import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
+import web2021.service.FileService;
 import web2021.service.ManagerService;
+import web2021.service.RestaurantService;
 import web2021.service.TestService;
 import web2021.service.UserService;
 import web2021.utils.LocalDateTimeDeserializer;
@@ -51,6 +53,8 @@ public class Application
 	public static ManagerService managerService;
 	public static AdministratorService administratorService;
 	public static CourierService courierService;
+	public static RestaurantService restaurantService;
+	public static FileService fileService;
 	
 	public static String parseJws(Request request)
 	{
@@ -120,8 +124,10 @@ public class Application
 		managerService = new ManagerService("managers.json");
 		administratorService = new AdministratorService("administrators.json");
 		courierService = new CourierService("couriers.json");
+		restaurantService = new RestaurantService("restaurants.json");
+		fileService = new FileService();
 		
-		uploadDir = new File("upload");
+		uploadDir = new File("src/main/resources/static/upload");
 		uploadDir.mkdir();
 
 		port(8080);
@@ -142,6 +148,8 @@ public class Application
 		post("rest/user/login", UserController.login);
 		post("rest/courier/register", CourierController.register);
 		post("rest/manager/register", ManagerController.register);
+		post("rest/file/upload", FileController.upload);
+		post("rest/restaurant/create-restaurant", RestaurantController.createRestaurant);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
@@ -151,6 +159,8 @@ public class Application
 		get("rest/customer/get-all-customers", CustomerController.getAllCustomers);
 		get("rest/courier/get-all-couriers", CourierController.getAllCouriers);
 		get("rest/manager/get-all-managers", ManagerController.getAllManagers);
+		get("rest/manager/get-managers-without-restaurant", ManagerController.getManagersWithoutRestaurant);
+		get("rest/restaurant/get-all-restaurant-types", RestaurantController.getAllRestaurantTypes);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

@@ -22,4 +22,9 @@ public class ManagerController {
 		String json = gson.toJson(managerService.getAllManagers());
 		return json;
 	};
+	
+	public static Route getManagersWithoutRestaurant = (Request request, Response response) -> {
+		String json = gson.toJson(managerService.getManagersWithoutRestaurant());
+		return json;
+	};
 }

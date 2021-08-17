@@ -16,7 +16,7 @@ public class Location implements Serializable {
 	
 	private static final long serialVersionUID = -9076154249536808759L;
 	
-	private Long id;
+//	private Long id;
 	
 	private double longitude;
 	
@@ -47,6 +47,8 @@ public class Location implements Serializable {
 	private String display_name;
 
 	public Location(LocationDTO locationDTO) {
+		this.latitude = locationDTO.getLatitude();
+		this.longitude = locationDTO.getLongitude();
 		this.city = locationDTO.getAddress().getCity();
 		this.city_district = locationDTO.getAddress().getCity_district();
 		this.country = locationDTO.getAddress().getCountry();

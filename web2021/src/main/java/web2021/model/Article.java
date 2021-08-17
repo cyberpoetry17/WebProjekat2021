@@ -24,7 +24,7 @@ public class Article implements Serializable {
 	
 	private ArticleType articleType; 
 	
-	private Restaurant restaurant;
+//	private Restaurant restaurant;
 	
 	private double quantity;
 	

@@ -15,4 +15,8 @@ public class LocationDTO {
 	
 	private String display_name;
 	
+	private double longitude;
+	
+	private double latitude;
+	
 }
