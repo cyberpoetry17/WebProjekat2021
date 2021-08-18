@@ -64,6 +64,15 @@
             </v-list-item>
           </router-link>
 
+          <router-link to="/addNewArticle" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-dropbox</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Add article</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
         </v-list>
 
         <v-list v-if="user.userType == 'MANAGER'" nav dense>

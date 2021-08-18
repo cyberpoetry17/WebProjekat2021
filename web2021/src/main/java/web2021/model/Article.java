@@ -18,6 +18,8 @@ public class Article implements Serializable {
 	
 	private Long id;
 	
+	private boolean isDeleted;
+	
 	private String name;
 	
 	private double price;
