@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WebProjekat2021</title>
+    <title>GetFood.com</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
@@ -11,9 +11,18 @@
 <body>
 	<div id="app" class="content">
         <v-app>
-            <router-view>
+            <Sidebar></Sidebar> 
+            <Navbar></Navbar>
+            <v-main style="background-image: url('../img/background.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                <!-- style="background-image: url('../img/background.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;"   -->
+                <!-- <router-view></router-view> -->
+                
+                <!-- Provides the application the proper gutter -->
+                <v-container fluid>
+                    <router-view></router-view>
+                </v-container>
 
-            </router-view>
+            </v-main>
         </v-app>
     </div>
     <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -79,6 +88,11 @@
                 path: "/addNewArticle",
                 name: "AddNewArticle",
                 component: httpVueLoader("views/AddNewArticle.vue")
+            },
+            {
+                path: "/editArticles",
+                name: "EditArticles",
+                component: httpVueLoader("views/EditArticles.vue")
             }
         ];
 

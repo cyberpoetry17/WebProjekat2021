@@ -1,9 +1,7 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-row item-1">
-        <Sidebar></Sidebar>
-        <div class="item-1 container-column-2" style="background-color:white;margin:20px;border-radius:20px;">
+    <v-container style="max-width:600px;background-color:white;border-radius:20px;margin-top:50px;" fill-height>
+        <v-row>
+            <v-col>
                 <v-card-title primary-title class="justify-center" style="font-size:36px;">
                     Add article
                 </v-card-title>
@@ -12,17 +10,19 @@
                     v-model="valid"
                     lazy-validation
                     class="text-center"
-                >
+                >   
                     <v-text-field
                         v-model="name"
                         :rules="nameRules"
                         label="enter name"
                         placeholder="enter name"
+                        v-on:input="checkIsNameValid"
                         required
                         style="margin-left:10px;margin-right:10px;"
                     ></v-text-field>
 
                     <v-text-field
+                        prefix="$"
                         type="number"
                         v-model="price"
                         :rules="priceRules"
@@ -88,16 +88,21 @@
                     style="margin:20px;"
                     width="400px"
                 >
-                    Create restaurant
+                    Add article
                 </v-btn>
-        </div>
-    </div>
-  </div>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
 module.exports = {
     name: 'AddNewArticle',
+    computed: {
+        user() {
+            return this.$store.getters.getUser
+        }
+    },
     data() {
         return {
             valid:true,
@@ -107,7 +112,9 @@ module.exports = {
             nameRules: [
               v => !!v || 'Name is required',
               v => (v && v.length <= 100) || 'Name must be less than 100 characters',
+              v => (v && this.nameValid) || 'Name is already taken'
             ],
+            nameValid: true,
             price: null,
             priceRules: [
               v => !!v || 'Price is required and must be a number',
@@ -129,12 +136,47 @@ module.exports = {
         }
     },
     methods: {
+        checkIsNameValid() {
+            var check = {
+                restaurantId: this.user.restaurant.id,
+                name: this.name
+            }
+            axios.post("http://localhost:8080/rest/article/check-is-name-taken", check)
+                .then(r => {
+                    if(r.data == true) this.nameValid = false;
+                    else this.nameValid = true;
+                    this.$refs.form.validate()
+                })
+        },
         async validate() {
-            this.$refs.form.validate()
-            if(this.selectedFoodType == null) {
+            if(!this.$refs.form.validate()) {
+                return;
+            }
+            else if(this.selectedFoodType == null) {
                 this.message = 'Please select food type';
                 this.showMessage = true;
                 return;
+            }
+            else {
+                this.message = '';
+                this.showMessage = false;
+                var quantity;
+                if(this.quantity == "") quantity = 0;
+                else quantity = this.quantity;
+                var article = {
+                    name: this.name,
+                    price: this.price,
+                    articleType: this.selectedFoodType,
+                    quantity: quantity,
+                    description: this.description,
+                    image: await this.upload(),
+                    restaurantId: this.user.restaurant.id
+                }
+                axios.post("http://localhost:8080/rest/article/add-article", article)
+                    .then(r => {
+                        alert("Article is successfuly added!")
+                        this.name = '';
+                    })
             }
         },
         async upload() {
@@ -148,7 +190,7 @@ module.exports = {
         },
     },
     created() {
-        axios.get("http://localhost:8080/rest/restaurant/get-all-restaurant-types")
+        axios.get("http://localhost:8080/rest/article/get-all-aricle-types")
             .then(r => {
                 this.items = r.data;
             })

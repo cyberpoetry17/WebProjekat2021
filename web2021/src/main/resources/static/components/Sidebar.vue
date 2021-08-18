@@ -1,5 +1,5 @@
 <template>
-    <v-navigation-drawer color="deep-purple lighten-3" permanent expand-on-hover>
+    <v-navigation-drawer app color="deep-purple lighten-3" permanent expand-on-hover clipped>
       <v-list>
         <v-list-item class="px-2">
           <v-list-item-avatar>
@@ -64,6 +64,9 @@
             </v-list-item>
           </router-link>
 
+        </v-list>
+
+        <v-list v-if="user.userType == 'MANAGER'" nav dense>
           <router-link to="/addNewArticle" style="text-decoration:none;">
             <v-list-item link>
               <v-list-item-icon>
@@ -73,29 +76,14 @@
             </v-list-item>
           </router-link>
 
-        </v-list>
-
-        <v-list v-if="user.userType == 'MANAGER'" nav dense>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-folder</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>My Files</v-list-item-title>
-          </v-list-item>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-account-multiple</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Shared with me</v-list-item-title>
-          </v-list-item>
-          <v-list-item link>
-            <v-list-item-icon>
-              <v-icon>mdi-star</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Starred</v-list-item-title>
-          </v-list-item>
-        </v-list>
-
+          <router-link to="/editArticles" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-file-edit</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Edit articles</v-list-item-title>
+            </v-list-item>
+          </router-link>
 
       </div>
 
