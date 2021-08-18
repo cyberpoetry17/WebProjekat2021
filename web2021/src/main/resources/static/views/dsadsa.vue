@@ -1,58 +1,48 @@
 <template>
-    <v-dialog v-if="restaurant != null" v-model="show" width="800px" scrollable>
+    <v-dialog v-if="restaurant != null" v-model="show" width="500px" scrollable>
         <v-card>
-            <v-container>
-                <v-row dense>
-                    <v-col cols="6">
-                        <v-img
-                            height="250"
-                            :src="restaurant.image"
-                        ></v-img>
-                        <v-card-title>{{restaurant.name}}</v-card-title>
-                        <v-card-text>
-                            <v-row
-                                align="center"
-                                class="mx-0"
-                                v-if="restaurant.averageRating != 0"
-                            >
-                                <v-rating
-                                    :value="restaurant.averageRating"
-                                    color="amber"
-                                    dense
-                                    half-increments
-                                    readonly
-                                    size="14"
-                                    style="margin-top:10px;"
-                                ></v-rating>
+            <v-img
+                height="250"
+                :src="restaurant.image"
+            ></v-img>
 
-                                <div class="grey--text ms-4" style="margin-top:10px;">
-                                {{restaurant.averageRating}}
-                                </div>
-                            </v-row>
+            <v-card-title>{{restaurant.name}}</v-card-title>
 
-                            <div class="my-4 text-subtitle-1">
-                                $ • {{restaurant.restaurantType}}
-                            </div>
+            <v-card-text>
+                <v-row
+                    align="center"
+                    class="mx-0"
+                    v-if="restaurant.averageRating != 0"
+                >
+                    <v-rating
+                        :value="restaurant.averageRating"
+                        color="amber"
+                        dense
+                        half-increments
+                        readonly
+                        size="14"
+                        style="margin-top:10px;"
+                    ></v-rating>
 
-                            <div>{{restaurant.location.display_name}}</div>
-                        </v-card-text>
-
-                        <v-divider class="mx-4"></v-divider>
-
-                        <v-card-title v-if="restaurant.isWorking">Restaurant is opened tonight</v-card-title>
-                        <v-card-title v-else>Restaurant is closed tonight</v-card-title>
-
-                        <v-divider class="mx-4"></v-divider>
-
-                    </v-col>
-                    <v-col cols="6">
-                        <v-img
-                            height="500"
-                            :src="'../img/map.png'"
-                        ></v-img>
-                    </v-col>
+                    <div class="grey--text ms-4" style="margin-top:10px;">
+                    {{restaurant.averageRating}}
+                    </div>
                 </v-row>
-            </v-container>
+
+                <div class="my-4 text-subtitle-1">
+                    $ • {{restaurant.restaurantType}}
+                </div>
+
+                <div>{{restaurant.location.display_name}}</div>
+            </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-title v-if="restaurant.isWorking">Restaurant is opened tonight</v-card-title>
+            <v-card-title v-else>Restaurant is closed tonight</v-card-title>
+            
+            <v-divider class="mx-4"></v-divider>
+
             <v-card-text style="height:200px">
                 <v-list three-line>
                     <template v-for="(item, index) in comments">
@@ -154,39 +144,8 @@ module.exports = {
                     },
                     description: 'I will be in your neighborhood doing errands this weekend. Do you want to hang out?',
                     rating: 4
-                },
-                {
-                    customer: {
-                        username: 'antonic901',
-                        image: 'https://cdn.vuetifyjs.com/images/lists/5.jpg'
-                    },
-                    description: 'I will be in your neighborhood doing errands this weekend. Do you want to hang out?',
-                    rating: 4
-                },
-                {
-                    customer: {
-                        username: 'antonic901',
-                        image: 'https://cdn.vuetifyjs.com/images/lists/5.jpg'
-                    },
-                    description: 'I will be in your neighborhood doing errands this weekend. Do you want to hang out?',
-                    rating: 4
-                },
-                {
-                    customer: {
-                        username: 'antonic901',
-                        image: 'https://cdn.vuetifyjs.com/images/lists/5.jpg'
-                    },
-                    description: 'I will be in your neighborhood doing errands this weekend. Do you want to hang out?',
-                    rating: 4
-                },
-                {
-                    customer: {
-                        username: 'antonic901',
-                        image: 'https://cdn.vuetifyjs.com/images/lists/5.jpg'
-                    },
-                    description: 'I will be in your neighborhood doing errands this weekend. Do you want to hang out?',
-                    rating: 4
                 }
+
             ],
             // comments: [
             //     {
