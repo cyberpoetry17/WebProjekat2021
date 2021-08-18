@@ -75,6 +75,7 @@
                             single-line
                             hide-details
                         ></v-text-field>
+                        <v-icon v-on:click="refresh" style="margin-left:50px;margin-top:20px;">mdi-refresh</v-icon>
                     </v-card-title>
                     <v-data-table
                         v-model="selectedManager"
@@ -134,6 +135,12 @@ module.exports = {
         }
     },
     methods: {
+        refresh() {
+            axios.get("http://localhost:8080/rest/manager/get-managers-without-restaurant")
+                .then(r => {
+                    this.users = r.data;
+                })
+        },
         async validate() {
             if(this.name == '') {
                 this.message = "Please enter name of restaurant";
@@ -172,9 +179,14 @@ module.exports = {
                         longitude: this.selectedLocation.lon,
 	                    latitude: this.selectedLocation.lat
                     },
-                    image: await this.upload()
+                    image: await this.upload(),
+                    managerId: this.selectedManager[0].id
                 }
                 axios.post("http://localhost:8080/rest/restaurant/create-restaurant", restaurant)
+                    .then(r => {
+                        this.refresh();
+                    })
+                alert("Succesfully created restaurant!");
             }
         },
         async upload() {

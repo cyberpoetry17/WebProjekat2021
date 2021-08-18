@@ -29,6 +29,7 @@ public class CourierService {
 		courier.setGenderType(customerRegisterDTO.getGenderType());
 		courier.setBirthday(customerRegisterDTO.getBirthday());
 		courier.setUserType(customerRegisterDTO.getUserType());
+		courier.setImage("../img/profile.jpg");
 		return courierRepository.add(courier);
 	}
 	

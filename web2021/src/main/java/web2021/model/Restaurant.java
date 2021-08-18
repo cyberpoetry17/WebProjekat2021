@@ -34,4 +34,6 @@ public class Restaurant implements Serializable {
 	
 	private String image;
 	
+	private double averageRating;
+	
 }

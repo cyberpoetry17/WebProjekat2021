@@ -20,4 +20,6 @@ public class CreateRestaurantDTO {
 	
 	private String image;
 	
+	private Long managerId;
+	
 }

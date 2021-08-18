@@ -21,6 +21,8 @@ public class Order implements Serializable {
 
 	private Long id;
 	
+	private boolean isReviewed;
+	
 	private String serialNumber;
 	
 	private List<ArticleQuantity> articles = new ArrayList<ArticleQuantity>();

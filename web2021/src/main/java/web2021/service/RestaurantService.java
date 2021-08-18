@@ -39,7 +39,12 @@ public class RestaurantService {
 		restaurant.setLocation(location);
 		
 		restaurant.setImage(createRestaurantDTO.getImage());
+		restaurant.setAverageRating(0);
 		return restaurantRepository.add(restaurant);
+	}
+	
+	public List<Restaurant> getAllRestaurants() {
+		return restaurantRepository.getAll();
 	}
 	
 }

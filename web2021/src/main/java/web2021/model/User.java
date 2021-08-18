@@ -37,6 +37,8 @@ public class User implements Serializable {
 	
 	private UserType userType;
 	
+	private String image;
+	
 	public User(UserDTO userDTO) {
 		this.id = System.currentTimeMillis();
 		this.isDeleted = false;
