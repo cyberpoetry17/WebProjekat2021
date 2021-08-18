@@ -93,19 +93,19 @@
                   style="max-width:500px;margin-left:20px;margin-top;20px;"
               ></v-text-field>
         </div>
-            <v-data-table :headers="headers" :items="filteredItems" :search="search" style="margin:20px;">
+            <!-- <v-data-table :headers="headers" :items="filteredItems" :search="search" style="margin:20px;">
               <template v-slot:item.image="{ item }">
                   <v-img :src="item.image" style="width: 50px; height: 50px; border-radius:50%; margin:5px;"></v-img>
               </template>
         
-              <template v-slot:item.additional="{ item }">
+              <template v-slot:item.additional="{ item }"> -->
                 <!-- <v-btn color="green" dark> --> 
-                  <v-icon @click.stop="showDialog=true" v-on:click="openAdditionalInformation(item)" color="green" large>mdi-dots-horizontal-circle</v-icon>
+                  <!-- <v-icon @click.stop="showDialog=true" v-on:click="openAdditionalInformation(item)" color="green" large>mdi-dots-horizontal-circle</v-icon> -->
                 <!-- </v-btn> -->
                 <!-- <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
                 <v-icon small @click="deleteItem(item)">delete</v-icon> -->
-              </template>
-            </v-data-table>
+              <!-- </template>
+            </v-data-table> -->
       </div>
     </div>
     <ShowRestaurant v-model="showDialog" :restaurant=restaurant></ShowRestaurant>
