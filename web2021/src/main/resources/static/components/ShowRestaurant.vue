@@ -13,6 +13,7 @@
                 <v-row
                     align="center"
                     class="mx-0"
+                    v-if="restaurant.averageRating != 0"
                 >
                     <v-rating
                         :value="restaurant.averageRating"
@@ -44,48 +45,41 @@
             <v-divider class="mx-4"></v-divider>
 
             <v-card-text style="height:200px">
-                <!-- <label style="margin-top:20px;"><b>Reviews:</b></label> -->
-                <!-- <v-container>
-                    <v-row> -->
-                        <v-list three-line>
-                            <template v-for="(item, index) in comments">
-                                <v-subheader v-if="index == 0" :key="item.index" v-text="'Reviews:'"></v-subheader>
+                <v-list three-line>
+                    <template v-for="(item, index) in comments">
+                        <v-subheader v-if="index == 0" :key="item.index" v-text="'Reviews:'"></v-subheader>
 
-                                <v-list-item :key="item.id">
-                                    <v-list-item-avatar>
-                                        <v-tooltip bottom>
-                                            <!-- <v-img :src="item.avatar"></v-img> -->
-                                            <template v-slot:activator="{ on, attrs }">
-                                                <v-img
-                                                    :src="item.customer.image"
-                                                    v-bind="attrs"
-                                                    v-on="on"
-                                                ></v-img>
-                                            </template>
-                                            <span>{{item.customer.username}}</span>
-                                        </v-tooltip>
-                                    </v-list-item-avatar>
+                        <v-list-item :key="item.id">
+                            <v-list-item-avatar>
+                                <v-tooltip bottom>
+                                    <template v-slot:activator="{ on, attrs }">
+                                        <v-img
+                                            :src="item.customer.image"
+                                            v-bind="attrs"
+                                            v-on="on"
+                                        ></v-img>
+                                    </template>
+                                    <span>{{item.customer.username}}</span>
+                                </v-tooltip>
+                            </v-list-item-avatar>
 
-                                    <v-list-item-content>
-                                        <!-- <v-list-item-title v-html="item.title"></v-list-item-title> -->
-                                        <v-rating
-                                            :value="4"
-                                            color="amber"
-                                            dense
-                                            half-increments
-                                            readonly
-                                            size="14"
-                                        ></v-rating>
-                                        <v-list-item-subtitle v-html="item.description"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
+                            <v-list-item-content>
+                                <v-rating
+                                    :value="4"
+                                    color="amber"
+                                    dense
+                                    half-increments
+                                    readonly
+                                    size="14"
+                                ></v-rating>
+                                <v-list-item-subtitle v-html="item.description"></v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
 
-                                <v-divider v-if="index != comments.length-1" :key="index"></v-divider>
+                        <v-divider v-if="index != comments.length-1" :key="index"></v-divider>
 
-                            </template>
-                        </v-list>
-                    <!-- </v-row>
-                </v-container> -->
+                    </template>
+                </v-list>
             </v-card-text>
         </v-card>
     </v-dialog>
