@@ -43,4 +43,10 @@ public class ArticleController {
 		String json = gson.toJson(articleService.updateArticle(articleDTO));
 		return json;
 	};
+	
+	public static Route getAvailableArticles = (Request request, Response response) -> {
+		Long restaurantId = Long.parseLong(request.params(":id"));
+		String json = gson.toJson(articleService.getAvailableArticles(restaurantId));
+		return json;
+	};
 }

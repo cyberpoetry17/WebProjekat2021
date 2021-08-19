@@ -25,7 +25,7 @@
                     <v-card
                         class="mx-auto my-12"
                         max-width="374"
-                        v-for="(item) in articles"
+                        v-for="(item) in filteredArticles"
                         :key="item.id"
                     >
 
@@ -60,7 +60,7 @@
                         <v-divider class="mx-4"></v-divider>
 
                         <v-card-actions>
-                            <v-btn color="deep-purple lighten-2" v-on:click="addToShoppingCart()" text>Add to cart</v-btn>
+                            <v-btn color="deep-purple lighten-2" v-on:click="addToShoppingCart(item)" text>Add to cart</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-row>
@@ -80,6 +80,20 @@
     computed: {
         show: {
             get() {
+                if(this.restaurant == null) return this.value;
+                axios.get("http://localhost:8080/rest/article/get-available-articles/" + this.restaurant.id)
+                    .then(r => {
+                        // this.articles = r.data.filter(a => {
+                        //     detector = true;
+                        //     this.user.shoppingCart.articles.forEach(item => {
+                        //         if(item.article.id == a.id) {
+                        //             detector = false;
+                        //         }
+                        //     })
+                        //     if(detector) return a;
+                        // })
+                        this.articles = r.data;
+                    })
                 return this.value
             },
             set(value) {
@@ -88,31 +102,42 @@
         },
         user() {
             return this.$store.getters.getUser
+        },
+        filteredArticles() {
+            if(this.user == null) return;
+            return this.articles.filter(a => {
+                detector = true;
+                this.user.shoppingCart.articles.forEach(item => {
+                    if(item.article.id == a.id) {
+                        detector = false;
+                    }
+                })
+                if(detector) return a;
+            })
         }
     },
     data () {
       return {
-        dialog: false,
-        notifications: false,
-        sound: true,
-        widgets: false,
-        articles: [],
-        article: null
+        articles: []
       }
     },
     methods: {
         editArticle(item) {
             this.article = item;
         },
-        addToShoppingCart() {
-            alert("TODO");
+        addToShoppingCart(article) {
+            var articleQuantity = {
+                userId: this.user.id,
+                articleId: article.id,
+                quantity: 1
+            }
+            axios.post("http://localhost:8080/rest/customer/add-article", articleQuantity)
+                .then(r => {
+                    this.$store.dispatch('updateShoppingCart', r.data);
+                })
+            alert("Article added to cart.");
+
         }
-    },
-    created() {
-        axios.get("http://localhost:8080/rest/article/get-all-articles/" + this.restaurant.id)
-            .then(r => {
-                this.articles = r.data;
-            })
     }
   }
 </script>

@@ -36,4 +36,25 @@ public class Restaurant implements Serializable {
 	
 	private double averageRating;
 	
+	public Article getArticleById(Long id) {
+		for(Article a : articles) {
+			if(a.getId().equals(id)) {
+				if(!a.isDeleted()) {
+					return a;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Article updateArticle(Article article) {
+		for(int i = 0; i < articles.size() - 1; i++) {
+			if(articles.get(i).getId().equals(article.getId())) {
+				articles.set(i, article);
+				return articles.get(i);
+			}
+		}
+		return null;
+	}
+	
 }
