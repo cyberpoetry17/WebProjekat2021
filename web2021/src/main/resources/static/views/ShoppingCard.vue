@@ -27,6 +27,7 @@
                 <div class="parent1">
                   <div class="div11">
                     <v-btn small color="accent" elevation="2" outlined raised
+                    @click="decrement(item)"
                       >-</v-btn
                     >
                   </div>
@@ -105,9 +106,18 @@ module.exports = {
           arrayItem.quantity = arrayItem.quantity + 1;
          vm.totalAmount =  vm.totalAmount + arrayItem.price;
          console.log("UKUPNA CENA JE " + vm.totalAmount)
-        }
-        
-       
+        }  
+      });
+    },
+        decrement(item) {
+        var vm = this;
+       this.articles.forEach(function (arrayItem) {
+        var newPrice = 0;
+        if(arrayItem.id === item.id){
+          arrayItem.quantity = arrayItem.quantity - 1;
+         vm.totalAmount =  vm.totalAmount - arrayItem.price;
+         console.log("UKUPNA CENA JE " + vm.totalAmount)
+        }  
       });
     },
   },
