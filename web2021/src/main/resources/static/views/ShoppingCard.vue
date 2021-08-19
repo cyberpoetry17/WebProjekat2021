@@ -98,7 +98,17 @@ module.exports = {
       this.totalAmount = price;
     },
     increment(item) {
-      
+        var vm = this;
+       this.articles.forEach(function (arrayItem) {
+        var newPrice = 0;
+        if(arrayItem.id === item.id){
+          arrayItem.quantity = arrayItem.quantity + 1;
+         vm.totalAmount =  vm.totalAmount + arrayItem.price;
+         console.log("UKUPNA CENA JE " + vm.totalAmount)
+        }
+        
+       
+      });
     },
   },
   mounted() {
