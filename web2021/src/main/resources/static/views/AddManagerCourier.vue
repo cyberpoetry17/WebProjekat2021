@@ -1,134 +1,130 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-row item-1">
-      <Sidebar></Sidebar>
-      <div class="container-1 item-1">
-        <v-card style="margin-bottom:150px;">
-            <v-card-title primary-title class="justify-center" style="font-size:36px;text-align:center;">
-            Create new Manager or Courier
-            </v-card-title>
-            <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-            class="text-center"
-            >
-            <v-text-field
-                v-model="user.username"
-                v-on:input="checkIsUsernameValid"
-                :rules="usernameRules"
-                label="enter username"
-                required
-                style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
-
-            <v-text-field
-                type="password"
-                v-model="user.password"
-                :rules="passwordRules"
-                label="enter password"
-                required
-                style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
-
-            <v-text-field
-                type="password"
-                v-model="user.confirmPassword"
-                :rules="confirmPasswordRules"
-                label="confirm password"
-                required
-                style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
-
-            <v-text-field
-                v-model="user.name"
-                :rules="nameRules"
-                label="enter name"
-                required
-                style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
-
-            <v-text-field
-                v-model="user.surname"
-                :rules="surnameRules"
-                label="enter surname"
-                required
-                style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
-
-            <v-radio-group
-                v-model="user.genderType"
-                :rules="genderRules"
-                row
-                style="margin-left:10px;margin-right:10px;"
-            >
-                <v-radio
-                    label="Male"
-                    value="MALE"
-                ></v-radio>
-                <v-radio
-                    label="Female"
-                    value="FEMALE"
-                ></v-radio>
-            </v-radio-group>
-            <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-            >
-                <template v-slot:activator="{ on, attrs }">
+    <v-container style="max-width:600px;background-color:white;border-radius:20px;margin-top:50px;" fill-height>
+        <v-row>
+            <v-col>
+                <v-card-title primary-title class="justify-center" style="font-size:36px;text-align:center;">
+                    Create new Manager or Courier
+                </v-card-title>
+                <v-form
+                    ref="form"
+                    v-model="valid"
+                    lazy-validation
+                    class="text-center"
+                >
                     <v-text-field
-                        v-model="user.birthday"
-                        label="Select birthday date"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
+                        v-model="user.username"
+                        v-on:input="checkIsUsernameValid"
+                        :rules="usernameRules"
+                        label="enter username"
+                        required
                         style="margin-left:10px;margin-right:10px;"
-                        :rules="birthdayRules"
                     ></v-text-field>
-                </template>
-                <v-date-picker
-                    v-model="user.birthday"
-                    @input="menu = false"
-                ></v-date-picker>
-            </v-menu>
 
-            <v-radio-group
-                v-model="user.userType"
-                :rules="userTypeRules"
-                row
-                style="margin-left:10px;margin-right:10px;"
-            >
-                <v-radio
-                    label="Manager"
-                    value="MANAGER"
-                ></v-radio>
-                <v-radio
-                    label="Courier"
-                    value="COURIER"
-                ></v-radio>
-            </v-radio-group>
+                    <v-text-field
+                        type="password"
+                        v-model="user.password"
+                        :rules="passwordRules"
+                        label="enter password"
+                        required
+                        style="margin-left:10px;margin-right:10px;"
+                    ></v-text-field>
 
-            <v-btn
-                :disabled="!valid"
-                color="success"
-                class="mr-4"
-                @click="validate"
-                style="margin:20px;"
-            >
-                CREATE
-            </v-btn>
+                    <v-text-field
+                        type="password"
+                        v-model="user.confirmPassword"
+                        :rules="confirmPasswordRules"
+                        label="confirm password"
+                        required
+                        style="margin-left:10px;margin-right:10px;"
+                    ></v-text-field>
 
-            </v-form>
-        </v-card>
-      </div>
-    </div>
-  </div>
+                    <v-text-field
+                        v-model="user.name"
+                        :rules="nameRules"
+                        label="enter name"
+                        required
+                        style="margin-left:10px;margin-right:10px;"
+                    ></v-text-field>
+
+                    <v-text-field
+                        v-model="user.surname"
+                        :rules="surnameRules"
+                        label="enter surname"
+                        required
+                        style="margin-left:10px;margin-right:10px;"
+                    ></v-text-field>
+
+                    <v-radio-group
+                        v-model="user.genderType"
+                        :rules="genderRules"
+                        row
+                        style="margin-left:10px;margin-right:10px;"
+                    >
+                        <v-radio
+                            label="Male"
+                            value="MALE"
+                        ></v-radio>
+                        <v-radio
+                            label="Female"
+                            value="FEMALE"
+                        ></v-radio>
+                    </v-radio-group>
+                    <v-menu
+                        v-model="menu"
+                        :close-on-content-click="false"
+                        :nudge-right="40"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                v-model="user.birthday"
+                                label="Select birthday date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                style="margin-left:10px;margin-right:10px;"
+                                :rules="birthdayRules"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="user.birthday"
+                            @input="menu = false"
+                        ></v-date-picker>
+                    </v-menu>
+
+                    <v-radio-group
+                        v-model="user.userType"
+                        :rules="userTypeRules"
+                        row
+                        style="margin-left:10px;margin-right:10px;"
+                    >
+                        <v-radio
+                            label="Manager"
+                            value="MANAGER"
+                        ></v-radio>
+                        <v-radio
+                            label="Courier"
+                            value="COURIER"
+                        ></v-radio>
+                    </v-radio-group>
+
+                    <v-btn
+                        :disabled="!valid"
+                        color="success"
+                        class="mr-4"
+                        @click="validate"
+                        style="margin:20px;"
+                    >
+                        CREATE
+                    </v-btn>
+
+                </v-form>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -247,25 +243,15 @@ module.exports = {
     background-size: cover;
   }
 
-  .container-column {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .container-1 {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .container-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: stretch;
   }
 
   .item-1 {
-    flex-grow: 1;
+      flex-grow: 1;
   }
 
 </style>

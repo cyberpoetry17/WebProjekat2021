@@ -24,6 +24,7 @@ import spark.Route;
 
 import web2021.controller.*;
 import web2021.service.AdministratorService;
+import web2021.service.ArticleService;
 import web2021.service.CourierService;
 import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
@@ -55,6 +56,7 @@ public class Application
 	public static CourierService courierService;
 	public static RestaurantService restaurantService;
 	public static FileService fileService;
+	public static ArticleService articleService;
 	
 	public static String parseJws(Request request)
 	{
@@ -126,6 +128,7 @@ public class Application
 		courierService = new CourierService("couriers.json");
 		restaurantService = new RestaurantService("restaurants.json");
 		fileService = new FileService();
+		articleService = new ArticleService();
 		
 		uploadDir = new File("src/main/resources/static/upload");
 		uploadDir.mkdir();
@@ -150,6 +153,9 @@ public class Application
 		post("rest/manager/register", ManagerController.register);
 		post("rest/file/upload", FileController.upload);
 		post("rest/restaurant/create-restaurant", RestaurantController.createRestaurant);
+		post("rest/article/add-article", ArticleController.addArticle);
+		post("rest/article/check-is-name-taken", ArticleController.checkIsNameTaken);
+		post("rest/article/update-article", ArticleController.updateArticle);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
@@ -162,6 +168,8 @@ public class Application
 		get("rest/manager/get-managers-without-restaurant", ManagerController.getManagersWithoutRestaurant);
 		get("rest/restaurant/get-all-restaurant-types", RestaurantController.getAllRestaurantTypes);
 		get("rest/restaurant/get-all-restaurants", RestaurantController.getAllRestaurants);
+		get("rest/article/get-all-aricle-types", ArticleController.getAllArticleTypes);
+		get("rest/article/get-all-articles/:id", ArticleController.getAllArticles);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

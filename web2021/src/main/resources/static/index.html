@@ -2,34 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WebProjekat2021</title>
+    <title>GetFood.com</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel = "icon" href="https://cdn.iconscout.com/icon/free/png-512/restaurant-1495593-1267764.png" type = "image/x-icon">
 </head>
 <body>
 	<div id="app" class="content">
         <v-app>
-            <router-view>
+            <Sidebar></Sidebar> 
+            <Navbar></Navbar>
+            <v-main style="background-image: url('../img/background.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;">
+                <!-- style="background-image: url('../img/background.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;"   -->
+                <!-- <router-view></router-view> -->
+                
+                <!-- Provides the application the proper gutter -->
+                <v-container fluid>
+                    <router-view></router-view>
+                </v-container>
 
-            </router-view>
+            </v-main>
         </v-app>
     </div>
-    <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/vuex/dist/vuex.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
     <script src="https://unpkg.com/http-vue-loader/src/httpVueLoader.js"></script>
-    <script src="https://unpkg.com/vuex-persistedstate/dist/vuex-persistedstate.umd.js"></script> -->
-    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/vuex-persistedstate/dist/vuex-persistedstate.umd.js"></script>
+    <!-- <script src="js/vue.js"></script>
     <script src="js/vue-router.js"></script>
     <script src="js/vuex.js"></script>
     <script src="js/axios.js"></script>
     <script src="js/vuetify.js"></script>
     <script src="js/httpVueLoader.js"></script>
-    <script src="js/vuex-persistedstate.js"></script>
+    <script src="js/vuex-persistedstate.js"></script> -->
     <script>
     	Vue.use(httpVueLoader);
 
@@ -38,6 +48,8 @@
         Vue.component("sidebar", httpVueLoader("components/Sidebar.vue"))
         Vue.component("createuser", httpVueLoader("components/CreateUser.vue"))
         Vue.component("showrestaurant", httpVueLoader("components/ShowRestaurant.vue"))
+        Vue.component("editarticle", httpVueLoader("components/EditArticle.vue"))
+        Vue.component("shopping", httpVueLoader("components/Shopping.vue"))
 
         const routes = [
             {
@@ -74,6 +86,16 @@
                 path: "/createRestaurant",
                 name: "CreateRestaurant",
                 component: httpVueLoader("views/CreateRestaurant.vue")
+            },
+            {
+                path: "/addNewArticle",
+                name: "AddNewArticle",
+                component: httpVueLoader("views/AddNewArticle.vue")
+            },
+            {
+                path: "/editArticles",
+                name: "EditArticles",
+                component: httpVueLoader("views/EditArticles.vue")
             }
         ];
 
