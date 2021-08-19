@@ -8,21 +8,68 @@
         style="background-color: white; margin: 20px; border-radius: 20px"
       >
         <div class="main-frame-div">
-          <h1>Shopping cart</h1>
+          <h3>Shopping cart: {{this.user.name + " " + this.user.surname}}</h3>
           <div class="parent">
             <div class="div1">
               <div></div>
               <v-card
                 class="mx-auto my-12"
-                max-width="374"
+                max-width="300"
                 elevation="20"
                 v-for="item in articles"
                 :key="item.id"
               >
-                <v-img class="img" :src="item.image"></v-img>
-                <v-card-title>{{ item.name }}</v-card-title>
+                <div class="d-flex flex-no-wrap justify-space-between">
+                  <div>
+                    <v-card-title
+                      class="text-h5"
+                      v-text="item.article.name"
+                    ></v-card-title>
+                    <v-card-text>
+                      <div>${{ item.article.price }}</div>
+                    </v-card-text>
+
+                    <v-card-subtitle v-text="item.artist"></v-card-subtitle>
+                    <div class="item-quantity">
+                      <v-btn
+                        small
+                        color="accent"
+                        elevation="2"
+                        outlined
+                        raised
+                        @click="decrement(item)"
+                        >-</v-btn
+                      >
+                      <label> {{ item.quantity }} </label>
+                      <v-btn
+                        small
+                        color="accent"
+                        elevation="2"
+                        outlined
+                        raised
+                        @click="increment(item)"
+                        >+</v-btn
+                      >
+                    </div>
+                  </div>
+                  <!-- <v-divider inset></v-divider> -->
+                  <v-avatar class="ma-3" size="150" tile>
+                    <v-img :src="item.article.image"></v-img>
+                  </v-avatar>
+                </div>
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-btn
+                    @click="removeArticle(item)"
+                    color="deep-purple lighten-2"
+                    text
+                    >remove</v-btn
+                  >
+                </v-card-actions>
+                <!-- <v-img class="img" :src="item.article.image"></v-img>
+                <v-card-title>{{ item.article.name }}</v-card-title>
                 <v-card-text>
-                  <div>${{ item.price }}</div>
+                  <div>${{ item.article.price }}</div>
                 </v-card-text>
                 <div class="parent1">
                   <div class="div11">
@@ -60,20 +107,19 @@
                     text
                     >remove</v-btn
                   >
-                </v-card-actions>
+                </v-card-actions>-->
               </v-card>
             </div>
+
             <div class="div2">
-              <h2>
-                <v-card>
-                  <v-card-title>The total amount:</v-card-title>
-                  <v-card-text>$ {{ this.totalAmount }} </v-card-text>
-                  <div></div>
-                  <v-card-actions>
-                    <v-btn color="deep-purple" text>PURCHASE</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </h2>
+              <v-card>
+                <v-card-title>The total amount:</v-card-title>
+                <v-card-text>$ {{ this.totalAmount }} </v-card-text>
+                <div></div>
+                <v-card-actions>
+                  <v-btn color="deep-purple" text @click="purchase">PURCHASE</v-btn>
+                </v-card-actions>
+              </v-card>
             </div>
           </div>
         </div>
@@ -88,79 +134,113 @@ module.exports = {
     getUser() {
       return this.$store.getters.getUser;
     },
-    setUser(user) {
-      return this.$store.dispatch("updateUser", user);
-    },
   },
   data() {
     return {
-      articles: [],
+      articles: [{ id: 0, quantity: 1, article: {} }],
+      user: { name: "", surname: "" },
       totalAmount: 0,
+      shopping_cart: {
+        id: 0,
+        articles: [],
+        price: 0,
+      },
     };
   },
   methods: {
     removeArticle(item) {
       this.articles.splice(this.articles.indexOf(item), 1);
 
-      this.totalAmount = this.totalAmount - item.quantity * item.price;
+      this.totalAmount = this.totalAmount - item.quantity * item.article.price;
     },
     totalAmountCalculator() {
       var price = 0;
       this.articles.forEach(function (arrayItem) {
-        price = price + arrayItem.price;
+        price = price + arrayItem.article.price;
       });
       this.totalAmount = price;
     },
     increment(item) {
       var vm = this;
       this.articles.forEach(function (arrayItem) {
-        var newPrice = 0;
-        if (arrayItem.id === item.id) {
-          arrayItem.quantity = arrayItem.quantity + 1;
-          vm.totalAmount = vm.totalAmount + arrayItem.price;
-          console.log("UKUPNA CENA JE " + vm.totalAmount);
+        if (arrayItem.article.id === item.article.id) {
+          if (arrayItem.article.quantity > item.quantity) {
+            arrayItem.quantity = arrayItem.quantity + 1; //
+            vm.totalAmount = vm.totalAmount + arrayItem.article.price;
+            console.log("UKUPNA CENA JE " + vm.totalAmount);
+          }
         }
       });
     },
     decrement(item) {
       var vm = this;
       this.articles.forEach(function (arrayItem) {
-        if (arrayItem.id === item.id) {
-          if(arrayItem.quantity > 0){
-          arrayItem.quantity = arrayItem.quantity - 1;
-          vm.totalAmount = vm.totalAmount - arrayItem.price;
-          console.log("UKUPNA CENA JE " + vm.totalAmount);}
+        if (arrayItem.article.id === item.article.id) {
+          if (arrayItem.quantity > 0) {
+            arrayItem.quantity = arrayItem.quantity - 1;
+            vm.totalAmount = vm.totalAmount - arrayItem.article.price;
+            console.log("UKUPNA CENA JE " + vm.totalAmount);
+          }
         }
       });
     },
+
+    purchase(){
+      //nije smanjen broj artikala koji je u bazi
+      this.shopping_cart.price = this.totalAmount;
+      this.shopping_cart.articles = this.articles; //valjda ovo treba
+    
+    }
   },
   mounted() {
-    console.log(this.totalAmount);
-    var user = this.$store.getters.getUser;
-    var article = {
-      id: "123",
-      name: "hrana",
-      price: 200,
-      articleType: "hrana",
-      restaurantId: "123",
-      quantity: 1,
-      description: "bla bla",
-      image: "./img/Capture.PNG",
-    };
-    var article2 = {
-      id: "1234",
-      name: "slika",
-      price: 200,
-      articleType: "hrana",
-      restaurantId: "123",
-      quantity: 1,
-      description: "bla bla",
-      image: "./img/Capture.PNG",
-    };
+    /**
+     * otkomentarisati zakomentarisano
+     */
 
-    this.articles.push(article);
-    this.articles.push(article2);
+    var user = this.getUser;
+    this.user.name = user.name;
+    this.user.surname = user.surname;
+
+    //quantity articles
+    // this.articles = user.shopping_cart.articles
+
+    //zakomentarisati dummy podatke
+    var item = {
+      quantity: 1,
+      id: 1,
+      article: {
+        id: "123",
+        name: "hrana",
+        price: 200,
+        articleType: "hrana",
+        restaurantId: "123",
+        quantity: 10,
+        description: "bla bla",
+        image: "./img/Capture.PNG",
+      },
+    };
+    var item2 = {
+      quantity: 1,
+      id: 2,
+      article: {
+        id: "1234",
+        name: "hrana",
+        price: 200,
+        articleType: "hrana",
+        restaurantId: "123",
+        quantity: 10,
+        description: "bla bla",
+        image: "./img/Capture.PNG",
+      },
+    };
+    //zakomentarisati
+    this.articles.push(item);
+    this.articles.push(item2);
+
+    //ovo ne brisati
+    this.articles.shift();
     this.totalAmountCalculator();
+    this.shoppingCart.id = this.user.shoppingCart.id;
   },
 };
 </script>
@@ -242,5 +322,8 @@ module.exports = {
 .div31 {
   grid-area: 1 / 3 / 2 / 4;
   text-align: center;
+}
+.item-quantity {
+  margin-left: 0px;
 }
 </style>
