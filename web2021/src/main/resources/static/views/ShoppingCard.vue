@@ -26,15 +26,27 @@
                 </v-card-text>
                 <div class="parent1">
                   <div class="div11">
-                    <v-btn small color="accent" elevation="2" outlined raised
-                    @click="decrement(item)"
+                    <v-btn
+                      small
+                      color="accent"
+                      elevation="2"
+                      outlined
+                      raised
+                      @click="decrement(item)"
                       >-</v-btn
                     >
                   </div>
-                  <div class="div21"><label>{{item.quantity}}</label></div>
+                  <div class="div21">
+                    <label>{{ item.quantity }}</label>
+                  </div>
                   <div class="div31">
-                    <v-btn small color="accent" elevation="2" outlined raised
-                    @click="increment(item)"
+                    <v-btn
+                      small
+                      color="accent"
+                      elevation="2"
+                      outlined
+                      raised
+                      @click="increment(item)"
                       >+</v-btn
                     >
                   </div>
@@ -89,7 +101,8 @@ module.exports = {
   methods: {
     removeArticle(item) {
       this.articles.splice(this.articles.indexOf(item), 1);
-      this.totalAmount = this.totalAmount - item.price;
+
+      this.totalAmount = this.totalAmount - item.quantity * item.price;
     },
     totalAmountCalculator() {
       var price = 0;
@@ -99,25 +112,26 @@ module.exports = {
       this.totalAmount = price;
     },
     increment(item) {
-        var vm = this;
-       this.articles.forEach(function (arrayItem) {
+      var vm = this;
+      this.articles.forEach(function (arrayItem) {
         var newPrice = 0;
-        if(arrayItem.id === item.id){
+        if (arrayItem.id === item.id) {
           arrayItem.quantity = arrayItem.quantity + 1;
-         vm.totalAmount =  vm.totalAmount + arrayItem.price;
-         console.log("UKUPNA CENA JE " + vm.totalAmount)
-        }  
+          vm.totalAmount = vm.totalAmount + arrayItem.price;
+          console.log("UKUPNA CENA JE " + vm.totalAmount);
+        }
       });
     },
-        decrement(item) {
-        var vm = this;
-       this.articles.forEach(function (arrayItem) {
+    decrement(item) {
+      var vm = this;
+      this.articles.forEach(function (arrayItem) {
         var newPrice = 0;
-        if(arrayItem.id === item.id){
+        if (arrayItem.id === item.id) {
+          if(arrayItem.quantity > 0){
           arrayItem.quantity = arrayItem.quantity - 1;
-         vm.totalAmount =  vm.totalAmount - arrayItem.price;
-         console.log("UKUPNA CENA JE " + vm.totalAmount)
-        }  
+          vm.totalAmount = vm.totalAmount - arrayItem.price;
+          console.log("UKUPNA CENA JE " + vm.totalAmount);}
+        }
       });
     },
   },
@@ -215,7 +229,7 @@ module.exports = {
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-   margin-right: 15px; 
+  margin-right: 15px;
 }
 .div11 {
   grid-area: 1 / 1 / 2 / 2;
@@ -225,8 +239,6 @@ module.exports = {
   grid-area: 1 / 2 / 2 / 3;
   text-align: center;
   background-color: aqua;
-  
-
 }
 .div31 {
   grid-area: 1 / 3 / 2 / 4;
