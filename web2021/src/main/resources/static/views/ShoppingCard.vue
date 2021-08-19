@@ -11,12 +11,16 @@
           <h1>Shopping cart</h1>
           <div class="parent">
             <div class="div1">
+              <div >
+               
+              </div>
               <v-card
                 class="mx-auto my-12"
                 max-width="374"
                 elevation="20"
                 v-for="item in articles"
                 :key="item.id"
+                
               >
                 <v-img class="img" :src="item.image"></v-img>
                 <v-card-title>{{ item.name }}</v-card-title>
@@ -60,18 +64,7 @@ module.exports = {
   },
   data() {
     return{
-      articles: [
-        {
-          id: "",
-          name: "",
-          price: 0,
-          articleType: "",
-          restaurantId: "",
-          quantity: 1,
-          description: "",
-          image: "",
-        },
-      ],
+      articles: [],
     };
   },
   methods:{
