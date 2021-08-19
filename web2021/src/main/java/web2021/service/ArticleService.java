@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import web2021.dto.AddArticleDTO;
+import web2021.dto.ArticleDTO;
 import web2021.model.Article;
 import web2021.model.Restaurant;
 import web2021.model.enums.ArticleType;
@@ -57,6 +58,24 @@ public class ArticleService {
 			}
 		}
 		return response;
+	}
+	
+	public Article updateArticle(ArticleDTO dto) {
+		for(Restaurant restaurant : restaurantRepository.getAll()) {
+			for(Article article : restaurant.getArticles()) {
+				if(article.getId().equals(dto.getId())) {
+					article.setName(dto.getName());
+					article.setPrice(dto.getPrice());
+					article.setArticleType(dto.getArticleType());
+					article.setQuantity(dto.getQuantity());
+					article.setDescription(dto.getDescription());
+					article.setImage(dto.getImage());
+					restaurantRepository.update(restaurant);
+					return article;
+				}
+			}
+		}
+		return null;
 	}
 	
 }

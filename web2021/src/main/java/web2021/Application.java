@@ -155,6 +155,7 @@ public class Application
 		post("rest/restaurant/create-restaurant", RestaurantController.createRestaurant);
 		post("rest/article/add-article", ArticleController.addArticle);
 		post("rest/article/check-is-name-taken", ArticleController.checkIsNameTaken);
+		post("rest/article/update-article", ArticleController.updateArticle);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);

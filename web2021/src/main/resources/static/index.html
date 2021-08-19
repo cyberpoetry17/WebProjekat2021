@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel = "icon" href="https://cdn.iconscout.com/icon/free/png-512/restaurant-1495593-1267764.png" type = "image/x-icon">
 </head>
 <body>
 	<div id="app" class="content">
@@ -25,20 +26,20 @@
             </v-main>
         </v-app>
     </div>
-    <!-- <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://unpkg.com/vuex/dist/vuex.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.js"></script>
     <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
     <script src="https://unpkg.com/http-vue-loader/src/httpVueLoader.js"></script>
-    <script src="https://unpkg.com/vuex-persistedstate/dist/vuex-persistedstate.umd.js"></script> -->
-    <script src="js/vue.js"></script>
+    <script src="https://unpkg.com/vuex-persistedstate/dist/vuex-persistedstate.umd.js"></script>
+    <!-- <script src="js/vue.js"></script>
     <script src="js/vue-router.js"></script>
     <script src="js/vuex.js"></script>
     <script src="js/axios.js"></script>
     <script src="js/vuetify.js"></script>
     <script src="js/httpVueLoader.js"></script>
-    <script src="js/vuex-persistedstate.js"></script>
+    <script src="js/vuex-persistedstate.js"></script> -->
     <script>
     	Vue.use(httpVueLoader);
 
@@ -47,6 +48,7 @@
         Vue.component("sidebar", httpVueLoader("components/Sidebar.vue"))
         Vue.component("createuser", httpVueLoader("components/CreateUser.vue"))
         Vue.component("showrestaurant", httpVueLoader("components/ShowRestaurant.vue"))
+        Vue.component("editarticle", httpVueLoader("components/EditArticle.vue"))
 
         const routes = [
             {

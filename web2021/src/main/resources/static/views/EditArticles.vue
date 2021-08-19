@@ -38,9 +38,10 @@
             <v-divider class="mx-4"></v-divider>
 
             <v-card-actions>
-                <v-btn color="deep-purple lighten-2" text>Edit</v-btn>
+                <v-btn color="deep-purple lighten-2" @click.stop="showDialog=true" v-on:click="editArticle(item)" text>Edit</v-btn>
             </v-card-actions>
         </v-card>
+        <EditArticle v-model="showDialog" :article=article></EditArticle>
     </v-row>
 </template>
 
@@ -54,11 +55,15 @@ module.exports = {
     },
     data() {
         return {
-            articles: []
+            articles: [],
+            article: null,
+            showDialog: false
         }
     },
     methods: {
-        
+        editArticle(item) {
+            this.article = item;
+        }
     },
     created() {
         axios.get("http://localhost:8080/rest/article/get-all-articles/" + this.user.restaurant.id)

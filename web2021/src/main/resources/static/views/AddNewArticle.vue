@@ -79,18 +79,19 @@
                     </v-menu>
                     <label v-if="showMessage" style="color:red"><b>{{message}}</b></label>
                 </v-form>
-
-                <v-btn
-                    :disabled="!valid"
-                    color="success"
-                    class="mr-4"
-                    @click="validate"
-                    style="margin:20px;"
-                    width="400px"
-                >
-                    Add article
-                </v-btn>
             </v-col>
+        </v-row>
+        <v-row justify="center">
+            <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="validate"
+                style="margin:20px;"
+                width="300px"
+            >
+                Add article
+            </v-btn>
         </v-row>
     </v-container>
 </template>
@@ -121,7 +122,7 @@ module.exports = {
             ],
             description: '',
             descriptionRules: [
-              v => (v && v.length <= 100) || 'Description must be less than 100 characters'
+              v => (v.length == 0 || v.length <= 100) || 'Description must be less than 100 characters'
             ],
             quantity: null,
             quantityRules: [

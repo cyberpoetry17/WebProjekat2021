@@ -7,6 +7,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 import web2021.dto.AddArticleDTO;
+import web2021.dto.ArticleDTO;
 import web2021.dto.CheckArticleNameDTO;
 
 public class ArticleController {
@@ -36,4 +37,10 @@ public class ArticleController {
 		return json;
 	};
 	
+	public static Route updateArticle = (Request request, Response response) -> {
+		String payload = request.body();
+		ArticleDTO articleDTO = gson.fromJson(payload, ArticleDTO.class);
+		String json = gson.toJson(articleService.updateArticle(articleDTO));
+		return json;
+	};
 }
