@@ -8,11 +8,13 @@
         style="background-color: white; margin: 20px; border-radius: 20px"
       >
         <div class="main-frame-div">
+          <h1>Shopping cart</h1>
           <div class="parent">
             <div class="div1">
               <v-card
                 class="mx-auto my-12"
                 max-width="374"
+                elevation="20"
                 v-for="item in articles"
                 :key="item.id"
               >
@@ -22,11 +24,9 @@
                   <div>${{ item.price }}</div>
                   <div>quantity</div>
                 </v-card-text>
-
                 <v-divider class="mx-4"></v-divider>
-
                 <v-card-actions>
-                  <v-btn color="deep-purple lighten-2" text>remove</v-btn>
+                  <v-btn @click="removeArticle(item)" color="deep-purple lighten-2" text>remove</v-btn>
                 </v-card-actions>
               </v-card>
             </div>
@@ -35,9 +35,9 @@
                 <v-card>
                   <v-card-title>The total amount:</v-card-title>
                   <div></div>
-                <v-card-actions>
-                  <v-btn color="deep-purple" text>PURCHASE</v-btn>
-                </v-card-actions>
+                  <v-card-actions>
+                    <v-btn color="deep-purple" text>PURCHASE</v-btn>
+                  </v-card-actions>
                 </v-card>
               </h2>
             </div>
@@ -50,23 +50,61 @@
 <script>
 module.exports = {
   name: "ShoppingCard",
+  computed: {
+    getUser() {
+      return this.$store.getters.getUser;
+    },
+    setUser(user){
+      return this.$store.dispatch("updateUser",user);
+    }
+  },
   data() {
-    return {
-      items: [
-        {
-          name: "hello",
-        },
-      ],
+    return{
       articles: [
         {
           id: "",
-          name: "jaknica",
+          name: "",
           price: 0,
-          restaurantId: 0,
-          image: "./img/Capture.PNG",
+          articleType: "",
+          restaurantId: "",
+          quantity: 1,
+          description: "",
+          image: "",
         },
       ],
     };
+  },
+  methods:{
+    removeArticle(item){
+      this.articles.pop(item);
+    }
+  },
+  created() {
+    var user = this.$store.getters.getUser;
+    var article = {
+      id: "123",
+      name: "hrana",
+      price: 200,
+      articleType: "hrana",
+      restaurantId: "123",
+      quantity: 1,
+      description: "bla bla",
+      image: "./img/Capture.PNG",
+    };
+     var article2 = {
+      id: "123",
+      name: "slika",
+      price: 200,
+      articleType: "hrana",
+      restaurantId: "123",
+      quantity: 1,
+      description: "bla bla",
+      image: "./img/Capture.PNG",
+    };
+     
+
+     this.articles.push(article)
+     this.articles.push(article2)
   },
 };
 </script>
@@ -119,7 +157,7 @@ module.exports = {
 
 .div1 {
   grid-area: 1 / 1 / 2 / 2;
-  overflow: auto;
+  overflow-y: auto;
 }
 .div2 {
   grid-area: 1 / 2 / 2 / 3;
