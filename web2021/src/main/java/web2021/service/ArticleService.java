@@ -19,6 +19,19 @@ public class ArticleService {
 		this.restaurantRepository = new RestaurantRepository();
 	}
 	
+	public Article getArticleById(Long id) {
+		for(Restaurant restaurant : restaurantRepository.getAll()) {
+			for(Article article : restaurant.getArticles()) {
+				if(article.getId().equals(id)) {
+					if(!article.isDeleted()) {
+						return article;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	public List<ArticleType> getAllArticleTypes() {
 		List<ArticleType> response = new ArrayList<ArticleType>(Arrays.asList(ArticleType.values()));
 		return response;
@@ -44,6 +57,7 @@ public class ArticleService {
 		article.setQuantity(dto.getQuantity());
 		article.setDescription(dto.getDescription());
 		article.setImage(dto.getImage());
+		article.setRestaurantId(dto.getRestaurantId());
 		Restaurant restaurant = restaurantRepository.getById(dto.getRestaurantId());
 		restaurant.getArticles().add(article);
 		restaurantRepository.update(restaurant);
@@ -76,6 +90,16 @@ public class ArticleService {
 			}
 		}
 		return null;
+	}
+	
+	public List<Article> getAvailableArticles(Long restaurantId) {
+		List<Article> response = new ArrayList<Article>();
+		for(Article article : getAllArticlesFor(restaurantId)) {
+			if(article.getQuantity() > 0) {
+				response.add(article);
+			}
+		}
+		return response;
 	}
 	
 }

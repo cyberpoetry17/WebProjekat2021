@@ -30,6 +30,7 @@ import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
 import web2021.service.FileService;
 import web2021.service.ManagerService;
+import web2021.service.OrderService;
 import web2021.service.RestaurantService;
 import web2021.service.TestService;
 import web2021.service.UserService;
@@ -57,6 +58,7 @@ public class Application
 	public static RestaurantService restaurantService;
 	public static FileService fileService;
 	public static ArticleService articleService;
+	public static OrderService orderService;
 	
 	public static String parseJws(Request request)
 	{
@@ -129,6 +131,7 @@ public class Application
 		restaurantService = new RestaurantService("restaurants.json");
 		fileService = new FileService();
 		articleService = new ArticleService();
+		orderService = new OrderService();
 		
 		uploadDir = new File("src/main/resources/static/upload");
 		uploadDir.mkdir();
@@ -156,6 +159,7 @@ public class Application
 		post("rest/article/add-article", ArticleController.addArticle);
 		post("rest/article/check-is-name-taken", ArticleController.checkIsNameTaken);
 		post("rest/article/update-article", ArticleController.updateArticle);
+		post("rest/customer/add-article", CustomerController.addArticle);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
@@ -170,6 +174,8 @@ public class Application
 		get("rest/restaurant/get-all-restaurants", RestaurantController.getAllRestaurants);
 		get("rest/article/get-all-aricle-types", ArticleController.getAllArticleTypes);
 		get("rest/article/get-all-articles/:id", ArticleController.getAllArticles);
+		get("rest/article/get-available-articles/:id", ArticleController.getAvailableArticles);
+		get("rest/order/make-order/:id", OrderController.makeOrder);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

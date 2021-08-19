@@ -128,11 +128,24 @@
             mutations: {
                 updateUser(state, user) {
                     state.user = user
+                },
+                updateShoppingCart(state, shoppingCart) {
+                    state.user.shoppingCart = shoppingCart
+                },
+                addToShoppingCart(state, article) {
+                    if(article == null) state.user.shoppingCart.articles = []
+                    else state.user.shoppingCart.articles.push(article)
                 }
             },
             actions: {
                 updateUser(context, user) {
                     context.commit('updateUser', user)
+                },
+                updateShoppingCart(context, shoppingCart) {
+                    context.commit('updateShoppingCart', shoppingCart)
+                },
+                addToShoppingCart(context, article) {
+                    context.commit('addToShoppingCart', article)
                 }
             },
             plugins: [window.createPersistedState({

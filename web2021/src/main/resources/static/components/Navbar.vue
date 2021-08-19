@@ -6,20 +6,13 @@
 
         <v-spacer></v-spacer>
 
-        <v-menu left bottom>
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-            </template>
-
-            <v-list>
-                <v-list-item v-for="n in 5" :key="n" @click="() => {}">
-                    <v-list-item-title>Option {{ n }}</v-list-item-title>
-                </v-list-item>
-            </v-list>
-        </v-menu>
-
+        <div v-if="user != null">
+            <!-- <router-link to="/shopping-cart"> -->
+                <v-icon v-if="user.userType == 'CUSTOMER'" v-on:click="makeOrder">
+                    mdi-basket
+                </v-icon>
+            <!-- </router-link> -->
+        </div>
         <router-link v-if="isUserLogged" to="/login">
             <v-btn v-on:click="logout" icon>
                 <v-icon>mdi-export</v-icon>
@@ -57,6 +50,17 @@ module.exports = {
             var user = null;
             this.$store.dispatch('updateUser', user);
             this.$router.push({name: 'Login'});
+        },
+        makeOrder() {
+            if(this.user.shoppingCart.articles.length == 0) {
+                alert("Shopping cart is emtpy.");
+                return;
+            }
+            axios.get("http://localhost:8080/rest/order/make-order/" + this.user.id)
+                .then(r => {
+                    this.$store.dispatch('updateUser', r.data[0].customer);
+                    alert("TODO Add Shopping Cart GUI")
+                })
         }
     }
 }

@@ -1,7 +1,12 @@
 package web2021.service;
 
+import static web2021.Application.articleService;
+
+import web2021.dto.AddToShoppingCartDTO;
 import web2021.dto.CustomerRegisterDTO;
+import web2021.model.ArticleQuantity;
 import web2021.model.Customer;
+import web2021.model.ShoppingCart;
 import web2021.repository.CustomerRepository;
 
 import static web2021.Application.customerTypeService;
@@ -18,6 +23,10 @@ public class CustomerService {
 	
 	public CustomerService(String path) {
 		this.customerRepository = new CustomerRepository(path);
+	}
+	
+	public Customer getCustomerById(Long id) {
+		return customerRepository.getById(id);
 	}
 	
 	public Customer register(CustomerRegisterDTO customerRegisterDTO) {
@@ -42,6 +51,21 @@ public class CustomerService {
 	
 	public List<Customer> getAllCustomers() {
 		return customerRepository.getAll();
+	}
+	
+	public ShoppingCart addArticle(AddToShoppingCartDTO dto) {
+		
+		ArticleQuantity articleQuantity = new ArticleQuantity();
+		articleQuantity.setId(System.currentTimeMillis());
+		articleQuantity.setArticle(articleService.getArticleById(dto.getArticleId()));
+		articleQuantity.setQuantity(dto.getQuantity());
+			
+		Customer customer = customerRepository.getById(dto.getUserId());
+		customer.getShoppingCart().getArticles().add(articleQuantity);
+		customer.getShoppingCart().setPrice(customer.getShoppingCart().getPrice() + articleQuantity.getQuantity() * articleQuantity.getArticle().getPrice());
+		customerRepository.update(customer);
+		
+		return customer.getShoppingCart();
 	}
 	
 }
