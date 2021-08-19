@@ -23,8 +23,22 @@
                 <v-card-title>{{ item.name }}</v-card-title>
                 <v-card-text>
                   <div>${{ item.price }}</div>
-                  <div>quantity</div>
                 </v-card-text>
+                <div class="parent1">
+                  <div class="div11">
+                    <v-btn small color="accent" elevation="2" outlined raised
+                      >-</v-btn
+                    >
+                  </div>
+                  <div class="div21"><label>{{item.quantity}}</label></div>
+                  <div class="div31">
+                    <v-btn small color="accent" elevation="2" outlined raised
+                    @click="increment(item)"
+                      >+</v-btn
+                    >
+                  </div>
+                </div>
+
                 <v-divider class="mx-4"></v-divider>
                 <v-card-actions>
                   <v-btn
@@ -40,7 +54,7 @@
               <h2>
                 <v-card>
                   <v-card-title>The total amount:</v-card-title>
-                  <v-card-text>{{this.totalAmount}} </v-card-text>
+                  <v-card-text>{{ this.totalAmount }} </v-card-text>
                   <div></div>
                   <v-card-actions>
                     <v-btn color="deep-purple" text>PURCHASE</v-btn>
@@ -80,9 +94,11 @@ module.exports = {
       var price = 0;
       this.articles.forEach(function (arrayItem) {
         price = price + arrayItem.price;
-       
       });
       this.totalAmount = price;
+    },
+    increment(item) {
+      
     },
   },
   mounted() {
@@ -112,7 +128,6 @@ module.exports = {
     this.articles.push(article);
     this.articles.push(article2);
     this.totalAmountCalculator();
-    
   },
 };
 </script>
@@ -173,5 +188,28 @@ module.exports = {
 .img {
   width: 100%;
   height: 100%;
+}
+.parent1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+   margin-right: 15px; 
+}
+.div11 {
+  grid-area: 1 / 1 / 2 / 2;
+  text-align: center;
+}
+.div21 {
+  grid-area: 1 / 2 / 2 / 3;
+  text-align: center;
+  background-color: aqua;
+  
+
+}
+.div31 {
+  grid-area: 1 / 3 / 2 / 4;
+  text-align: center;
 }
 </style>
