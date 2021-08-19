@@ -69,7 +69,7 @@ module.exports = {
   },
   methods:{
     removeArticle(item){
-      this.articles.pop(item);
+      this.articles.splice(this.articles.indexOf(item), 1);
     }
   },
   created() {
