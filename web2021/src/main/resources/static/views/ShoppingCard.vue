@@ -11,16 +11,13 @@
           <h1>Shopping cart</h1>
           <div class="parent">
             <div class="div1">
-              <div >
-               
-              </div>
+              <div></div>
               <v-card
                 class="mx-auto my-12"
                 max-width="374"
                 elevation="20"
                 v-for="item in articles"
                 :key="item.id"
-                
               >
                 <v-img class="img" :src="item.image"></v-img>
                 <v-card-title>{{ item.name }}</v-card-title>
@@ -30,7 +27,12 @@
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-actions>
-                  <v-btn @click="removeArticle(item)" color="deep-purple lighten-2" text>remove</v-btn>
+                  <v-btn
+                    @click="removeArticle(item)"
+                    color="deep-purple lighten-2"
+                    text
+                    >remove</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </div>
@@ -38,6 +40,7 @@
               <h2>
                 <v-card>
                   <v-card-title>The total amount:</v-card-title>
+                  <v-card-text>{{this.totalAmount}} </v-card-text>
                   <div></div>
                   <v-card-actions>
                     <v-btn color="deep-purple" text>PURCHASE</v-btn>
@@ -58,21 +61,32 @@ module.exports = {
     getUser() {
       return this.$store.getters.getUser;
     },
-    setUser(user){
-      return this.$store.dispatch("updateUser",user);
-    }
+    setUser(user) {
+      return this.$store.dispatch("updateUser", user);
+    },
   },
   data() {
-    return{
+    return {
       articles: [],
+      totalAmount: 0,
     };
   },
-  methods:{
-    removeArticle(item){
+  methods: {
+    removeArticle(item) {
       this.articles.splice(this.articles.indexOf(item), 1);
-    }
+      this.totalAmount = this.totalAmount - item.price;
+    },
+    totalAmountCalculator() {
+      var price = 0;
+      this.articles.forEach(function (arrayItem) {
+        price = price + arrayItem.price;
+       
+      });
+      this.totalAmount = price;
+    },
   },
-  created() {
+  mounted() {
+    console.log(this.totalAmount);
     var user = this.$store.getters.getUser;
     var article = {
       id: "123",
@@ -84,8 +98,8 @@ module.exports = {
       description: "bla bla",
       image: "./img/Capture.PNG",
     };
-     var article2 = {
-      id: "123",
+    var article2 = {
+      id: "1234",
       name: "slika",
       price: 200,
       articleType: "hrana",
@@ -94,10 +108,11 @@ module.exports = {
       description: "bla bla",
       image: "./img/Capture.PNG",
     };
-     
 
-     this.articles.push(article)
-     this.articles.push(article2)
+    this.articles.push(article);
+    this.articles.push(article2);
+    this.totalAmountCalculator();
+    
   },
 };
 </script>
