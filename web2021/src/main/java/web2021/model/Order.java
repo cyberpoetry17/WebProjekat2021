@@ -23,6 +23,8 @@ public class Order implements Serializable {
 	
 	private boolean isReviewed;
 	
+	private boolean isDeleted;
+	
 	private String serialNumber;
 	
 	private List<ArticleQuantity> articles = new ArrayList<ArticleQuantity>();
@@ -33,7 +35,7 @@ public class Order implements Serializable {
 	
 	private double price;
 	
-	private Customer customer;
+//	private Customer customer;
 	
 	private OrderStatus orderStatus;
 	

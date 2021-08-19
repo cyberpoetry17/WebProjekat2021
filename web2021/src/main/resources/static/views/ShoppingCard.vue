@@ -67,7 +67,7 @@
               <h2>
                 <v-card>
                   <v-card-title>The total amount:</v-card-title>
-                  <v-card-text>{{ this.totalAmount }} </v-card-text>
+                  <v-card-text>$ {{ this.totalAmount }} </v-card-text>
                   <div></div>
                   <v-card-actions>
                     <v-btn color="deep-purple" text>PURCHASE</v-btn>
@@ -125,7 +125,6 @@ module.exports = {
     decrement(item) {
       var vm = this;
       this.articles.forEach(function (arrayItem) {
-        var newPrice = 0;
         if (arrayItem.id === item.id) {
           if(arrayItem.quantity > 0){
           arrayItem.quantity = arrayItem.quantity - 1;
@@ -238,7 +237,7 @@ module.exports = {
 .div21 {
   grid-area: 1 / 2 / 2 / 3;
   text-align: center;
-  background-color: aqua;
+  /* background-color: aqua; */
 }
 .div31 {
   grid-area: 1 / 3 / 2 / 4;
