@@ -29,6 +29,7 @@ import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
 import web2021.service.FileService;
 import web2021.service.ManagerService;
+import web2021.service.OrderService;
 import web2021.service.RestaurantService;
 import web2021.service.TestService;
 import web2021.service.UserService;
@@ -55,6 +56,7 @@ public class Application
 	public static CourierService courierService;
 	public static RestaurantService restaurantService;
 	public static FileService fileService;
+	public static OrderService orderService;
 	
 	public static String parseJws(Request request)
 	{
@@ -126,6 +128,8 @@ public class Application
 		courierService = new CourierService("couriers.json");
 		restaurantService = new RestaurantService("restaurants.json");
 		fileService = new FileService();
+		orderService = new OrderService();
+		
 		
 		uploadDir = new File("src/main/resources/static/upload");
 		uploadDir.mkdir();
