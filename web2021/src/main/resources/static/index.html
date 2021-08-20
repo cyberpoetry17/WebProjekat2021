@@ -38,10 +38,6 @@
             background-size: cover;
           "
         >
-          <!-- style="background-image: url('../img/background.jpg');background-position: center;background-repeat: no-repeat;background-size: cover;"   -->
-          <!-- <router-view></router-view> -->
-
-          <!-- Provides the application the proper gutter -->
           <v-container fluid>
             <router-view></router-view>
           </v-container>
@@ -63,137 +59,143 @@
     <script src="js/httpVueLoader.js"></script>
     <script src="js/vuex-persistedstate.js"></script> -->
     <script>
-          	Vue.use(httpVueLoader);
+        Vue.use(httpVueLoader);
 
-              Vue.component("test", httpVueLoader("components/Test.vue"))
-              Vue.component("navbar", httpVueLoader("components/Navbar.vue"))
-              Vue.component("sidebar", httpVueLoader("components/Sidebar.vue"))
-              Vue.component("createuser", httpVueLoader("components/CreateUser.vue"))
-              Vue.component("showrestaurant", httpVueLoader("components/ShowRestaurant.vue"))
-              Vue.component("editarticle", httpVueLoader("components/EditArticle.vue"))
-              Vue.component("shopping", httpVueLoader("components/Shopping.vue"))
+        Vue.component("test", httpVueLoader("components/Test.vue"))
+        Vue.component("navbar", httpVueLoader("components/Navbar.vue"))
+        Vue.component("sidebar", httpVueLoader("components/Sidebar.vue"))
+        Vue.component("createuser", httpVueLoader("components/CreateUser.vue"))
+        Vue.component("showrestaurant", httpVueLoader("components/ShowRestaurant.vue"))
+        Vue.component("editarticle", httpVueLoader("components/EditArticle.vue"))
+        Vue.component("shopping", httpVueLoader("components/Shopping.vue"))
+        Vue.component("review", httpVueLoader("components/Review.vue"))
+        Vue.component("viewcomment", httpVueLoader("components/ViewComment.vue"))
 
-              const routes = [
-                  {
-                      path: "/",
-                      name: "Home",
-                      component: httpVueLoader("views/Home.vue")
-                  },
-                  {
-                      path: "/login",
-                      name: "Login",
-                      component: httpVueLoader("views/Login.vue")
-                  },
-                  {
-                      path: "/registration",
-                      name: "Registration",
-                      component: httpVueLoader("views/Registration.vue")
-                  },
-                  {
-                      path: "/editProfile",
-                      name: "EditProfile",
-                      component: httpVueLoader("views/EditProfile.vue")
-                  },
-                  {
-                      path: "/addManagerCourier",
-                      name: "AddManagerCourier",
-                      component: httpVueLoader("views/AddManagerCourier.vue")
-                  },
-                  {
-                      path: "/allRegisteredUsers",
-                      name: "AllRegisteredUsers",
-                      component: httpVueLoader("views/AllRegisteredUsers.vue")
-                  },
-                  {
-                      path: "/createRestaurant",
-                      name: "CreateRestaurant",
-                      component: httpVueLoader("views/CreateRestaurant.vue")
-                  },
-                  {
+        const routes = [
+            {
+                path: "/",
+                name: "Home",
+                component: httpVueLoader("views/Home.vue")
+            },
+            {
+                path: "/login",
+                name: "Login",
+                component: httpVueLoader("views/Login.vue")
+            },
+            {
+                path: "/registration",
+                name: "Registration",
+                component: httpVueLoader("views/Registration.vue")
+            },
+            {
+                path: "/editProfile",
+                name: "EditProfile",
+                component: httpVueLoader("views/EditProfile.vue")
+            },
+            {
+                path: "/addManagerCourier",
+                name: "AddManagerCourier",
+                component: httpVueLoader("views/AddManagerCourier.vue")
+            },
+            {
+                path: "/allRegisteredUsers",
+                name: "AllRegisteredUsers",
+                component: httpVueLoader("views/AllRegisteredUsers.vue")
+            },
+            {
+                path: "/createRestaurant",
+                name: "CreateRestaurant",
+                component: httpVueLoader("views/CreateRestaurant.vue")
+            },
+            {
+                path:"/shopping-card",
+                name:"ShoppingCard",
+                component: httpVueLoader("views/ShoppingCard.vue")
+            },
+            {
+                path: "/addNewArticle",
+                name: "AddNewArticle",
+                component: httpVueLoader("views/AddNewArticle.vue")
+            },
+            {
+                path: "/editArticles",
+                name: "EditArticles",
+                component: httpVueLoader("views/EditArticles.vue")
+            },
+            {
+                path: "/orders",
+                name: "Orders",
+                component: httpVueLoader("views/Orders.vue")
+            },
+            {
+                path: "/comments",
+                name: "Comments",
+                component: httpVueLoader("views/Comments.vue")
+            }
+        ];
 
-                      path:"/shopping-card",
-                      name:"ShoppingCard",
-                      component: httpVueLoader("views/ShoppingCard.vue")},
-                      {
-                      path: "/addNewArticle",
-                      name: "AddNewArticle",
-                      component: httpVueLoader("views/AddNewArticle.vue")
-                  },
-                  {
-                      path: "/editArticles",
-                      name: "EditArticles",
-                      component: httpVueLoader("views/EditArticles.vue")
-                  },
-                  {
-                      path: "/orders",
-                      name: "Orders",
-                      component: httpVueLoader("views/Orders.vue")
+        const router = new VueRouter ({
+            routes: routes
+        });
 
-                  }
-              ];
+        const store = new Vuex.Store ({
+            strict: true,
+            state: {
+                counter: 5,
+                user: null
+            },
+            getters: {
+                getCounter(state) {
+                    return state.counter
+                },
+                getUser(state) {
+                    return state.user
+                },
+                getIsUserLogged(state) {
+                    if(state.user == null) {
+                        return false
+                    }
+                    else {
+                        return true
+                    }
+                }
+            },
+            mutations: {
+                updateUser(state, user) {
+                    state.user = user
+                },
+                updateShoppingCart(state, shoppingCart) {
+                    state.user.shoppingCart = shoppingCart
+                },
+                addToShoppingCart(state, article) {
+                    if(article == null) state.user.shoppingCart.articles = []
+                    else state.user.shoppingCart.articles.push(article)
+                }
+            },
+            actions: {
+                updateUser(context, user) {
+                    context.commit('updateUser', user)
+                },
+                updateShoppingCart(context, shoppingCart) {
+                    context.commit('updateShoppingCart', shoppingCart)
+                },
+                addToShoppingCart(context, article) {
+                    context.commit('addToShoppingCart', article)
+                }
+            },
+            plugins: [window.createPersistedState({
+                storage: window.sessionStorage
+            })]
+        });
 
-              const router = new VueRouter ({
-                  routes: routes
-              });
+        const vuetify = new Vuetify();
 
-              const store = new Vuex.Store ({
-                  strict: true,
-                  state: {
-                      counter: 5,
-                      user: null
-                  },
-                  getters: {
-                      getCounter(state) {
-                          return state.counter
-                      },
-                      getUser(state) {
-                          return state.user
-                      },
-                      getIsUserLogged(state) {
-                          if(state.user == null) {
-                              return false
-                          }
-                          else {
-                              return true
-                          }
-                      }
-                  },
-                  mutations: {
-                      updateUser(state, user) {
-                          state.user = user
-                      },
-                      updateShoppingCart(state, shoppingCart) {
-                          state.user.shoppingCart = shoppingCart
-                      },
-                      addToShoppingCart(state, article) {
-                          if(article == null) state.user.shoppingCart.articles = []
-                          else state.user.shoppingCart.articles.push(article)
-                      }
-                  },
-                  actions: {
-                      updateUser(context, user) {
-                          context.commit('updateUser', user)
-                      },
-                      updateShoppingCart(context, shoppingCart) {
-                          context.commit('updateShoppingCart', shoppingCart)
-                      },
-                      addToShoppingCart(context, article) {
-                          context.commit('addToShoppingCart', article)
-                      }
-                  },
-                  plugins: [window.createPersistedState({
-                      storage: window.sessionStorage
-                  })]
-              });
-
-              const vuetify = new Vuetify();
-
-              new Vue ({
-                  el: "#app",
-                  router: router,
-                  store: store,
-                  vuetify: vuetify
-              }).$mount("#app");
+        new Vue ({
+            el: "#app",
+            router: router,
+            store: store,
+            vuetify: vuetify
+        }).$mount("#app");
     </script>
   </body>
 </html>

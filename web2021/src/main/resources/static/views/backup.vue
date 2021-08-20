@@ -1,24 +1,26 @@
 <template>
-    <v-dialog width="800" v-if="restaurant != null" v-model="show">
-        <v-card style="background-color:white;">
-            <v-container>
-                <v-row dense>
+    <v-dialog v-if="restaurant != null" v-model="show">
+        <v-card>
+            <v-container style="background-color:red;">
+                <v-row>
                     <v-col cols="6">
                         <v-img
                             height="250"
                             :src="restaurant.image"
                         ></v-img>
-                        <v-row align="center" >
-                            <v-col align="left" class="ma-0 pa-0">
-                                <v-card-title style="margin-left:10px;">{{restaurant.name}}</v-card-title>
-                            </v-col>
-                            <v-col v-if="user != null && restaurant.isWorking" align="right" class="ma-0 pa-0">
-                                <v-btn v-if="user.userType == 'CUSTOMER'" @click.stop="showDialog=true" color="deep-purple lighten-2" text>
-                                    <v-icon>mdi-cart</v-icon>
-                                    Shop
-                                </v-btn>
-                            </v-col>
-                        </v-row>
+                        <!-- <v-container> -->
+                            <v-row align="center" >
+                                <v-col align="left" class="ma-0 pa-0">
+                                    <v-card-title style="margin-left:10px;">{{restaurant.name}}</v-card-title>
+                                </v-col>
+                                <v-col v-if="user != null && restaurant.isWorking" align="right" class="ma-0 pa-0">
+                                    <v-btn v-if="user.userType == 'CUSTOMER'" @click.stop="showDialog=true" color="deep-purple lighten-2" text>
+                                        <v-icon>mdi-cart</v-icon>
+                                        Shop
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        <!-- </v-container> -->
                         <v-card-text>
                             <v-row
                                 align="center"
@@ -61,35 +63,48 @@
                             :src="'../img/map.png'"
                         ></v-img>
                     </v-col>
-                    <v-col cols="12">
-                        <v-row v-for="item in comments" :key="item.id" style="margin-top:10px;">
-                            <v-col align-self="center">
-                                <div style="display:flex;flex-direction:row;">
+                </v-row>
+            </v-container>
+            <v-card-text >Reviews:</v-card-text>
+            <v-container style="margin-left:30px;">
+                <v-row>
+                    <v-col align-self="center" cols="2">
+                        <!-- <v-list-item-avatar> -->
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ on, attrs }">
                                     <v-img
-                                        :src="item.customer.image"
+                                        :src="'https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4.png'"
                                         v-bind="attrs"
                                         v-on="on"
-                                        max-height="24"
-                                        max-width="24"
-                                        style="border-radius:50%;margin-right:5px;"
+                                        circle
+                                        style="border-radius: 50%;"
+                                        width="100"
+                                        height="100"
                                     ></v-img>
-                                    <label style=""> - {{item.customer.username}}, says:</label>
-                                </div>
-                                <v-rating
-                                    :value="item.rating"
-                                    color="amber"
-                                    dense
-                                    half-increments
-                                    readonly
-                                    size="16"
-                                ></v-rating>
-                                <p style="margin-left:5px;">{{item.description}}</p>
-                            </v-col>
+                                </template>
+                                <span>antonic901</span>
+                            </v-tooltip>
+                        <!-- </v-list-item-avatar> -->
+                    </v-col>
+                    <v-col align-self="center">
+                        <v-row>
+                            <v-rating
+                                :value="4"
+                                color="amber"
+                                dense
+                                half-increments
+                                readonly
+                                size="16"
+                            ></v-rating>
+                        </v-row>
+                        <v-row>
+                            <p style="margin-left:5px;">I will be in your neighborhood doing errands this weekend. Do you want to hang out dsadsa dsa dsad asdas dasd ad ad asd asd sad asdsa dsa dsad sadsad asd asd asd sad sad asd asdsad asd asd asd asd asd sad asd asd asd asd asd asdas dsad as?</p>
                         </v-row>
                     </v-col>
                 </v-row>
             </v-container>
         </v-card>
+        <Shopping v-model="showDialog" :restaurant=restaurant ></Shopping>
     </v-dialog>
 </template>
 
@@ -196,10 +211,10 @@ module.exports = {
     },
     methods: {
         getComments() {
-            axios.get("http://localhost:8080/rest/comment/get-comments-for-restaurant/" + this.restaurant.id)
-                .then(r => {
-                    this.comments = r.data
-                })
+            // axios.get("http://localhost:8080/rest/comment/get-comments-for-restaurant/" + this.restaurant.id)
+            //     .then(r => {
+            //         this.comments = r.data
+            //     })
         }
     }
 }
