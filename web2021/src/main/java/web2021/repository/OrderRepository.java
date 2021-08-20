@@ -39,11 +39,11 @@ public class OrderRepository {
 		}
 	}
 	
-	private void saveAll(Collection<Order> orders)
+	private void saveAll(Collection<Order> users)
 	{
 		try (FileWriter writer = new FileWriter(this.filename))
 		{
-			gson.toJson(orders, writer);
+			gson.toJson(users, writer);
 		} catch (JsonIOException | IOException e)
 		{
 //			e.printStackTrace();
@@ -52,35 +52,35 @@ public class OrderRepository {
 	}
 	
 	public ArrayList<Order> getAll() {
-		ArrayList<Order> orders = null;
+		ArrayList<Order> users = null;
 		Type collectionType = new TypeToken<Collection<Order>>(){}.getType();
 		try(FileReader freader = new FileReader(this.filename); JsonReader jreader = new JsonReader(freader)) {
-			orders = gson.fromJson(jreader, collectionType);
+			users = gson.fromJson(jreader, collectionType);
 		} catch (IOException e) {
 //			e.printStackTrace();
 			System.out.println("There was an error trying to read from file orders.json!");
 		}
-		if(orders == null) {
+		if(users == null) {
 			return new ArrayList<Order>();
 		}
 		else {
-			orders.removeIf(u -> u.isDeleted());
-			return orders;
+			users.removeIf(u -> u.isDeleted());
+			return users;
 		}
 	}
 	
 	public Order add(Order newUser) {
-		ArrayList<Order> orders = getAll();
+		ArrayList<Order> users = getAll();
 		boolean exist = false;
-		for(Order order : orders) {
+		for(Order order : users) {
 			if(order.getId().equals(newUser.getId())) {
 				exist = true;
 				break;
 			}
 		}
 		if(!exist) {
-			orders.add(newUser);
-			saveAll(orders);
+			users.add(newUser);
+			saveAll(users);
 			return newUser;
 		}
 		return null;
@@ -88,12 +88,12 @@ public class OrderRepository {
 	
 	public Order update(Order updateUser)
 	{
-		ArrayList<Order> orders = (ArrayList<Order>) this.getAll();
-		for (int i = 0; i < orders.size(); i++) {
-			if(orders.get(i).getId().equals(updateUser.getId())) {
-				orders.set(i, updateUser);
-				this.saveAll(orders);
-				return orders.get(i);
+		ArrayList<Order> users = (ArrayList<Order>) this.getAll();
+		for (int i = 0; i < users.size(); i++) {
+			if(users.get(i).getId().equals(updateUser.getId())) {
+				users.set(i, updateUser);
+				this.saveAll(users);
+				return users.get(i);
 			}
 		}
 		return null;
@@ -109,4 +109,3 @@ public class OrderRepository {
 	}
 	
 }
-

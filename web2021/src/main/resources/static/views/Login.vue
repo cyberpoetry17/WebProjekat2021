@@ -1,8 +1,7 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-1 item-1">
-      <v-card style="width:400px;margin-bottom:150px;">
+  <v-container style="max-width:450px;background-color:white;border-radius:20px;margin-top:200px;" fill-height>
+    <v-row>
+      <v-col>
         <v-card-title primary-title class="justify-center" style="font-size:36px;">
           Welcome
         </v-card-title>
@@ -51,9 +50,9 @@
           </router-link>
 
         </v-form>
-      </v-card>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

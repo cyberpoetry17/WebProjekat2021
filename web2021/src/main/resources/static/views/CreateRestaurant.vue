@@ -1,9 +1,7 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-row item-1">
-        <Sidebar></Sidebar>
-        <div class="item-1 container-column-2" style="background-color:white;margin:20px;border-radius:20px;">
+    <v-container style="background-color:white;border-radius:20px;margin-top:50px;" fill-height>
+        <v-row>
+            <v-col>
                 <v-card-title primary-title class="justify-center" style="font-size:36px;">
                     Create restaurant
                 </v-card-title>
@@ -89,20 +87,21 @@
                     <CreateUser v-model="showDialog"></CreateUser>
                     <label v-if="showMessage" style="color:red"><b>{{message}}</b></label>
                 </v-form>
-
-                <v-btn
-                    :disabled="!valid"
-                    color="success"
-                    class="mr-4"
-                    @click="validate"
-                    style="margin:20px;"
-                    width="400px"
-                >
-                    Create restaurant
-                </v-btn>
-        </div>
-    </div>
-  </div>
+            </v-col>
+        </v-row>
+        <v-row justify="center" >
+            <v-btn
+                :disabled="!valid"
+                color="success"
+                class="mr-4"
+                @click="validate"
+                style="margin:20px;"
+                width="400px"
+            >
+                Create restaurant
+            </v-btn>
+        </v-row>
+    </v-container>
 </template>
 
 <script>

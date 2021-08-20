@@ -1,48 +1,46 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-row item-1">
-        <Sidebar></Sidebar>
-        <div class="item-1 container-column-2" style="background-color:white;margin:20px;border-radius:20px;">
-            <label style="margin-left:17px;margin-right:10px; margin-top:10px;"><strong>Please select one type of users:</strong></label>
-            <v-radio-group v-model="selectedUserType" row style="margin-left:10px;margin-right:10px;" v-on:change="getUsers">
-                <v-radio
-                    label="Managers"
-                    value="MANAGERS"
-                    color="red darken-3"
-                ></v-radio>
-                <v-radio
-                    label="Couriers"
-                    value="COURIERS"
-                    color="red darken-3"
-                ></v-radio>
-                <v-radio
-                    label="Customers"
-                    value="CUSTOMERS"
-                    color="red darken-3"
-                ></v-radio>
-            </v-radio-group>
-            <v-card-title>
-                <v-text-field
-                    v-model="search"
-                    append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
-                    hide-details
-                ></v-text-field>
-            </v-card-title>
-            <v-data-table v-if="selectedUserType == null || selectedUserType != 'CUSTOMERS'" :headers="headers2" :items="users" :search="search">
+    <v-container style="background-color:white;border-radius:20px;margin-top:50px;" fill-height>
+        <v-row>
+            <v-col>
+                <label style="margin-left:17px;margin-right:10px; margin-top:10px;"><strong>Please select one type of users:</strong></label>
+                <v-radio-group v-model="selectedUserType" row style="margin-left:10px;margin-right:10px;" v-on:change="getUsers">
+                    <v-radio
+                        label="Managers"
+                        value="MANAGERS"
+                        color="red darken-3"
+                    ></v-radio>
+                    <v-radio
+                        label="Couriers"
+                        value="COURIERS"
+                        color="red darken-3"
+                    ></v-radio>
+                    <v-radio
+                        label="Customers"
+                        value="CUSTOMERS"
+                        color="red darken-3"
+                    ></v-radio>
+                </v-radio-group>
+                <v-card-title>
+                    <v-text-field
+                        v-model="search"
+                        append-icon="mdi-magnify"
+                        label="Search"
+                        single-line
+                        hide-details
+                    ></v-text-field>
+                </v-card-title>
+                <v-data-table v-if="selectedUserType == null || selectedUserType != 'CUSTOMERS'" :headers="headers2" :items="users" :search="search">
 
-            </v-data-table>
-            <v-data-table
-            v-else
-            :headers="headers"
-            :items="users"
-            :search="search"
-            ></v-data-table>
-        </div>
-    </div>
-  </div>
+                </v-data-table>
+                <v-data-table
+                v-else
+                :headers="headers"
+                :items="users"
+                :search="search"
+                ></v-data-table>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>

@@ -1,112 +1,108 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-row item-1">
-      <Sidebar></Sidebar>
-      <div class="container-1 item-1">
-        <v-card style="width:400px;margin-bottom:150px;">
-          <v-card-title primary-title class="justify-center" style="font-size:36px;">
-            EDIT PROFILE
-          </v-card-title>
-          <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-            class="text-center"
-          >
-            <v-text-field
-              v-model="user.username"
-              v-on:input="checkIsUsernameValid"
-              :rules="usernameRules"
-              label="enter username"
-              required
-              style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
+    <v-container style="max-width:600px;background-color:white;border-radius:20px;margin-top:50px;" fill-height>
+        <v-row>
+            <v-col>
+              <v-card-title primary-title class="justify-center" style="font-size:36px;">
+                EDIT PROFILE
+              </v-card-title>
+              <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+                class="text-center"
+              >
+                <v-text-field
+                  v-model="user.username"
+                  v-on:input="checkIsUsernameValid"
+                  :rules="usernameRules"
+                  label="enter username"
+                  required
+                  style="margin-left:10px;margin-right:10px;"
+                ></v-text-field>
 
-            <v-text-field
-              type="password"
-              v-model="oldPassword"
-              v-on:input="checkPassword"
-              :rules="oldPasswordRules"
-              label="enter old password"
-              style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
+                <v-text-field
+                  type="password"
+                  v-model="oldPassword"
+                  v-on:input="checkPassword"
+                  :rules="oldPasswordRules"
+                  label="enter old password"
+                  style="margin-left:10px;margin-right:10px;"
+                ></v-text-field>
 
-            <v-text-field
-              type="password"
-              v-model="user.password"
-              v-on:input="newPasswordType"
-              :rules="passwordRules"
-              label="enter new password"
-              style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
+                <v-text-field
+                  type="password"
+                  v-model="user.password"
+                  v-on:input="newPasswordType"
+                  :rules="passwordRules"
+                  label="enter new password"
+                  style="margin-left:10px;margin-right:10px;"
+                ></v-text-field>
 
-            <v-text-field
-              type="password"
-              v-model="user.confirmPassword"
-              v-on:input="validateForm"
-              :rules="confirmPasswordRules"
-              label="confirm new password"
-              style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
+                <v-text-field
+                  type="password"
+                  v-model="user.confirmPassword"
+                  v-on:input="validateForm"
+                  :rules="confirmPasswordRules"
+                  label="confirm new password"
+                  style="margin-left:10px;margin-right:10px;"
+                ></v-text-field>
 
-            <v-text-field
-              v-model="user.name"
-              :rules="nameRules"
-              label="enter name"
-              required
-              style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
+                <v-text-field
+                  v-model="user.name"
+                  :rules="nameRules"
+                  label="enter name"
+                  required
+                  style="margin-left:10px;margin-right:10px;"
+                ></v-text-field>
 
-            <v-text-field
-              v-model="user.surname"
-              :rules="surnameRules"
-              label="enter surname"
-              required
-              style="margin-left:10px;margin-right:10px;"
-            ></v-text-field>
+                <v-text-field
+                  v-model="user.surname"
+                  :rules="surnameRules"
+                  label="enter surname"
+                  required
+                  style="margin-left:10px;margin-right:10px;"
+                ></v-text-field>
 
-          <v-menu
-              v-model="menu"
-              :close-on-content-click="false"
-              :nudge-right="40"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
-          >
-              <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
+              <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+              >
+                  <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                          v-model="user.birthday"
+                          label="Select birthday date"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-bind="attrs"
+                          v-on="on"
+                          style="margin-left:10px;margin-right:10px;"
+                          :rules="birthdayRules"
+                      ></v-text-field>
+                  </template>
+                  <v-date-picker
                       v-model="user.birthday"
-                      label="Select birthday date"
-                      prepend-icon="mdi-calendar"
-                      readonly
-                      v-bind="attrs"
-                      v-on="on"
-                      style="margin-left:10px;margin-right:10px;"
-                      :rules="birthdayRules"
-                  ></v-text-field>
-              </template>
-              <v-date-picker
-                  v-model="user.birthday"
-                  @input="menu = false"
-              ></v-date-picker>
-        </v-menu>
-          
-            <v-btn
-              :disabled="!valid"
-              color="success"
-              class="mr-4"
-              @click="validate"
-              style="margin:20px;"
-            >
-              Update profile
-            </v-btn>
+                      @input="menu = false"
+                  ></v-date-picker>
+            </v-menu>
+              
+                <v-btn
+                  :disabled="!valid"
+                  color="success"
+                  class="mr-4"
+                  @click="validate"
+                  style="margin:20px;"
+                >
+                  Update profile
+                </v-btn>
 
-          </v-form>
-        </v-card>
-      </div>
-    </div>
-  </div>
+              </v-form>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>

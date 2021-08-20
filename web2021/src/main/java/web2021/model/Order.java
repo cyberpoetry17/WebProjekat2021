@@ -21,9 +21,12 @@ public class Order implements Serializable {
 
 	private Long id;
 	
+	private boolean isDeleted;
+	
+	private boolean isApproved;
+	
 	private boolean isReviewed;
 	
-	private boolean isDeleted;
 	
 	private String serialNumber;
 	
@@ -34,8 +37,10 @@ public class Order implements Serializable {
 	private LocalDateTime dateOfOrder;
 	
 	private double price;
+
+	private Long courierId;
 	
-//	private Customer customer;
+	private Customer customer;
 	
 	private OrderStatus orderStatus;
 	

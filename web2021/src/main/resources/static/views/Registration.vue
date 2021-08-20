@@ -1,8 +1,7 @@
 <template>
-  <div class="background container-column">
-    <Navbar></Navbar>
-    <div class="container-1 item-1">
-      <v-card style="width:400px;margin-bottom:150px;">
+  <v-container style="max-width:600px;background-color:white;border-radius:20px;margin-top:50px;" fill-height>
+    <v-row>
+      <v-col>
         <v-card-title primary-title class="justify-center" style="font-size:36px;">
           SIGN UP
         </v-card-title>
@@ -107,9 +106,9 @@
           </v-btn>
 
         </v-form>
-      </v-card>
-    </div>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
