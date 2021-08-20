@@ -176,6 +176,10 @@ public class Application
 		get("rest/article/get-all-articles/:id", ArticleController.getAllArticles);
 		get("rest/article/get-available-articles/:id", ArticleController.getAvailableArticles);
 		get("rest/order/make-order/:id", OrderController.makeOrder);
+		get("rest/order/get-order-status", OrderController.getOrderStatus);
+		get("rest/order/get-orders-for-customer/:id", OrderController.getOrdersForCustomer);
+		get("rest/order/get-orders-for-courier/:id", OrderController.getOrdersForCourier);
+		get("rest/order/get-orders-for-manager/:id", OrderController.getOrdersForManager);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

@@ -15,4 +15,27 @@ public class OrderController {
 		return json;
 	};
 	
+	public static Route getOrderStatus = (Request request, Response response) -> {
+		String json = gson.toJson(orderService.getOrderStatus());
+		return json;
+	};
+	
+	public static Route getOrdersForCustomer = (Request request, Response response) -> {
+		String id = request.params(":id");
+		String json = gson.toJson(orderService.getOrdersForCustomer(Long.parseLong(id)));
+		return json;
+	};
+	
+	public static Route getOrdersForCourier = (Request request, Response response) -> {
+		String id = request.params(":id");
+		String json = gson.toJson(orderService.getOrdersForCourier(Long.parseLong(id)));
+		return json;
+	};
+	
+	public static Route getOrdersForManager = (Request request, Response response) -> {
+		String id = request.params(":id");
+		String json = gson.toJson(orderService.getOrdersForManager(Long.parseLong(id)));
+		return json;
+	};
+	
 }
