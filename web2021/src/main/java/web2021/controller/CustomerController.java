@@ -47,4 +47,11 @@ public class CustomerController {
 		return json;
 	};
 	
+	public static Route decrementArticleQuantity = (Request request,Response response)->{
+		String payload = request.body();
+		IncrementDecrementDTO incrementDecrementDTO = gson.fromJson(payload, IncrementDecrementDTO.class);
+		String json = gson.toJson(customerService.decrementArticle(incrementDecrementDTO));
+		return json;
+	};
+	
 }

@@ -169,6 +169,7 @@ public class Application
 		put("rest/order/change-order-status",OrderController.changeOrderStaus);
 		put("rest/customer/remove-article",CustomerController.removeArticle);
 		put("rest/customer/increment-article-quantity",CustomerController.incrementArticleQuantity);
+		put("rest/customer/decrement-article-quantity",CustomerController.decrementArticleQuantity);
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/user/check-username/:username", UserController.checkUsername);

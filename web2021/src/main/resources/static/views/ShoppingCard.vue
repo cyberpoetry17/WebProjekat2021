@@ -144,16 +144,16 @@ module.exports = {
         });
     },
     decrement(item) {
-      // var vm = this;
-      // this.shopping_cart.articles.forEach(function (arrayItem) {
-      //   if (arrayItem.article.id === item.article.id) {
-      //     if (arrayItem.quantity > 0) {
-      //       arrayItem.quantity = arrayItem.quantity - 1;
-      //       vm.totalAmount = vm.totalAmount - arrayItem.article.price;
-      //       console.log("UKUPNA CENA JE " + vm.totalAmount);
-      //     }
-      //   }
-      // });
+         var decrement = {
+          id:item.id,
+          userId: this.getUser.id,
+       }
+       axios
+        .put("http://localhost:8080/rest/customer/decrement-article-quantity",decrement)
+        .then((r) => {
+          this.$store.dispatch("updateShoppingCart", r.data);
+          alert(r.data.price);
+        });
     },
 
     purchase() {

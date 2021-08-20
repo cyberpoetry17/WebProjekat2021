@@ -88,6 +88,21 @@ public class CustomerService {
 		return customer.getShoppingCart();
 		
 	}
+	
+	public ShoppingCart decrementArticle(IncrementDecrementDTO dto) {
+		Customer customer = this.customerRepository.getById(dto.getUserId());
+		for(ArticleQuantity articleQuantity: customer.getShoppingCart().getArticles()) {
+			if(articleQuantity.getId().equals(dto.getId())) {
+				if(articleQuantity.getQuantity() > 0) {
+				articleQuantity.setQuantity(articleQuantity.getQuantity() - 1);
+				customer.getShoppingCart().setPrice(customer.getShoppingCart().getPrice() - articleQuantity.getArticle().getPrice());
+				System.out.println(articleQuantity.getQuantity());}
+			}
+		}
+		this.customerRepository.update(customer);
+		return customer.getShoppingCart();
+		
+	}
 
 	
 	public ShoppingCart removeArticle(AddToShoppingCartDTO dto) {
