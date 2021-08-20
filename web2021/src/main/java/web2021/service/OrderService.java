@@ -2,6 +2,7 @@ package web2021.service;
 
 
 import static web2021.Application.customerService;
+
 import static web2021.Application.customerTypeService;
 
 import java.time.LocalDateTime;
@@ -20,6 +21,7 @@ import web2021.model.Order;
 import web2021.model.Restaurant;
 import web2021.model.ShoppingCart;
 import web2021.model.enums.OrderStatus;
+import web2021.dto.OrderDTO;
 import web2021.repository.CustomerRepository;
 import web2021.repository.OrderRepository;
 import web2021.repository.RestaurantRepository;
@@ -73,7 +75,15 @@ public class OrderService {
 		}
 		return price;
 	}
-	
+	private void increaseQuantityOfArticle(Long restaurantId,List<ArticleQuantity> articles) {
+		Restaurant restaurant = restaurantRepository.getById(restaurantId);
+		for(ArticleQuantity aq : articles) {
+			Article article = restaurant.getArticleById(aq.getArticle().getId());
+			article.setQuantity(article.getQuantity() + aq.getQuantity());
+			restaurant.updateArticle(article);
+		}
+		restaurantRepository.update(restaurant);
+	}
 	private void descreaseQuantityOfArticle(Long restaurantId, List<ArticleQuantity> articles) {
 		Restaurant restaurant = restaurantRepository.getById(restaurantId);
 		for(ArticleQuantity aq : articles) {
@@ -91,6 +101,18 @@ public class OrderService {
 		customer.getShoppingCart().setPrice(0);
 		customerRepository.update(customer);
 		return customer;
+	}
+	
+	private Customer decreasePoints(Customer customer,double price) {
+		if(customer.getPoints() > 0 && price > 0) {
+		customer.setPoints(customer.getPoints() - price/1000*133*4);
+		customer.setCustomerType(customerTypeService.getCustomerTypeByPoints(customer.getPoints()));
+		
+		customerRepository.update(customer);
+		return customer;}
+		else {
+			return customer;
+		}
 	}
 	
 	//sortira artikle po restoranima
@@ -151,6 +173,26 @@ public class OrderService {
 		}
 		return response;
 	}
+	
+	public Order cancelOrder(OrderDTO orderDTO) {
+		Order order = orderRepository.getById(orderDTO.getIdOrder());  //nadjem order ovde
+		Customer customer = customerRepository.getById(order.getCustomer().getId());
+		Map<Long, List<ArticleQuantity>> cancelOrders = parseShoppigCart(customer.getShoppingCart());
+		
+		if(order.getOrderStatus().equals(OrderStatus.PROCESSING)) {
+			order.setOrderStatus(orderDTO.getOrderStatus());
+			for (Map.Entry<Long, List<ArticleQuantity>> entry : cancelOrders.entrySet()) {
+				increaseQuantityOfArticle(entry.getKey(), entry.getValue());
+			}
+			Customer updatedCustomer = decreasePoints(customer,order.getPrice());
+			order.setCustomer(updatedCustomer);
+			orderRepository.update(order);
+			return order;
+		}
+		return order;
+	}
+	
+
 		
 
 }

@@ -164,6 +164,7 @@ public class Application
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
+		put("rest/order/cancel-order",OrderController.cancelOrder);
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/user/check-username/:username", UserController.checkUsername);
@@ -181,6 +182,7 @@ public class Application
 		get("rest/order/get-orders-for-customer/:id", OrderController.getOrdersForCustomer);
 		get("rest/order/get-orders-for-courier/:id", OrderController.getOrdersForCourier);
 		get("rest/order/get-orders-for-manager/:id", OrderController.getOrdersForManager);
+
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

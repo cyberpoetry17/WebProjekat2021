@@ -5,6 +5,8 @@ import static web2021.Application.orderService;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import web2021.dto.OrderDTO;
+import web2021.dto.UserDTO;
 
 public class OrderController {
 	
@@ -34,6 +36,13 @@ public class OrderController {
 	public static Route getOrdersForManager = (Request request, Response response) -> {
 		String id = request.params(":id");
 		String json = gson.toJson(orderService.getOrdersForManager(Long.parseLong(id)));
+		return json;
+	};
+
+	public static Route cancelOrder = (Request request,Response response) -> {
+		String payload = request.body();
+		OrderDTO orderDTO = gson.fromJson(payload, OrderDTO.class);
+		String json = gson.toJson(orderService.cancelOrder(orderDTO));
 		return json;
 	};
 	

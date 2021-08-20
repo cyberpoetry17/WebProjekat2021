@@ -1,8 +1,8 @@
 <template>
   <div class="background container-column">
-    <Navbar></Navbar>
+
     <div class="container-row item-1">
-      <Sidebar></Sidebar>
+    
       <div
         class="item-1 container-column-2"
         style="background-color: white; margin: 20px; border-radius: 20px"
