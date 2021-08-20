@@ -23,6 +23,7 @@ import spark.Response;
 import spark.Route;
 
 import web2021.controller.*;
+import web2021.model.enums.OrderStatus;
 import web2021.service.AdministratorService;
 import web2021.service.ArticleService;
 import web2021.service.CourierService;
@@ -165,6 +166,9 @@ public class Application
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
 		put("rest/order/cancel-order",OrderController.cancelOrder);
+		put("rest/order/change-order-status",OrderController.changeOrderStaus);
+		put("rest/customer/remove-article",CustomerController.removeArticle);
+		put("rest/customer/increment-article-quantity",CustomerController.incrementArticleQuantity);
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/user/check-username/:username", UserController.checkUsername);

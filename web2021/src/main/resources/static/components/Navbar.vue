@@ -51,17 +51,7 @@ module.exports = {
             this.$store.dispatch('updateUser', user);
             this.$router.push({name: 'Login'});
         },
-        makeOrder() {
-            if(this.user.shoppingCart.articles.length == 0) {
-                alert("Shopping cart is emtpy.");
-                return;
-            }
-            axios.get("http://localhost:8080/rest/order/make-order/" + this.user.id)
-                .then(r => {
-                    this.$store.dispatch('updateUser', r.data[0].customer);
-                    alert("TODO Add Shopping Cart GUI")
-                })
-        }
+
     }
 }
 </script>

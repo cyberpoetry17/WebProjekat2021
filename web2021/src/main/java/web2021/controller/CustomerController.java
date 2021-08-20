@@ -7,6 +7,7 @@ import spark.Response;
 import spark.Route;
 import web2021.dto.AddToShoppingCartDTO;
 import web2021.dto.CustomerRegisterDTO;
+import web2021.dto.IncrementDecrementDTO;
 import web2021.model.Customer;
 
 import static web2021.Application.customerService;
@@ -30,6 +31,19 @@ public class CustomerController {
 		String payload = request.body();
 		AddToShoppingCartDTO addToShoppingCartDTO = gson.fromJson(payload, AddToShoppingCartDTO.class);
 		String json = gson.toJson(customerService.addArticle(addToShoppingCartDTO));
+		return json;
+	};
+	
+	public static Route removeArticle = (Request request,Response response)->{
+		String payload = request.body();
+		AddToShoppingCartDTO addToShoppingCartDTO = gson.fromJson(payload, AddToShoppingCartDTO.class);
+		String json = gson.toJson(customerService.removeArticle(addToShoppingCartDTO));
+		return json;
+	};
+	public static Route incrementArticleQuantity = (Request request,Response response)->{
+		String payload = request.body();
+		IncrementDecrementDTO incrementDecrementDTO = gson.fromJson(payload, IncrementDecrementDTO.class);
+		String json = gson.toJson(customerService.incrementArticle(incrementDecrementDTO));
 		return json;
 	};
 	

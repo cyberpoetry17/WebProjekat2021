@@ -192,6 +192,13 @@ public class OrderService {
 		return order;
 	}
 	
+	public Order changeOrderStatus(OrderDTO orderDTO) {
+		Order order = orderRepository.getById(orderDTO.getIdOrder());
+		order.setOrderStatus(orderDTO.getOrderStatus());
+		orderRepository.update(order);
+		return order;	
+	}
+	
 
 		
 

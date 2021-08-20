@@ -1,5 +1,6 @@
 package web2021.controller;
 import static web2021.Application.gson;
+
 import static web2021.Application.orderService;
 
 import spark.Request;
@@ -43,6 +44,13 @@ public class OrderController {
 		String payload = request.body();
 		OrderDTO orderDTO = gson.fromJson(payload, OrderDTO.class);
 		String json = gson.toJson(orderService.cancelOrder(orderDTO));
+		return json;
+	};
+	//za dostavljaca
+	public static Route changeOrderStaus = (Request request,Response response) -> {
+		String payload = request.body();
+		OrderDTO orderDTO = gson.fromJson(payload, OrderDTO.class);
+		String json = gson.toJson(orderService.changeOrderStatus(orderDTO));
 		return json;
 	};
 	

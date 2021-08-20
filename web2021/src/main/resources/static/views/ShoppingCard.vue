@@ -1,14 +1,12 @@
 <template>
   <div class="background container-column">
-
     <div class="container-row item-1">
-    
       <div
         class="item-1 container-column-2"
         style="background-color: white; margin: 20px; border-radius: 20px"
       >
         <div class="main-frame-div">
-          <h3>Shopping cart: {{this.user.name + " " + this.user.surname}}</h3>
+          <h3>Shopping cart: {{this.getUser.name + " " + this.getUser.surname}}</h3>
           <div class="parent">
             <div class="div1">
               <div></div>
@@ -16,7 +14,8 @@
                 class="mx-auto my-12"
                 max-width="300"
                 elevation="20"
-                v-for="item in articles"
+                v-model="getShoppingCart.articles"
+                v-for="item in getShoppingCart.articles"
                 :key="item.id"
               >
                 <div class="d-flex flex-no-wrap justify-space-between">
@@ -28,8 +27,6 @@
                     <v-card-text>
                       <div>${{ item.article.price }}</div>
                     </v-card-text>
-
-                    <v-card-subtitle v-text="item.artist"></v-card-subtitle>
                     <div class="item-quantity">
                       <v-btn
                         small
@@ -66,58 +63,18 @@
                     >remove</v-btn
                   >
                 </v-card-actions>
-                <!-- <v-img class="img" :src="item.article.image"></v-img>
-                <v-card-title>{{ item.article.name }}</v-card-title>
-                <v-card-text>
-                  <div>${{ item.article.price }}</div>
-                </v-card-text>
-                <div class="parent1">
-                  <div class="div11">
-                    <v-btn
-                      small
-                      color="accent"
-                      elevation="2"
-                      outlined
-                      raised
-                      @click="decrement(item)"
-                      >-</v-btn
-                    >
-                  </div>
-                  <div class="div21">
-                    <label>{{ item.quantity }}</label>
-                  </div>
-                  <div class="div31">
-                    <v-btn
-                      small
-                      color="accent"
-                      elevation="2"
-                      outlined
-                      raised
-                      @click="increment(item)"
-                      >+</v-btn
-                    >
-                  </div>
-                </div>
-
-                <v-divider class="mx-4"></v-divider>
-                <v-card-actions>
-                  <v-btn
-                    @click="removeArticle(item)"
-                    color="deep-purple lighten-2"
-                    text
-                    >remove</v-btn
-                  >
-                </v-card-actions>-->
               </v-card>
             </div>
 
             <div class="div2">
               <v-card>
                 <v-card-title>The total amount:</v-card-title>
-                <v-card-text>$ {{ this.totalAmount }} </v-card-text>
+                <v-card-text>$ {{ getShoppingCart.price }} </v-card-text>
                 <div></div>
                 <v-card-actions>
-                  <v-btn color="deep-purple" text @click="purchase">PURCHASE</v-btn>
+                  <v-btn color="deep-purple" text @click="purchase"
+                    >PURCHASE</v-btn
+                  >
                 </v-card-actions>
               </v-card>
             </div>
@@ -134,113 +91,138 @@ module.exports = {
     getUser() {
       return this.$store.getters.getUser;
     },
+    getShoppingCart(){
+      return this.$store.getters.getShoppingCart;
+    }
   },
   data() {
     return {
-      articles: [{ id: 0, quantity: 1, article: {} }],
-      user: { name: "", surname: "" },
+      articles: [],
       totalAmount: 0,
       shopping_cart: {
         id: 0,
         articles: [],
-        price: 0,
+        totalAmount: 0,
       },
     };
   },
   methods: {
     removeArticle(item) {
-      this.articles.splice(this.articles.indexOf(item), 1);
+      console.log(item.article.name)
+      var shoppingCart = {
+        userId: this.getUser.id,
+        articleId:item.article.id,
+        quantity:item.quantity,
+      }
+      console.log(item.article.id)
+       axios
+        .put("http://localhost:8080/rest/customer/remove-article",shoppingCart)
+        .then((r) => {
+          this.$store.dispatch("updateShoppingCart", r.data);
+          alert(r.data.price);
+        });
+      //setujem u store i posaljem na bekend
+    },
+    // totalAmountCalculator() {
+    //   var price = 0;
+    //   this.getShoppingCart.articles.forEach(function (arrayItem) {
+    //     price = price + arrayItem.article.price;
+    //   });
+    //   this.$store.dispatch("updateShoppingCart", r.data);
 
-      this.totalAmount = this.totalAmount - item.quantity * item.article.price;
-    },
-    totalAmountCalculator() {
-      var price = 0;
-      this.articles.forEach(function (arrayItem) {
-        price = price + arrayItem.article.price;
-      });
-      this.totalAmount = price;
-    },
+    // },
     increment(item) {
-      var vm = this;
-      this.articles.forEach(function (arrayItem) {
-        if (arrayItem.article.id === item.article.id) {
-          if (arrayItem.article.quantity > item.quantity) {
-            arrayItem.quantity = arrayItem.quantity + 1; //
-            vm.totalAmount = vm.totalAmount + arrayItem.article.price;
-            console.log("UKUPNA CENA JE " + vm.totalAmount);
-          }
-        }
-      });
+       var increment = {
+          id:item.id,
+          userId: this.getUser.id,
+       }
+       axios
+        .put("http://localhost:8080/rest/customer/increment-article-quantity",increment)
+        .then((r) => {
+          this.$store.dispatch("updateShoppingCart", r.data);
+          alert(r.data.price);
+        });
     },
     decrement(item) {
-      var vm = this;
-      this.articles.forEach(function (arrayItem) {
-        if (arrayItem.article.id === item.article.id) {
-          if (arrayItem.quantity > 0) {
-            arrayItem.quantity = arrayItem.quantity - 1;
-            vm.totalAmount = vm.totalAmount - arrayItem.article.price;
-            console.log("UKUPNA CENA JE " + vm.totalAmount);
-          }
-        }
-      });
+      // var vm = this;
+      // this.shopping_cart.articles.forEach(function (arrayItem) {
+      //   if (arrayItem.article.id === item.article.id) {
+      //     if (arrayItem.quantity > 0) {
+      //       arrayItem.quantity = arrayItem.quantity - 1;
+      //       vm.totalAmount = vm.totalAmount - arrayItem.article.price;
+      //       console.log("UKUPNA CENA JE " + vm.totalAmount);
+      //     }
+      //   }
+      // });
     },
 
-    purchase(){
+    purchase() {
       //nije smanjen broj artikala koji je u bazi
-      this.shopping_cart.price = this.totalAmount;
-      this.shopping_cart.articles = this.articles; //valjda ovo treba
-    
-    }
+      // this.user.shoppingCart.price = this.totalAmount;
+      // this.user.shoppingCart.articles = this.articles; //valjda ovo treba
+      // if (this.user.shoppingCart.articles.length == 0) {
+      //   alert("Shopping cart is emtpy.");
+      //   return;
+      // }
+      // axios
+      //   .get("http://localhost:8080/rest/order/make-order/" + this.user.id)
+      //   .then((r) => {
+      //     this.$store.dispatch("updateUser", r.data[0].customer);
+      //     alert("TODO Add Shopping Cart GUI");
+      //   });
+    },
   },
   mounted() {
     /**
      * otkomentarisati zakomentarisano
      */
 
-    var user = this.getUser;
-    this.user.name = user.name;
-    this.user.surname = user.surname;
+    // this.user = this.getUser;
+    // // this.user.name = user.name;
+    // // this.user.surname = user.surname;
 
-    //quantity articles
-    // this.articles = user.shopping_cart.articles
+    // //quantity articles
+    // this.articles = this.user.shoppingCart.articles;
 
     //zakomentarisati dummy podatke
-    var item = {
-      quantity: 1,
-      id: 1,
-      article: {
-        id: "123",
-        name: "hrana",
-        price: 200,
-        articleType: "hrana",
-        restaurantId: "123",
-        quantity: 10,
-        description: "bla bla",
-        image: "./img/Capture.PNG",
-      },
-    };
-    var item2 = {
-      quantity: 1,
-      id: 2,
-      article: {
-        id: "1234",
-        name: "hrana",
-        price: 200,
-        articleType: "hrana",
-        restaurantId: "123",
-        quantity: 10,
-        description: "bla bla",
-        image: "./img/Capture.PNG",
-      },
-    };
-    //zakomentarisati
-    this.articles.push(item);
-    this.articles.push(item2);
+    // var item = {
+    //   quantity: 1,
+    //   id: 1,
+    //   article: {
+    //     id: "123",
+    //     name: "hrana",
+    //     price: 200,
+    //     articleType: "hrana",
+    //     restaurantId: "123",
+    //     quantity: 10,
+    //     description: "bla bla",
+    //     image: "./img/Capture.PNG",
+    //   },
+    // };
+    // var item2 = {
+    //   quantity: 1,
+    //   id: 2,
+    //   article: {
+    //     id: "1234",
+    //     name: "hrana",
+    //     price: 200,
+    //     articleType: "hrana",
+    //     restaurantId: "123",
+    //     quantity: 10,
+    //     description: "bla bla",
+    //     image: "./img/Capture.PNG",
+    //   },
+    // };
+    // //zakomentarisati
+    // this.articles.push(item);
+    // this.articles.push(item2);
 
     //ovo ne brisati
-    this.articles.shift();
+    // this.articles.shift();
     this.totalAmountCalculator();
-    this.shoppingCart.id = this.user.shoppingCart.id;
+    // this.shopping_cart.id = this.getShoppingCard.id
+    // this.shopping_cart.articles = this.getShoppingCard.articles
+    // this.shopping_cart.price = this.getShoppingCard.price
   },
 };
 </script>
