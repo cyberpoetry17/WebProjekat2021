@@ -13,7 +13,7 @@
                                 <v-col align="left" class="ma-0 pa-0">
                                     <v-card-title style="margin-left:10px;">{{restaurant.name}}</v-card-title>
                                 </v-col>
-                                <v-col v-if="user != null" align="right" class="ma-0 pa-0">
+                                <v-col v-if="user != null && restaurant.isWorking" align="right" class="ma-0 pa-0">
                                     <v-btn v-if="user.userType == 'CUSTOMER'" @click.stop="showDialog=true" color="deep-purple lighten-2" text>
                                         <v-icon>mdi-cart</v-icon>
                                         Shop

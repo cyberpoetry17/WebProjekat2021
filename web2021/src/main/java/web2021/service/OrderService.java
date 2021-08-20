@@ -5,6 +5,7 @@ import static web2021.Application.customerTypeService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -53,7 +54,7 @@ public class OrderService {
 			order.setArticles(entry.getValue());
 			order.setRestaurant(restaurantRepository.getById(entry.getKey()));
 			order.setDateOfOrder(LocalDateTime.now());
-			order.setPrice(customer.getShoppingCart().getPrice());
+			order.setPrice(calculatePrice(entry.getValue()));
 			order.setCustomer(customer);
 			order.setOrderStatus(OrderStatus.PROCESSING);
 			orderRepository.add(order);
@@ -62,6 +63,14 @@ public class OrderService {
 			descreaseQuantityOfArticle(entry.getKey(), entry.getValue());
 		}
 		return orders;
+	}
+	
+	private double calculatePrice(List<ArticleQuantity> articleQuantities) {
+		double price = 0;
+		for(ArticleQuantity aq : articleQuantities) {
+			price = price + aq.getQuantity() * aq.getArticle().getPrice();
+		}
+		return price;
 	}
 	
 	private void descreaseQuantityOfArticle(Long restaurantId, List<ArticleQuantity> articles) {
@@ -102,6 +111,44 @@ public class OrderService {
 			ids.add(articleQuantity.getArticle().getRestaurantId());
 		}
 		return ids;
+	}
+	
+	public List<OrderStatus> getOrderStatus() {
+		List<OrderStatus> response = new ArrayList<OrderStatus>(Arrays.asList(OrderStatus.values()));
+		return response;
+	}
+	
+	public List<Order> getOrdersForCustomer(Long id) {
+		List<Order> response = new ArrayList<Order>();
+		for(Order order : orderRepository.getAll()) {
+			if(order.getCustomer().getId().equals(id)) {
+				response.add(order);
+			}
+		}
+		return response;
+	}
+	
+	public List<Order> getOrdersForCourier(Long id) {
+		List<Order> response = new ArrayList<Order>();
+		for(Order order : orderRepository.getAll()) {
+			if(order.getOrderStatus() == OrderStatus.WAITINGFORDELIVERY) {
+				response.add(order);
+			}
+			else if(order.getCourierId() != null && order.getCourierId().equals(id)) {
+				response.add(order);
+			}
+		}
+		return response;
+	}
+	
+	public List<Order> getOrdersForManager(Long id) {
+		List<Order> response = new ArrayList<Order>();
+		for(Order order : orderRepository.getAll()) {
+			if(order.getRestaurant().getId().equals(id)) {
+				response.add(order);
+			}
+		}
+		return response;
 	}
 		
 }
