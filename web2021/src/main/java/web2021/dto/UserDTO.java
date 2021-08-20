@@ -2,12 +2,14 @@ package web2021.dto;
 
 import java.time.LocalDateTime;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import web2021.model.enums.GenderType;
 import web2021.model.enums.UserType;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,5 +34,5 @@ public class UserDTO {
 	private LocalDateTime birthday;
 	
 	private UserType userType;
-	
+
 }

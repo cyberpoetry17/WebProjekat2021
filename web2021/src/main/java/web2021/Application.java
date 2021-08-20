@@ -132,6 +132,7 @@ public class Application
 		fileService = new FileService();
 		articleService = new ArticleService();
 		orderService = new OrderService();
+
 		
 		uploadDir = new File("src/main/resources/static/upload");
 		uploadDir.mkdir();
