@@ -27,6 +27,7 @@ public class Order implements Serializable {
 	
 	private boolean isReviewed;
 	
+	
 	private String serialNumber;
 	
 	private List<ArticleQuantity> articles = new ArrayList<ArticleQuantity>();
@@ -36,7 +37,7 @@ public class Order implements Serializable {
 	private LocalDateTime dateOfOrder;
 	
 	private double price;
-	
+
 	private Long courierId;
 	
 	private Customer customer;
