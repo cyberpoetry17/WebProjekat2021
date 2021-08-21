@@ -123,15 +123,15 @@
             <v-col cols="12">
                 <v-data-table :headers="headers" :items="filteredOrders" style="margin:20px;">
                     <template v-slot:item.additional="{ item }">
-                        <v-btn v-if="user.userType == 'CUSTOMER' && item.orderStatus == 'PROCESSING'" :disabled="item.orderStatus != 'PROCESSING'" color="error">Cancel order</v-btn>
-                        <v-btn v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'PROCESSING'" :disabled="item.orderStatus != 'PROCESSING'" color="success">Request courier</v-btn>
-                        <v-btn v-else-if="user.userType == 'COURIER' && item.orderStatus == 'WAITINGFORDELIVERY'" :disabled="item.orderStatus != 'WAITINGFORDELIVERY'" color="success">Request order</v-btn>
-                        <v-btn v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'INTHEPREPARATION'" :disabled="item.orderStatus != 'INTHEPREPARATION'" color="success">Call courier</v-btn>
+                        <v-btn v-on:click="changeStatus(item, 'CANCELED', null)" v-if="user.userType == 'CUSTOMER' && item.orderStatus == 'PROCESSING'" :disabled="item.orderStatus != 'PROCESSING'" color="error">Cancel order</v-btn>
+                        <v-btn v-on:click="changeStatus(item, 'INTHEPREPARATION', null)" v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'PROCESSING'" :disabled="item.orderStatus != 'PROCESSING'" color="success">Request packaging</v-btn>
+                        <v-btn v-on:click="changeStatus(item, 'WAITINGFORAPPROVE', user.id)" v-else-if="user.userType == 'COURIER' && item.orderStatus == 'WAITINGFORDELIVERY'" :disabled="item.orderStatus != 'WAITINGFORDELIVERY'" color="success">Request order</v-btn>
+                        <v-btn v-on:click="changeStatus(item, 'WAITINGFORDELIVERY', null)" v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'INTHEPREPARATION'" :disabled="item.orderStatus != 'INTHEPREPARATION'" color="success">Request courier</v-btn>
                         <div v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'WAITINGFORAPPROVE'">
-                            <v-btn :disabled="item.orderStatus != 'WAITINGFORAPPROVE'" color="success">Approve</v-btn>
-                            <v-btn :disabled="item.orderStatus != 'WAITINGFORAPPROVE'" color="error">Denie</v-btn>
+                            <v-btn v-on:click="changeStatus(item, 'INTRANSPORT', null)" :disabled="item.orderStatus != 'WAITINGFORAPPROVE'" color="success">Approve</v-btn>
+                            <v-btn v-on:click="changeStatus(item, 'WAITINGFORDELIVERY', null)" :disabled="item.orderStatus != 'WAITINGFORAPPROVE'" color="error">Denie</v-btn>
                         </div>
-                        <v-btn v-else-if="user.userType == 'COURIER' && item.orderStatus == 'INTRANSPORT'" :disabled="item.orderStatus != 'INTRANSPORT'" color="success">Deliver</v-btn>
+                        <v-btn v-on:click="changeStatus(item, 'DELIVERED', null)" v-else-if="user.userType == 'COURIER' && item.orderStatus == 'INTRANSPORT'" :disabled="item.orderStatus != 'INTRANSPORT'" color="success">Deliver</v-btn>
                         <v-btn 
                             v-else-if="user.userType == 'CUSTOMER' && item.orderStatus == 'DELIVERED' && !item.isReviewed" 
                             v-model="showDialog"
@@ -202,6 +202,18 @@ module.exports = {
         }
     },
     methods: {
+        changeStatus(order, status, idCourier) {
+            var change = {
+                idCourier: idCourier,
+                idOrder: order.id,
+                orderStatus: status
+            }
+            axios.post("http://localhost:8080/rest/order/change-order-status", change)
+                .then(r => {
+                    order.orderStatus = r.data.orderStatus;
+                    order.idCourier = r.data.idCourier;
+                })
+        },
         filterByName(item) {
             if(this.name == "") return true;
             if(item.restaurant.name.toLowerCase().includes(this.name.toLowerCase())) return true;

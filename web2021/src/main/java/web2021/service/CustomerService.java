@@ -4,6 +4,7 @@ import static web2021.Application.articleService;
 
 import web2021.dto.AddToShoppingCartDTO;
 import web2021.dto.CustomerRegisterDTO;
+import web2021.dto.IncrementDecrementDTO;
 import web2021.model.ArticleQuantity;
 import web2021.model.Customer;
 import web2021.model.ShoppingCart;
@@ -11,6 +12,7 @@ import web2021.repository.CustomerRepository;
 
 import static web2021.Application.customerTypeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerService {
@@ -69,4 +71,47 @@ public class CustomerService {
 		return customer.getShoppingCart();
 	}
 	
+	public ShoppingCart incrementArticle(IncrementDecrementDTO dto) {
+		Customer customer = this.customerRepository.getById(dto.getUserId());
+		for(ArticleQuantity articleQuantity: customer.getShoppingCart().getArticles()) {
+			if(articleQuantity.getId().equals(dto.getId())) {
+				articleQuantity.setQuantity(articleQuantity.getQuantity() + 1);
+				customer.getShoppingCart().setPrice(customer.getShoppingCart().getPrice() + articleQuantity.getArticle().getPrice());
+			}
+		}
+		this.customerRepository.update(customer);
+		return customer.getShoppingCart();
+	}
+	
+	public ShoppingCart decrementArticle(IncrementDecrementDTO dto) {
+		Customer customer = this.customerRepository.getById(dto.getUserId());
+		for(ArticleQuantity articleQuantity: customer.getShoppingCart().getArticles()) {
+			if(articleQuantity.getId().equals(dto.getId())) {
+				if(articleQuantity.getQuantity() > 0) {
+					articleQuantity.setQuantity(articleQuantity.getQuantity() - 1);
+					customer.getShoppingCart().setPrice(customer.getShoppingCart().getPrice() - articleQuantity.getArticle().getPrice());
+				}
+			}
+		}
+		this.customerRepository.update(customer);
+		return customer.getShoppingCart();
+	}
+
+	
+	public ShoppingCart removeArticle(AddToShoppingCartDTO dto) {
+		Customer customer = customerRepository.getById(dto.getUserId());
+		List<ArticleQuantity> articleQuantities = customer.getShoppingCart().getArticles();
+		List<ArticleQuantity> newArticleQuantity = new ArrayList<ArticleQuantity>();
+		for(ArticleQuantity articleQuantity : articleQuantities) {
+			if(articleQuantity.getArticle().getId().equals(dto.getArticleId())) {		
+				customer.getShoppingCart().setPrice(customer.getShoppingCart().getPrice() - articleQuantity.getQuantity() * articleQuantity.getArticle().getPrice());					
+			}
+			else {
+				newArticleQuantity.add(articleQuantity);
+			}	
+		}
+		customer.getShoppingCart().setArticles(newArticleQuantity);
+		return customerRepository.update(customer).getShoppingCart();
+	}
+
 }

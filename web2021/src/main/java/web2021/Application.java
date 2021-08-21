@@ -164,10 +164,13 @@ public class Application
 		post("rest/customer/add-article", CustomerController.addArticle);
 		post("rest/comment/add-comment", CommentController.addComment);
 		post("rest/comment/review-comment", CommentController.reviewComment);
+		post("rest/order/change-order-status", OrderController.changeOrderStaus);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
-		put("rest/order/cancel-order",OrderController.cancelOrder);
+		put("rest/customer/remove-article",CustomerController.removeArticle);
+		put("rest/customer/increment-article-quantity",CustomerController.incrementArticleQuantity);
+		put("rest/customer/decrement-article-quantity",CustomerController.decrementArticleQuantity);
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/user/check-username/:username", UserController.checkUsername);

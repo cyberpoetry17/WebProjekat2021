@@ -169,6 +169,9 @@
                 getUser(state) {
                     return state.user
                 },
+                    getShoppingCart(state){
+                    return state.user.shoppingCart;
+                },
                 getIsUserLogged(state) {
                     if(state.user == null) {
                         return false
@@ -182,8 +185,12 @@
                 updateUser(state, user) {
                     state.user = user
                 },
+                
                 updateShoppingCart(state, shoppingCart) {
                     state.user.shoppingCart = shoppingCart
+                },
+                updatePrice(state,price){
+                    state.user.shoppingCart.price = price
                 },
                 addToShoppingCart(state, article) {
                     if(article == null) state.user.shoppingCart.articles = []
@@ -197,6 +204,9 @@
                 updateShoppingCart(context, shoppingCart) {
                     context.commit('updateShoppingCart', shoppingCart)
                 },
+                updatePrice(context,price){
+                    context.commit('updatePrice',price)
+                },
                 addToShoppingCart(context, article) {
                     context.commit('addToShoppingCart', article)
                 }
@@ -205,7 +215,7 @@
                 storage: window.sessionStorage
             })]
         });
-
+        
         const vuetify = new Vuetify();
 
         const map = new ol.Map({

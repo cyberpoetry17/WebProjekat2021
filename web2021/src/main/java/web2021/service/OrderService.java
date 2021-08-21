@@ -75,6 +75,7 @@ public class OrderService {
 		}
 		return price;
 	}
+	
 	private void increaseQuantityOfArticle(Long restaurantId,List<ArticleQuantity> articles) {
 		Restaurant restaurant = restaurantRepository.getById(restaurantId);
 		for(ArticleQuantity aq : articles) {
@@ -84,6 +85,7 @@ public class OrderService {
 		}
 		restaurantRepository.update(restaurant);
 	}
+	
 	private void descreaseQuantityOfArticle(Long restaurantId, List<ArticleQuantity> articles) {
 		Restaurant restaurant = restaurantRepository.getById(restaurantId);
 		for(ArticleQuantity aq : articles) {
@@ -103,16 +105,11 @@ public class OrderService {
 		return customer;
 	}
 	
-	private Customer decreasePoints(Customer customer,double price) {
-		if(customer.getPoints() > 0 && price > 0) {
+	private Customer decreasePoints(Long cusomterId, double price) {
+		Customer customer = customerRepository.getById(cusomterId);
 		customer.setPoints(customer.getPoints() - price/1000*133*4);
 		customer.setCustomerType(customerTypeService.getCustomerTypeByPoints(customer.getPoints()));
-		
-		customerRepository.update(customer);
-		return customer;}
-		else {
-			return customer;
-		}
+		return customerRepository.update(customer);
 	}
 	
 	//sortira artikle po restoranima
@@ -184,7 +181,7 @@ public class OrderService {
 			for (Map.Entry<Long, List<ArticleQuantity>> entry : cancelOrders.entrySet()) {
 				increaseQuantityOfArticle(entry.getKey(), entry.getValue());
 			}
-			Customer updatedCustomer = decreasePoints(customer,order.getPrice());
+			Customer updatedCustomer = decreasePoints(customer.getId(),order.getPrice());
 			order.setCustomer(updatedCustomer);
 			orderRepository.update(order);
 			return order;
@@ -192,7 +189,27 @@ public class OrderService {
 		return order;
 	}
 	
-
+	public Order changeOrderStatus(OrderDTO orderDTO) {
+		Order order = orderRepository.getById(orderDTO.getIdOrder());
+		order.setOrderStatus(orderDTO.getOrderStatus());
 		
+		//executes when Courier request article to deliver
+		if(orderDTO.getIdCourier() != null && orderDTO.getOrderStatus() == OrderStatus.WAITINGFORAPPROVE) {
+			order.setCourierId(orderDTO.getIdCourier());
+		}
+		
+		//executes when Manager reject Courier request to deliver
+		if(order.getCourierId() != null && orderDTO.getOrderStatus() == OrderStatus.WAITINGFORDELIVERY) {
+			increaseQuantityOfArticle(order.getRestaurant().getId(), order.getArticles());
+		}
+		
+		//executes when Customer cancel his order
+		if(orderDTO.getOrderStatus() == OrderStatus.CANCELED) {
+			increaseQuantityOfArticle(order.getRestaurant().getId(), order.getArticles());
+			decreasePoints(order.getCustomer().getId(), order.getPrice());			
+		}
+		
+		return orderRepository.update(order);	
+	}	
 
 }
