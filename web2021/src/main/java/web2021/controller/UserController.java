@@ -29,6 +29,11 @@ public class UserController {
 		return "ok";
 	};
 	
+	public static Route getSuspectedUsers = (Request request, Response response) -> {
+		String json = gson.toJson(userService.getSuspectedUsers());
+		return json;
+	};
+	
 	public static Route login = (Request request, Response response) -> {
 		String payload = request.body();
 		LoginDTO loginDTO = gson.fromJson(payload, LoginDTO.class);

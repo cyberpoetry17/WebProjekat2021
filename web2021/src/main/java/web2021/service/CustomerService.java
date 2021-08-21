@@ -49,6 +49,7 @@ public class CustomerService {
 		customer.getShoppingCart().setPrice(0);
 		customer.setPoints(0);
 		customer.setCustomerType(customerTypeService.getCustomerTypeByPoints(0));
+		customer.setRecord(null);
 		return customerRepository.add(customer);
 	}
 	

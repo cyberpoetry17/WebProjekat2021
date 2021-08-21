@@ -5,7 +5,9 @@ import static web2021.Application.customerService;
 
 import static web2021.Application.customerTypeService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import java.util.Set;
 
 import web2021.model.Article;
 import web2021.model.ArticleQuantity;
+import web2021.model.CancelationRecord;
 import web2021.model.Customer;
 import web2021.model.Order;
 import web2021.model.Restaurant;
@@ -206,10 +209,36 @@ public class OrderService {
 		//executes when Customer cancel his order
 		if(orderDTO.getOrderStatus() == OrderStatus.CANCELED) {
 			increaseQuantityOfArticle(order.getRestaurant().getId(), order.getArticles());
-			decreasePoints(order.getCustomer().getId(), order.getPrice());			
+			decreasePoints(order.getCustomer().getId(), order.getPrice());
+			recordCancelation(order.getCustomer().getId());
 		}
 		
 		return orderRepository.update(order);	
-	}	
+	}
+	
+	private void recordCancelation(Long id) {
+		Customer customer = customerRepository.getById(id);
+		if(customer.getRecord() == null) {
+			CancelationRecord record = new CancelationRecord(LocalDateTime.now(), LocalDateTime.now(), 1);
+			customer.setRecord(record);
+		}
+		else {
+			if(calculateDifferenceForDates(customer.getRecord().getDateOfFirstCancelation().toLocalDate(), LocalDateTime.now().toLocalDate()) >= 1) {
+				customer.getRecord().setCounter(1);
+				customer.getRecord().setDateOfFirstCancelation(LocalDateTime.now());
+				customer.getRecord().setDateOfLastCancelation(LocalDateTime.now());
+			}
+			else {
+				customer.getRecord().setCounter(customer.getRecord().getCounter() + 1);
+				customer.getRecord().setDateOfLastCancelation(LocalDateTime.now());
+			}
+		}
+		customerRepository.update(customer);
+	}
+	
+	private int calculateDifferenceForDates(LocalDate from, LocalDate to) {
+        Period period = Period.between(from, to);
+        return period.getMonths();
+	}
 
 }
