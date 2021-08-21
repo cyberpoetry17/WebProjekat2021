@@ -1,5 +1,7 @@
 package web2021.service;
 
+import static web2021.Application.update;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -154,6 +156,7 @@ public class UserService {
 		customer.setName(userDTO.getName());
 		customer.setSurname(userDTO.getSurname());
 		customer.setBirthday(userDTO.getBirthday());
+		update.updateComment(customer);
 		return customerRepository.update(customer);
 	}
 	

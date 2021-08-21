@@ -23,7 +23,6 @@ import spark.Response;
 import spark.Route;
 
 import web2021.controller.*;
-import web2021.service.AdministratorService;
 import web2021.service.ArticleService;
 import web2021.service.CommentService;
 import web2021.service.CourierService;
@@ -37,6 +36,7 @@ import web2021.service.TestService;
 import web2021.service.UserService;
 import web2021.utils.LocalDateTimeDeserializer;
 import web2021.utils.LocalDateTimeSerializer;
+import web2021.utils.Update;
 
 public class Application
 {
@@ -48,12 +48,13 @@ public class Application
 
 	public static File uploadDir;
 	
+	public static Update update;
+	
 	public static TestService testService;
 	public static UserService userService;
 	public static CustomerService customerService;
 	public static CustomerTypeService customerTypeService;
 	public static ManagerService managerService;
-	public static AdministratorService administratorService;
 	public static CourierService courierService;
 	public static RestaurantService restaurantService;
 	public static FileService fileService;
@@ -122,12 +123,13 @@ public class Application
 	{
 		gson = createCustomGson();
 		
-		testService = new TestService("tests.json");
+		update = new Update();
+		
+//		testService = new TestService("tests.json");
 		userService = new UserService();
 		customerService = new CustomerService("customers.json");
 		customerTypeService  = new CustomerTypeService("customertypes.json");
 		managerService = new ManagerService("managers.json");
-		administratorService = new AdministratorService("administrators.json");
 		courierService = new CourierService("couriers.json");
 		restaurantService = new RestaurantService("restaurants.json");
 		fileService = new FileService();

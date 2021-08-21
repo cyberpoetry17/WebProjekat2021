@@ -64,15 +64,6 @@
             </v-list-item>
           </router-link>
 
-          <router-link to="/orders" style="text-decoration:none;">
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-format-list-checkbox</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Orders</v-list-item-title>
-            </v-list-item>
-          </router-link>
-
           <router-link to="/comments" style="text-decoration:none;">
             <v-list-item link>
               <v-list-item-icon>

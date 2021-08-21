@@ -187,7 +187,6 @@ module.exports = {
                 }
                 axios.post("http://localhost:8080/rest/article/update-article", this.Article)
                     .then(r => {
-                        alert("Article is successfuly updated!")
                         this.article.name = this.Article.name;
                         this.article.price = this.Article.price;
                         this.article.description = this.Article.description;
@@ -195,6 +194,7 @@ module.exports = {
                         this.article.quantity = this.Article.quantity;
                         this.article.image = this.Article.image;
                     })
+                this.show = false;
             }
         },
         async upload() {

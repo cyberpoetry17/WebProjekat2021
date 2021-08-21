@@ -1,5 +1,7 @@
 package web2021.service;
 
+import static web2021.Application.update;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +87,7 @@ public class ArticleService {
 					article.setDescription(dto.getDescription());
 					article.setImage(dto.getImage());
 					restaurantRepository.update(restaurant);
+					update.updateShoppingCart(article);
 					return article;
 				}
 			}
