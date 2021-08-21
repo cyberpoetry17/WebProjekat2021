@@ -1,5 +1,10 @@
 package web2021.service;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
+
 import web2021.dto.LoginDTO;
 import web2021.dto.UserDTO;
 import web2021.model.Courier;
@@ -173,4 +178,19 @@ public class UserService {
 		}
 	}
 	
+	public List<Customer> getSuspectedUsers() {
+		List<Customer> response = new ArrayList<Customer>();
+		for(Customer customer : customerRepository.getAll()) {
+			if(calculateDifferenceForDates(customer.getRecord().getDateOfFirstCancelation().toLocalDate(), 
+					customer.getRecord().getDateOfLastCancelation().toLocalDate()) < 1 && customer.getRecord().getCounter() >= 5) {
+				response.add(customer);
+			}
+		}
+		return response;
+	}
+	
+	private int calculateDifferenceForDates(LocalDate from, LocalDate to) {
+        Period period = Period.between(from, to);
+        return period.getMonths();
+	}
 }

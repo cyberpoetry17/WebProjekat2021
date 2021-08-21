@@ -3,39 +3,49 @@
         <v-row>
             <v-col>
                 <label style="margin-left:17px;margin-right:10px; margin-top:10px;"><strong>Please select one type of users:</strong></label>
-                <v-radio-group v-model="selectedUserType" row style="margin-left:10px;margin-right:10px;" v-on:change="getUsers">
-                    <v-radio
-                        label="Managers"
-                        value="MANAGERS"
-                        color="red darken-3"
-                    ></v-radio>
-                    <v-radio
-                        label="Couriers"
-                        value="COURIERS"
-                        color="red darken-3"
-                    ></v-radio>
-                    <v-radio
-                        label="Customers"
-                        value="CUSTOMERS"
-                        color="red darken-3"
-                    ></v-radio>
-                </v-radio-group>
-                <v-card-title>
-                    <v-text-field
-                        v-model="search"
-                        append-icon="mdi-magnify"
-                        label="Search"
-                        single-line
-                        hide-details
-                    ></v-text-field>
-                </v-card-title>
+                <v-row no-gutters>
+                    <v-col>
+                        <v-radio-group v-model="selectedUserType" row style="margin-left:10px;margin-right:10px;" v-on:change="getUsers">
+                            <v-radio
+                                label="Managers"
+                                value="MANAGERS"
+                                color="red darken-3"
+                            ></v-radio>
+                            <v-radio
+                                label="Couriers"
+                                value="COURIERS"
+                                color="red darken-3"
+                            ></v-radio>
+                            <v-radio
+                                label="Customers"
+                                value="CUSTOMERS"
+                                color="red darken-3"
+                            ></v-radio>
+                        </v-radio-group>
+                    </v-col>
+                    <v-col v-if="selectedUserType == 'CUSTOMERS'" class="d-flex">
+                        <v-spacer></v-spacer>
+                        <v-switch
+                            v-model="filterBySuspect"
+                            :label="'List suspected users'"
+                            style="margin-right:5px;margin-left:5px;"
+                        ></v-switch>
+                    </v-col>
+                </v-row>
+                <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
                 <v-data-table v-if="selectedUserType == null || selectedUserType != 'CUSTOMERS'" :headers="headers2" :items="users" :search="search">
                     <template v-slot:item.block="{ item }">
                         <v-btn v-on:click="blockUnblock(item)" v-if="!item.isBlocked" color="error">Block</v-btn>
                         <v-btn v-on:click="blockUnblock(item)" v-else color="success">Unblock</v-btn>
                     </template>
                 </v-data-table>
-                <v-data-table v-else :headers="headers" :items="users" :search="search">
+                <v-data-table v-else :headers="headers" :items="filteredUsers" :search="search">
                         <template v-slot:item.block="{ item }">
                         <v-btn v-on:click="blockUnblock(item)" v-if="!item.isBlocked" color="error">Block</v-btn>
                         <v-btn v-on:click="blockUnblock(item)" v-else color="success">Unblock</v-btn>
@@ -49,8 +59,19 @@
 <script>
 module.exports = {
     name: 'AllRegisteredUsers',
+    computed: {
+        filteredUsers() {
+            if(this.filterBySuspect) {
+                return this.suspectedUsers;
+            }
+            else {
+                return this.users;
+            }
+        }
+    },
     data() {
         return {
+            filterBySuspect: false,
             selectedUserType: null,
             search: '',
             headers: [
@@ -72,7 +93,8 @@ module.exports = {
                 { text: 'User Type', filterable: false, sortable: false, value: 'userType'},
                 { text: 'Block user', filterable: false, sortable: false, value: 'block'}
             ],
-            users: []
+            users: [],
+            suspectedUsers: []
         }
     },
     methods: {
@@ -106,6 +128,13 @@ module.exports = {
                             element.birthday = this.formatDate(element.birthday);
                         });
                         this.users = r.data;
+                    })
+                axios.get("http://localhost:8080/rest/user/get-suspected-users")
+                    .then(r => {
+                        r.data.forEach(element => {
+                            element.birthday = this.formatDate(element.birthday);
+                        });
+                        this.suspectedUsers = r.data;
                     })
             }
         },

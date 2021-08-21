@@ -192,6 +192,7 @@ public class Application
 		get("rest/comment/get-all-comments", CommentController.getAllComments);
 		get("rest/comment/get-comments-for-manager/:id", CommentController.getCommentsForManager);
 		get("rest/comment/get-comments-for-restaurant/:id", CommentController.getCommentsForRestaurant);
+		get("rest/user/get-suspected-users", UserController.getSuspectedUsers);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		
