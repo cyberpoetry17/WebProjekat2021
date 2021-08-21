@@ -1,5 +1,5 @@
 <template>
-  <div id="map" style="width: 100%; height: 100%">
+  <div id="map">
       
   </div>
 </template>
@@ -10,13 +10,24 @@
     name: 'Map',
     data() {
         return {
-            map: this.$map
+            map: null
         }
     },
     components: {},
     props: {},
     mounted() {
-        
+        this.map = new ol.Map({
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+            })
+            ],
+            view: new ol.View({
+            center: ol.proj.fromLonLat([37.41, 8.82]),
+            zoom: 4
+            })
+        });
     }
   }
 

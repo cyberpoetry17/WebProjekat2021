@@ -72,7 +72,7 @@
                 <v-card-text>$ {{ getShoppingCart.price }} </v-card-text>
                 <div></div>
                 <v-card-actions>
-                  <v-btn color="deep-purple" text @click="purchase"
+                  <v-btn color="deep-purple" text v-on:click="purchase"
                     >PURCHASE</v-btn
                   >
                 </v-card-actions>
@@ -85,6 +85,7 @@
   </div>
 </template>
 <script>
+
 module.exports = {
   name: "ShoppingCard",
   computed: {
@@ -97,133 +98,53 @@ module.exports = {
   },
   data() {
     return {
-      articles: [],
-      totalAmount: 0,
-      shopping_cart: {
-        id: 0,
-        articles: [],
-        totalAmount: 0,
-      },
-    };
+      totalAmount: 0
+    }
   },
   methods: {
     removeArticle(item) {
-      console.log(item.article.name)
       var shoppingCart = {
         userId: this.getUser.id,
         articleId:item.article.id,
-        quantity:item.quantity,
+        quantity:item.quantity
       }
-      console.log(item.article.id)
-       axios
-        .put("http://localhost:8080/rest/customer/remove-article",shoppingCart)
+      axios.put("http://localhost:8080/rest/customer/remove-article",shoppingCart)
         .then((r) => {
-          this.$store.dispatch("updateShoppingCart", r.data);
-          alert(r.data.price);
-        });
-      //setujem u store i posaljem na bekend
+            this.$store.dispatch("updateShoppingCart", r.data);
+      });
     },
-    // totalAmountCalculator() {
-    //   var price = 0;
-    //   this.getShoppingCart.articles.forEach(function (arrayItem) {
-    //     price = price + arrayItem.article.price;
-    //   });
-    //   this.$store.dispatch("updateShoppingCart", r.data);
-
-    // },
     increment(item) {
-       var increment = {
-          id:item.id,
-          userId: this.getUser.id,
-       }
-       axios
-        .put("http://localhost:8080/rest/customer/increment-article-quantity",increment)
+      var increment = {
+        id:item.id,
+        userId: this.getUser.id,
+      }
+      axios.put("http://localhost:8080/rest/customer/increment-article-quantity",increment)
         .then((r) => {
-          this.$store.dispatch("updateShoppingCart", r.data);
-          alert(r.data.price);
+            this.$store.dispatch("updateShoppingCart", r.data);
         });
     },
     decrement(item) {
-         var decrement = {
-          id:item.id,
-          userId: this.getUser.id,
-       }
-       axios
-        .put("http://localhost:8080/rest/customer/decrement-article-quantity",decrement)
+      var decrement = {
+        id:item.id,
+        userId: this.getUser.id,
+      }
+      axios.put("http://localhost:8080/rest/customer/decrement-article-quantity",decrement)
         .then((r) => {
-          this.$store.dispatch("updateShoppingCart", r.data);
-          alert(r.data.price);
+            this.$store.dispatch("updateShoppingCart", r.data);
         });
     },
 
     purchase() {
-      //nije smanjen broj artikala koji je u bazi
-      // this.user.shoppingCart.price = this.totalAmount;
-      // this.user.shoppingCart.articles = this.articles; //valjda ovo treba
-      // if (this.user.shoppingCart.articles.length == 0) {
-      //   alert("Shopping cart is emtpy.");
-      //   return;
-      // }
-      // axios
-      //   .get("http://localhost:8080/rest/order/make-order/" + this.user.id)
-      //   .then((r) => {
-      //     this.$store.dispatch("updateUser", r.data[0].customer);
-      //     alert("TODO Add Shopping Cart GUI");
-      //   });
+      if (this.getUser.shoppingCart.articles.length == 0) {
+        alert("Shopping cart is emtpy.");
+        return;
+      }
+      axios.get("http://localhost:8080/rest/order/make-order/" + this.getUser.id)
+          .then((r) => {
+              this.$store.dispatch("updateUser", r.data[0].customer);
+          });
     },
-  },
-  mounted() {
-    /**
-     * otkomentarisati zakomentarisano
-     */
-
-    // this.user = this.getUser;
-    // // this.user.name = user.name;
-    // // this.user.surname = user.surname;
-
-    // //quantity articles
-    // this.articles = this.user.shoppingCart.articles;
-
-    //zakomentarisati dummy podatke
-    // var item = {
-    //   quantity: 1,
-    //   id: 1,
-    //   article: {
-    //     id: "123",
-    //     name: "hrana",
-    //     price: 200,
-    //     articleType: "hrana",
-    //     restaurantId: "123",
-    //     quantity: 10,
-    //     description: "bla bla",
-    //     image: "./img/Capture.PNG",
-    //   },
-    // };
-    // var item2 = {
-    //   quantity: 1,
-    //   id: 2,
-    //   article: {
-    //     id: "1234",
-    //     name: "hrana",
-    //     price: 200,
-    //     articleType: "hrana",
-    //     restaurantId: "123",
-    //     quantity: 10,
-    //     description: "bla bla",
-    //     image: "./img/Capture.PNG",
-    //   },
-    // };
-    // //zakomentarisati
-    // this.articles.push(item);
-    // this.articles.push(item2);
-
-    //ovo ne brisati
-    // this.articles.shift();
-    this.totalAmountCalculator();
-    // this.shopping_cart.id = this.getShoppingCard.id
-    // this.shopping_cart.articles = this.getShoppingCard.articles
-    // this.shopping_cart.price = this.getShoppingCard.price
-  },
+  }
 };
 </script>
 

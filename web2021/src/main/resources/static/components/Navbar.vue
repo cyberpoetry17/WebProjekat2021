@@ -7,11 +7,11 @@
         <v-spacer></v-spacer>
 
         <div v-if="user != null">
-            <!-- <router-link to="/shopping-cart"> -->
-                <v-icon v-if="user.userType == 'CUSTOMER'" v-on:click="makeOrder">
+            <router-link to="/shopping-card">
+                <v-icon v-if="user.userType == 'CUSTOMER'">
                     mdi-basket
                 </v-icon>
-            <!-- </router-link> -->
+            </router-link>
         </div>
         <router-link v-if="isUserLogged" to="/login">
             <v-btn v-on:click="logout" icon>
@@ -50,8 +50,7 @@ module.exports = {
             var user = null;
             this.$store.dispatch('updateUser', user);
             this.$router.push({name: 'Login'});
-        },
-
+        }
     }
 }
 </script>

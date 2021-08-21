@@ -46,7 +46,7 @@ public class OrderController {
 		String json = gson.toJson(orderService.cancelOrder(orderDTO));
 		return json;
 	};
-	//za dostavljaca
+
 	public static Route changeOrderStaus = (Request request,Response response) -> {
 		String payload = request.body();
 		OrderDTO orderDTO = gson.fromJson(payload, OrderDTO.class);

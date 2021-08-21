@@ -85,15 +85,6 @@
                 if(this.restaurant == null) return this.value;
                 axios.get("http://localhost:8080/rest/article/get-available-articles/" + this.restaurant.id)
                     .then(r => {
-                        // this.articles = r.data.filter(a => {
-                        //     detector = true;
-                        //     this.user.shoppingCart.articles.forEach(item => {
-                        //         if(item.article.id == a.id) {
-                        //             detector = false;
-                        //         }
-                        //     })
-                        //     if(detector) return a;
-                        // })
                         this.articles = r.data;
                     })
                 return this.value
@@ -138,8 +129,6 @@
                 .then(r => {
                     this.$store.dispatch('updateShoppingCart', r.data);
                 })
-            alert("Article added to cart.");
-
         }
     }
   }
