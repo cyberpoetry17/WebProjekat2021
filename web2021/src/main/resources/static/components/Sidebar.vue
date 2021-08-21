@@ -73,6 +73,15 @@
             </v-list-item>
           </router-link>
 
+          <router-link to="/comments" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-comment-processing</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Comments</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
         </v-list>
 
         <v-list v-if="user.userType == 'MANAGER'" nav dense>
@@ -102,6 +111,16 @@
               <v-list-item-title>Orders</v-list-item-title>
             </v-list-item>
           </router-link>
+
+          <router-link to="/comments" style="text-decoration:none;">
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-comment-processing</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Comments</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
         </v-list>
 
         <v-list v-if="user.userType == 'CUSTOMER'" nav dense>

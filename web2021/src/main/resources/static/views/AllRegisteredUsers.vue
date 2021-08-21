@@ -30,14 +30,17 @@
                     ></v-text-field>
                 </v-card-title>
                 <v-data-table v-if="selectedUserType == null || selectedUserType != 'CUSTOMERS'" :headers="headers2" :items="users" :search="search">
-
+                    <template v-slot:item.block="{ item }">
+                        <v-btn v-on:click="blockUnblock(item)" v-if="!item.isBlocked" color="error">Block</v-btn>
+                        <v-btn v-on:click="blockUnblock(item)" v-else color="success">Unblock</v-btn>
+                    </template>
                 </v-data-table>
-                <v-data-table
-                v-else
-                :headers="headers"
-                :items="users"
-                :search="search"
-                ></v-data-table>
+                <v-data-table v-else :headers="headers" :items="users" :search="search">
+                        <template v-slot:item.block="{ item }">
+                        <v-btn v-on:click="blockUnblock(item)" v-if="!item.isBlocked" color="error">Block</v-btn>
+                        <v-btn v-on:click="blockUnblock(item)" v-else color="success">Unblock</v-btn>
+                    </template>
+                    </v-data-table>
             </v-col>
         </v-row>
     </v-container>
@@ -57,7 +60,8 @@ module.exports = {
                 { text: 'Gender', filterable: false, sortable: false, value: 'genderType' },
                 { text: 'Birthday', filterable: false, sortable: false, value: 'birthday' },
                 { text: 'User Type', filterable: false, sortable: false, value: 'userType'},
-                { text: 'Points', filterable: false, value: 'points'}
+                { text: 'Points', filterable: false, value: 'points'},
+                { text: 'Block user', filterable: false, sortable: false, value: 'block'}
             ],
             headers2: [
                 { text: 'Username', value: 'username' },
@@ -66,11 +70,16 @@ module.exports = {
                 { text: 'Gender', filterable: false, sortable: false, value: 'genderType' },
                 { text: 'Birthday', filterable: false, sortable: false, value: 'birthday' },
                 { text: 'User Type', filterable: false, sortable: false, value: 'userType'},
+                { text: 'Block user', filterable: false, sortable: false, value: 'block'}
             ],
             users: []
         }
     },
     methods: {
+        blockUnblock(item) {
+            axios.get("http://localhost:8080/rest/user/block-unblock/" + item.id)
+            item.isBlocked = !item.isBlocked;
+        },
         getUsers() {
             if(this.selectedUserType == "MANAGERS") {
                 axios.get("http://localhost:8080/rest/manager/get-all-managers")

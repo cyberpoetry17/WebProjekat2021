@@ -122,20 +122,33 @@
         <v-row>
             <v-col cols="12">
                 <v-data-table :headers="headers" :items="filteredOrders" style="margin:20px;">
-                    <template v-slot:item.image="{ item }">
-                        <v-img :src="item.image" style="width: 50px; height: 50px; border-radius:50%; margin:5px;"></v-img>
-                    </template>
-
                     <template v-slot:item.additional="{ item }">
-                        <!-- <v-btn color="green" dark> --> 
-                        <v-icon @click.stop="showDialog=true" v-on:click="openAdditionalInformation(item)" color="green" large>mdi-dots-horizontal-circle</v-icon>
-                        <!-- </v-btn> -->
-                        <!-- <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-                        <v-icon small @click="deleteItem(item)">delete</v-icon> -->
+                        <v-btn v-if="user.userType == 'CUSTOMER' && item.orderStatus == 'PROCESSING'" :disabled="item.orderStatus != 'PROCESSING'" color="error">Cancel order</v-btn>
+                        <v-btn v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'PROCESSING'" :disabled="item.orderStatus != 'PROCESSING'" color="success">Request courier</v-btn>
+                        <v-btn v-else-if="user.userType == 'COURIER' && item.orderStatus == 'WAITINGFORDELIVERY'" :disabled="item.orderStatus != 'WAITINGFORDELIVERY'" color="success">Request order</v-btn>
+                        <v-btn v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'INTHEPREPARATION'" :disabled="item.orderStatus != 'INTHEPREPARATION'" color="success">Call courier</v-btn>
+                        <div v-else-if="user.userType == 'MANAGER' && item.orderStatus == 'WAITINGFORAPPROVE'">
+                            <v-btn :disabled="item.orderStatus != 'WAITINGFORAPPROVE'" color="success">Approve</v-btn>
+                            <v-btn :disabled="item.orderStatus != 'WAITINGFORAPPROVE'" color="error">Denie</v-btn>
+                        </div>
+                        <v-btn v-else-if="user.userType == 'COURIER' && item.orderStatus == 'INTRANSPORT'" :disabled="item.orderStatus != 'INTRANSPORT'" color="success">Deliver</v-btn>
+                        <v-btn 
+                            v-else-if="user.userType == 'CUSTOMER' && item.orderStatus == 'DELIVERED' && !item.isReviewed" 
+                            v-model="showDialog"
+                            @click.stop="showDialog=true"
+                            v-on:click="selectedOrder = item"
+                            :disabled="item.orderStatus != 'DELIVERED'" 
+                            color="primary"
+                        >
+                            Review
+                        </v-btn>
+                        <v-btn v-else-if="user.userType == 'CUSTOMER' && item.orderStatus == 'DELIVERED' && item.isReviewed" color="yellow">Reviewed</v-btn>
+                        <v-btn v-else :disabled="true">Unavailable</v-btn>
                     </template>
                 </v-data-table>
             </v-col>
         </v-row>
+        <Review v-model="showDialog" :order=selectedOrder ></Review>
     </v-container>
 </template>
 
@@ -181,9 +194,11 @@ module.exports = {
                 { text: 'Price',  value: 'price' },
                 { text: 'Date of order', value: 'dateOfOrder' },
                 { text: 'Status', sortable: false,  value: 'orderStatus' },
-                { text: 'Logo', filterable: false, sortable:false, value:'image'},
-                { text: 'More', filterable: false, sortable:false, value: 'additional'}
-            ]
+                { filterable: false, sortable:false, value: 'additional'}
+            ],
+            buttonText: '',
+            showDialog: false,
+            selectedOrder: null
         }
     },
     methods: {

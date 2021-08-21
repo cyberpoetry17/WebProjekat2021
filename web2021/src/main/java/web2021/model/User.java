@@ -23,6 +23,8 @@ public class User implements Serializable {
 	
 	private boolean isDeleted;
 	
+	private boolean isBlocked;
+	
 	private String username;
 	
 	private String password;

@@ -25,6 +25,7 @@ import spark.Route;
 import web2021.controller.*;
 import web2021.service.AdministratorService;
 import web2021.service.ArticleService;
+import web2021.service.CommentService;
 import web2021.service.CourierService;
 import web2021.service.CustomerService;
 import web2021.service.CustomerTypeService;
@@ -39,7 +40,6 @@ import web2021.utils.LocalDateTimeSerializer;
 
 public class Application
 {
-
 	public static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
 	private static GsonBuilder gsonBuilder = new GsonBuilder();
@@ -59,6 +59,7 @@ public class Application
 	public static FileService fileService;
 	public static ArticleService articleService;
 	public static OrderService orderService;
+	public static CommentService commentService;
 	
 	public static String parseJws(Request request)
 	{
@@ -132,7 +133,7 @@ public class Application
 		fileService = new FileService();
 		articleService = new ArticleService();
 		orderService = new OrderService();
-
+		commentService = new CommentService();
 		
 		uploadDir = new File("src/main/resources/static/upload");
 		uploadDir.mkdir();
@@ -161,6 +162,8 @@ public class Application
 		post("rest/article/check-is-name-taken", ArticleController.checkIsNameTaken);
 		post("rest/article/update-article", ArticleController.updateArticle);
 		post("rest/customer/add-article", CustomerController.addArticle);
+		post("rest/comment/add-comment", CommentController.addComment);
+		post("rest/comment/review-comment", CommentController.reviewComment);
 		
 		put("rest/test/update-test", TestController.updateTest);
 		put("rest/user/edit-profile", UserController.editProfile);
@@ -168,6 +171,7 @@ public class Application
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/user/check-username/:username", UserController.checkUsername);
+		get("rest/user/block-unblock/:id", UserController.blockUnblock);
 		get("rest/customer/get-all-customers", CustomerController.getAllCustomers);
 		get("rest/courier/get-all-couriers", CourierController.getAllCouriers);
 		get("rest/manager/get-all-managers", ManagerController.getAllManagers);
@@ -182,7 +186,9 @@ public class Application
 		get("rest/order/get-orders-for-customer/:id", OrderController.getOrdersForCustomer);
 		get("rest/order/get-orders-for-courier/:id", OrderController.getOrdersForCourier);
 		get("rest/order/get-orders-for-manager/:id", OrderController.getOrdersForManager);
-
+		get("rest/comment/get-all-comments", CommentController.getAllComments);
+		get("rest/comment/get-comments-for-manager/:id", CommentController.getCommentsForManager);
+		get("rest/comment/get-comments-for-restaurant/:id", CommentController.getCommentsForRestaurant);
 		
 		delete("rest/test/delete-test/:id", TestController.deleteTest);
 		

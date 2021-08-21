@@ -23,6 +23,12 @@ public class UserController {
 		}
 	};
 	
+	public static Route blockUnblock = (Request request, Response response) -> {
+		String id = request.params(":id");
+		userService.blockUnblock(Long.parseLong(id));
+		return "ok";
+	};
+	
 	public static Route login = (Request request, Response response) -> {
 		String payload = request.body();
 		LoginDTO loginDTO = gson.fromJson(payload, LoginDTO.class);

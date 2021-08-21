@@ -27,7 +27,7 @@ public class Customer extends User implements Serializable {
 	private CustomerType customerType;
 
 	public Customer(CustomerRegisterDTO customerRegisterDTO) {
-		super(System.currentTimeMillis(), false, customerRegisterDTO.getUsername(), customerRegisterDTO.getPassword(), customerRegisterDTO.getName(), 
+		super(System.currentTimeMillis(), false, false, customerRegisterDTO.getUsername(), customerRegisterDTO.getPassword(), customerRegisterDTO.getName(), 
 				customerRegisterDTO.getSurname(), customerRegisterDTO.getGenderType(), customerRegisterDTO.getBirthday(), customerRegisterDTO.getUserType(), "");
 //		this.orders = new ArrayList<Order>();
 //		this.shoppingCart = new ShoppingCart();

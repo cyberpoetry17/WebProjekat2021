@@ -22,6 +22,7 @@ public class CourierService {
 		Courier courier = new Courier();
 		courier.setId(System.currentTimeMillis());
 		courier.setDeleted(false);
+		courier.setBlocked(false);
 		courier.setUsername(customerRegisterDTO.getUsername());
 		courier.setPassword(customerRegisterDTO.getPassword());
 		courier.setName(customerRegisterDTO.getName());

@@ -152,4 +152,25 @@ public class UserService {
 		return customerRepository.update(customer);
 	}
 	
+	public void blockUnblock(Long userId) {
+		Manager manager = managerRepository.getById(userId);
+		if(manager != null) {
+			manager.setBlocked(!manager.isBlocked());
+			managerRepository.update(manager);
+			return;
+		}
+		Customer customer = customerRepository.getById(userId);
+		if(customer != null) {
+			customer.setBlocked(!customer.isBlocked());
+			customerRepository.update(customer);
+			return;
+		}
+		Courier courier = courierRepository.getById(userId);
+		if(courier != null) {
+			courier.setBlocked(!courier.isBlocked());
+			courierRepository.update(courier);
+			return;
+		}
+	}
+	
 }
