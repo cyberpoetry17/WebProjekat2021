@@ -88,12 +88,20 @@ module.exports = {
         axios.post("http://localhost:8080/rest/user/login", login)
           .then(r => {
               if(r.data != null) {
-                r.data.birthday = this.formatDate(new Date(r.data.birthday));
-                this.$store.dispatch('updateUser', r.data);
-                this.$router.push({name: 'Home'});
+                if(r.data.isBlocked) {
+                  this.message = "This account is suspended.";
+                  this.messageShow = true;
+                }
+                else {
+                  r.data.birthday = this.formatDate(new Date(r.data.birthday));
+                  this.$store.dispatch('updateUser', r.data);
+                  this.$router.push({name: 'Home'});
+                }
+
               }
               else {
-                this.messageShow = true
+                this.message = 'Username or password is not valid!';
+                this.messageShow = true;
               }
           })
       },

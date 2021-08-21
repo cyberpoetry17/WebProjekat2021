@@ -17,6 +17,8 @@ public class Comment implements Serializable {
 	
 	private Long id;
 	
+	private boolean isReviewed;
+	
 	private boolean isDeleted;
 	
 	private boolean isApproved;
