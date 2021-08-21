@@ -61,7 +61,7 @@
 
                         <v-card-actions>
                             <div v-if="user != null">
-                                <v-btn v-if="user.userType == 'CUSTOMER'" color="deep-purple lighten-2" v-on:click="addToShoppingCart(item)" text>Add to cart</v-btn>
+                                <v-btn v-if="user.userType == 'CUSTOMER' && restaurant.isWorking" color="deep-purple lighten-2" v-on:click="addToShoppingCart(item)" text>Add to cart</v-btn>
                             </div>
                         </v-card-actions>
                     </v-card>
