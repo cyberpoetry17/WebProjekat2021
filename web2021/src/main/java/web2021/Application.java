@@ -171,6 +171,7 @@ public class Application
 		
 		get("rest/test/get-all", TestController.getAll);
 		get("rest/user/check-username/:username", UserController.checkUsername);
+		get("rest/user/block-unblock/:id", UserController.blockUnblock);
 		get("rest/customer/get-all-customers", CustomerController.getAllCustomers);
 		get("rest/courier/get-all-couriers", CourierController.getAllCouriers);
 		get("rest/manager/get-all-managers", ManagerController.getAllManagers);

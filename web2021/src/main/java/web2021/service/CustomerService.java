@@ -33,6 +33,7 @@ public class CustomerService {
 		Customer customer = new Customer();
 		customer.setId(System.currentTimeMillis());
 		customer.setDeleted(false);
+		customer.setBlocked(false);
 		customer.setUsername(customerRegisterDTO.getUsername());
 		customer.setPassword(customerRegisterDTO.getPassword());
 		customer.setName(customerRegisterDTO.getName());

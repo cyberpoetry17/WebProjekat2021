@@ -28,6 +28,7 @@ public class ManagerService {
 		Manager manager = new Manager();
 		manager.setId(System.currentTimeMillis());
 		manager.setDeleted(false);
+		manager.setBlocked(false);
 		manager.setUsername(customerRegisterDTO.getUsername());
 		manager.setPassword(customerRegisterDTO.getPassword());
 		manager.setName(customerRegisterDTO.getName());

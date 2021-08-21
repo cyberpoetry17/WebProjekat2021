@@ -6,6 +6,7 @@ import java.util.List;
 import web2021.dto.AddCommentDTO;
 import web2021.model.Comment;
 import web2021.model.Order;
+import web2021.model.Restaurant;
 import web2021.repository.CommentRepository;
 import web2021.repository.CustomerRepository;
 import web2021.repository.OrderRepository;
@@ -67,7 +68,26 @@ public class CommentService {
 		Comment comment = commentRepository.getById(id);
 		comment.setReviewed(true);
 		comment.setApproved(isApproved);
+		
+		if(isApproved) {
+			Restaurant restaurant = restaurantRepository.getById(comment.getRestaurant().getId());
+			restaurant.setAverageRating(getAverageRating(comment.getRestaurant().getId(), comment.getRating()));
+			restaurantRepository.update(restaurant);
+		}
+		
 		return commentRepository.update(comment);
+	}
+	
+	private double getAverageRating(Long id, double newRating) {
+		double sum = newRating;
+		double counter = 1;
+		for(Comment comment : getAllComments()) {
+			if(comment.getRestaurant().getId().equals(id) && comment.isApproved()) {
+				counter = counter + 1;
+				sum = sum + comment.getRating();
+			}
+		}
+		return sum/counter;
 	}
 	
 	public List<Comment> getCommentsForRestaurant(Long id) {

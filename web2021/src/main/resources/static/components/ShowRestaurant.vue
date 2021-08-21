@@ -12,12 +12,20 @@
                             <v-col align="left" class="ma-0 pa-0">
                                 <v-card-title style="margin-left:10px;">{{restaurant.name}}</v-card-title>
                             </v-col>
-                            <v-col v-if="user != null && restaurant.isWorking" align="right" class="ma-0 pa-0">
-                                <v-btn v-if="user.userType == 'CUSTOMER'" @click.stop="showDialog=true" color="deep-purple lighten-2" text>
+                            <v-col v-if="user != null" align="right" class="ma-0 pa-0">
+                                <v-btn v-if="user.userType == 'CUSTOMER' && restaurant.isWorking" @click.stop="showDialog=true" color="deep-purple lighten-2" text>
                                     <v-icon>mdi-cart</v-icon>
                                     Shop
                                 </v-btn>
+                                <v-btn v-else @click.stop="showDialog=true" color="deep-purple lighten-2" text>
+                                    <v-icon>mdi-file-find</v-icon>
+                                    Articles
+                                </v-btn>
                             </v-col>
+                            <v-btn v-else @click.stop="showDialog=true" color="deep-purple lighten-2" text>
+                                <v-icon>mdi-file-find</v-icon>
+                                Articles
+                            </v-btn>
                         </v-row>
                         <v-card-text>
                             <v-row
@@ -31,7 +39,7 @@
                                     dense
                                     half-increments
                                     readonly
-                                    size="14"
+                                    size="16"
                                     style="margin-top:10px;"
                                 ></v-rating>
 
@@ -67,8 +75,6 @@
                                 <div style="display:flex;flex-direction:row;">
                                     <v-img
                                         :src="item.customer.image"
-                                        v-bind="attrs"
-                                        v-on="on"
                                         max-height="24"
                                         max-width="24"
                                         style="border-radius:50%;margin-right:5px;"
@@ -79,7 +85,6 @@
                                     :value="item.rating"
                                     color="amber"
                                     dense
-                                    half-increments
                                     readonly
                                     size="16"
                                 ></v-rating>
@@ -90,6 +95,7 @@
                 </v-row>
             </v-container>
         </v-card>
+        <Shopping v-model="showDialog" :restaurant=restaurant></Shopping>
     </v-dialog>
 </template>
 

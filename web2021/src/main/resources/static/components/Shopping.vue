@@ -60,7 +60,9 @@
                         <v-divider class="mx-4"></v-divider>
 
                         <v-card-actions>
-                            <v-btn color="deep-purple lighten-2" v-on:click="addToShoppingCart(item)" text>Add to cart</v-btn>
+                            <div v-if="user != null">
+                                <v-btn v-if="user.userType == 'CUSTOMER'" color="deep-purple lighten-2" v-on:click="addToShoppingCart(item)" text>Add to cart</v-btn>
+                            </div>
                         </v-card-actions>
                     </v-card>
                 </v-row>
@@ -104,7 +106,8 @@
             return this.$store.getters.getUser
         },
         filteredArticles() {
-            if(this.user == null) return;
+            if(this.user == null) return this.articles;
+            if(this.user.userType != 'CUSTOMER') return this.articles;
             return this.articles.filter(a => {
                 detector = true;
                 this.user.shoppingCart.articles.forEach(item => {
