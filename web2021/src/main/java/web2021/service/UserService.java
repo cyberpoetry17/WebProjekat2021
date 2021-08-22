@@ -184,9 +184,11 @@ public class UserService {
 	public List<Customer> getSuspectedUsers() {
 		List<Customer> response = new ArrayList<Customer>();
 		for(Customer customer : customerRepository.getAll()) {
-			if(calculateDifferenceForDates(customer.getRecord().getDateOfFirstCancelation().toLocalDate(), 
-					customer.getRecord().getDateOfLastCancelation().toLocalDate()) < 1 && customer.getRecord().getCounter() >= 5) {
-				response.add(customer);
+			if(customer.getRecord() != null) {
+				if(calculateDifferenceForDates(customer.getRecord().getDateOfFirstCancelation().toLocalDate(), 
+						customer.getRecord().getDateOfLastCancelation().toLocalDate()) < 1 && customer.getRecord().getCounter() >= 5) {
+					response.add(customer);
+				}				
 			}
 		}
 		return response;
