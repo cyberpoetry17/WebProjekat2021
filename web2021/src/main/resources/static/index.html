@@ -3,27 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>GetFood.com</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
-      rel="stylesheet"
-    />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"
-    />
-    <link
-      rel="icon"
-      href="https://cdn.iconscout.com/icon/free/png-512/restaurant-1495593-1267764.png"
-      type="image/x-icon"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui"/>
+    <link rel="icon" href="https://cdn.iconscout.com/icon/free/png-512/restaurant-1495593-1267764.png" type="image/x-icon"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.6.1/css/ol.css" type="text/css">
   </head>
   <body>
@@ -43,16 +27,8 @@
             <router-view></router-view>
           </v-container>
         </v-main> 
-
-        <!-- <v-main>
-          <v-container fluid>
-            <router-view></router-view>
-          </v-container>
-        </v-main> -->
       </v-app>
     </div>
-
-    <!-- <div id="map" style="height:400px;width:400px;"></div> -->
 
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -78,12 +54,10 @@
         Vue.component("navbar", httpVueLoader("components/Navbar.vue"))
         Vue.component("sidebar", httpVueLoader("components/Sidebar.vue"))
         Vue.component("createuser", httpVueLoader("components/CreateUser.vue"))
-        Vue.component("showrestaurant", httpVueLoader("components/ShowRestaurant.vue"))
         Vue.component("editarticle", httpVueLoader("components/EditArticle.vue"))
         Vue.component("shopping", httpVueLoader("components/Shopping.vue"))
         Vue.component("review", httpVueLoader("components/Review.vue"))
         Vue.component("viewcomment", httpVueLoader("components/ViewComment.vue"))
-        // Vue.component("map", httpVueLoader("components/Map.vue"))
 
         const routes = [
             {
@@ -147,9 +121,9 @@
                 component: httpVueLoader("views/Comments.vue")
             },
             {
-                path: "/map",
-                name: "Map",
-                component: httpVueLoader("components/Map.vue")
+                path: "/showRestaurant",
+                name: "ShowRestaurant",
+                component: httpVueLoader("views/ShowRestaurant.vue")
             }
         ];
 
@@ -161,7 +135,8 @@
             strict: true,
             state: {
                 counter: 5,
-                user: null
+                user: null,
+                item: null
             },
             getters: {
                 getCounter(state) {
@@ -180,6 +155,9 @@
                     else {
                         return true
                     }
+                },
+                getItem(state) {
+                    return state.item;
                 }
             },
             mutations: {
@@ -196,6 +174,9 @@
                 addToShoppingCart(state, article) {
                     if(article == null) state.user.shoppingCart.articles = []
                     else state.user.shoppingCart.articles.push(article)
+                },
+                updateItem(state, item) {
+                    state.item = item
                 }
             },
             actions: {
@@ -210,6 +191,9 @@
                 },
                 addToShoppingCart(context, article) {
                     context.commit('addToShoppingCart', article)
+                },
+                updateItem(context, item) {
+                    context.commit('updateItem', item)
                 }
             },
             plugins: [window.createPersistedState({
@@ -219,25 +203,11 @@
         
         const vuetify = new Vuetify();
 
-        const map = new ol.Map({
-            target: 'map',
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-            })
-            ],
-            view: new ol.View({
-            center: ol.proj.fromLonLat([37.41, 8.82]),
-            zoom: 4
-            })
-        });
-
         new Vue ({
             el: "#app",
             router: router,
             store: store,
-            vuetify: vuetify,
-            map: map
+            vuetify: vuetify
         }).$mount("#app");
     </script>
   </body>

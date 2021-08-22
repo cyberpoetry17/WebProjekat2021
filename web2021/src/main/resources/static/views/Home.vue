@@ -95,14 +95,10 @@
       </template>
 
       <template v-slot:item.additional="{ item }">
-        <!-- <v-btn color="green" dark> --> 
-          <v-icon @click.stop="showDialog=true" v-on:click="openAdditionalInformation(item)" color="green" large>mdi-dots-horizontal-circle</v-icon>
-        <!-- </v-btn> -->
-        <!-- <v-icon small class="mr-2" @click="editItem(item)">edit</v-icon>
-        <v-icon small @click="deleteItem(item)">delete</v-icon> -->
+          <v-icon v-on:click="openAdditionalInformation(item)" color="green" large>mdi-dots-horizontal-circle</v-icon>
       </template>
     </v-data-table>
-    <ShowRestaurant v-model="showDialog" :restaurant=restaurant></ShowRestaurant>
+    <!-- <ShowRestaurant v-model="showDialog" :restaurant=restaurant></ShowRestaurant> -->
   </div>
 </template>
 
@@ -170,7 +166,8 @@ module.exports = {
     },
     methods: {
       openAdditionalInformation(item) {
-        this.restaurant = item;
+        this.$store.dispatch('updateItem', item);
+        this.$router.push({name: 'ShowRestaurant'})
       },
       filterBySearchName(r) {
         if(this.searchName == '') return true;

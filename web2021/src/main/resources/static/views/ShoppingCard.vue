@@ -97,7 +97,6 @@
   </v-container>
 </template>
 <script>
-
 module.exports = {
   name: "ShoppingCard",
   computed: {
@@ -147,7 +146,6 @@ module.exports = {
             this.$store.dispatch("updateShoppingCart", r.data);
         });
     },
-
     purchase() {
       if (this.getUser.shoppingCart.articles.length == 0) {
         alert("Shopping cart is emtpy.");
