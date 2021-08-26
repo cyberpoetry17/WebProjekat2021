@@ -14,10 +14,6 @@ public class TestService {
 		this.testRepository = new TestRepository();
 	}
 	
-	public TestService(String path) {
-		this.testRepository = new TestRepository(path);
-	}
-	
 	public ArrayList<Test> getAll() {
 		return testRepository.getAll();
 	}

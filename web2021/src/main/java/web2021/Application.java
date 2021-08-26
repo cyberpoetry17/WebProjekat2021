@@ -127,11 +127,11 @@ public class Application
 		
 //		testService = new TestService("tests.json");
 		userService = new UserService();
-		customerService = new CustomerService("customers.json");
-		customerTypeService  = new CustomerTypeService("customertypes.json");
-		managerService = new ManagerService("managers.json");
-		courierService = new CourierService("couriers.json");
-		restaurantService = new RestaurantService("restaurants.json");
+		customerService = new CustomerService();
+		customerTypeService  = new CustomerTypeService();
+		managerService = new ManagerService();
+		courierService = new CourierService();
+		restaurantService = new RestaurantService();
 		fileService = new FileService();
 		articleService = new ArticleService();
 		orderService = new OrderService();

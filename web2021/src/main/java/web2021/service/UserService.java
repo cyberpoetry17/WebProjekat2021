@@ -32,13 +32,6 @@ public class UserService {
 		this.customerRepository = new CustomerRepository();
 	}
 	
-	public UserService(String admin, String manager, String courier, String customer) {
-		this.administratorRepository = new AdministratorRepository(admin);
-		this.managerRepository = new ManagerRepository(manager);
-		this.courierRepository = new CourierRepository(courier);
-		this.customerRepository = new CustomerRepository(customer);
-	}
-	
 	public boolean checkIsUsernameTaken(String username) {
 		for(Customer customer : customerRepository.getAll()) {
 			if(customer.getUsername().toLowerCase().equals(username.toLowerCase())) {

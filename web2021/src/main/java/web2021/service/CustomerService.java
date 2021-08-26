@@ -23,10 +23,6 @@ public class CustomerService {
 		this.customerRepository = new CustomerRepository();
 	}
 	
-	public CustomerService(String path) {
-		this.customerRepository = new CustomerRepository(path);
-	}
-	
 	public Customer getCustomerById(Long id) {
 		return customerRepository.getById(id);
 	}

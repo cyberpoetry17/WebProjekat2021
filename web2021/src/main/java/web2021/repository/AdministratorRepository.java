@@ -24,11 +24,6 @@ private String filename;
 		this.initFile();
 	}
 	
-	public AdministratorRepository(String path) {
-		this.filename = path;
-		this.initFile();
-	}
-	
 	private void initFile()
 	{
 		File file = new File(this.filename);

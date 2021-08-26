@@ -93,7 +93,7 @@ public class CommentService {
 	public List<Comment> getCommentsForRestaurant(Long id) {
 		List<Comment> response = new ArrayList<Comment>();
 		for(Comment comment : getAllComments()) {
-			if(comment.isApproved() && !comment.isDeleted()) {
+			if(comment.isApproved() && comment.getRestaurant().getId().equals(id)) {
 				response.add(comment);
 			}
 		}

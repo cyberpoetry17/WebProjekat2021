@@ -14,10 +14,6 @@ public class CourierService {
 		this.courierRepository = new CourierRepository();
 	}
 	
-	public CourierService(String path) {
-		this.courierRepository = new CourierRepository(path);
-	}
-	
 	public Courier register(CustomerRegisterDTO customerRegisterDTO) {
 		Courier courier = new Courier();
 		courier.setId(System.currentTimeMillis());

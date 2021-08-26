@@ -19,11 +19,6 @@ public class ManagerService {
 		this.restaurantRepository = new RestaurantRepository();
 	}
 	
-	public ManagerService(String path) {
-		this.managerRepository = new ManagerRepository(path);
-		this.restaurantRepository = new RestaurantRepository();
-	}
-	
 	public Manager register(CustomerRegisterDTO customerRegisterDTO) {
 		Manager manager = new Manager();
 		manager.setId(System.currentTimeMillis());

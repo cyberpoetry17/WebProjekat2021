@@ -21,12 +21,7 @@ public class CustomerTypeRepository {
 private String filename;
 	
 	public CustomerTypeRepository() {
-		this.filename = "customerTypes.json";
-		this.initFile();
-	}
-	
-	public CustomerTypeRepository(String path) {
-		this.filename = path;
+		this.filename = "customertypes.json";
 		this.initFile();
 	}
 	

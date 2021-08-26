@@ -107,6 +107,13 @@
 <script>
 module.exports = {
     name: 'CreateRestaurant',
+    watch:{
+        showDialog:function(newValue, old) {
+            if(!newValue){
+                this.refresh();
+            }
+        }
+    },
     data() {
         return {
             showDialog: false,

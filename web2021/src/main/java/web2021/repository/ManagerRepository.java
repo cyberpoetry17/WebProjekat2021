@@ -25,11 +25,6 @@ public class ManagerRepository {
 		this.initFile();
 	}
 	
-	public ManagerRepository(String path) {
-		this.filename = path;
-		this.initFile();
-	}
-	
 	private void initFile()
 	{
 		File file = new File(this.filename);

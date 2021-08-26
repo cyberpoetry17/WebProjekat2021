@@ -25,11 +25,6 @@ public class OrderRepository {
 		this.initFile();
 	}
 	
-	public OrderRepository(String path) {
-		this.filename = path;
-		this.initFile();
-	}
-	
 	private void initFile()
 	{
 		File file = new File(this.filename);

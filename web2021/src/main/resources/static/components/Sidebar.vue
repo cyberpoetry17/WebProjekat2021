@@ -76,7 +76,15 @@
         </v-list>
 
         <v-list v-if="user.userType == 'MANAGER'" nav dense>
-          <router-link to="/addNewArticle" style="text-decoration:none;">
+
+          <v-list-item v-if="user.restaurant == null">
+            <v-list-item-icon>
+              <v-icon>mdi-close</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Restaurant is missing</v-list-item-title>
+          </v-list-item>
+
+          <router-link v-if="user.restaurant != null" to="/addNewArticle" style="text-decoration:none;">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-dropbox</v-icon>
@@ -85,7 +93,7 @@
             </v-list-item>
           </router-link>
 
-          <router-link to="/editArticles" style="text-decoration:none;">
+          <router-link v-if="user.restaurant != null" to="/editArticles" style="text-decoration:none;">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-file-edit</v-icon>
@@ -94,7 +102,7 @@
             </v-list-item>
           </router-link>
 
-          <router-link to="/orders" style="text-decoration:none;">
+          <router-link v-if="user.restaurant != null" to="/orders" style="text-decoration:none;">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-format-list-checkbox</v-icon>
@@ -103,7 +111,7 @@
             </v-list-item>
           </router-link>
 
-          <router-link to="/comments" style="text-decoration:none;">
+          <router-link v-if="user.restaurant != null" to="/comments" style="text-decoration:none;">
             <v-list-item link>
               <v-list-item-icon>
                 <v-icon>mdi-comment-processing</v-icon>

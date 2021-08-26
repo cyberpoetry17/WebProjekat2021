@@ -25,11 +25,6 @@ private String filename;
 		this.initFile();
 	}
 	
-	public CustomerRepository(String path) {
-		this.filename = path;
-		this.initFile();
-	}
-	
 	private void initFile()
 	{
 		File file = new File(this.filename);

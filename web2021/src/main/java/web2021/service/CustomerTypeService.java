@@ -18,10 +18,6 @@ public class CustomerTypeService {
 		this.customerTypeRepository = new CustomerTypeRepository();
 	}
 	
-	public CustomerTypeService(String path) {
-		this.customerTypeRepository = new CustomerTypeRepository(path);
-	}
-	
 	public List<CustomerType> getAll() {
 		return customerTypeRepository.getAll();
 	}

@@ -18,10 +18,6 @@ public class RestaurantService {
 		this.restaurantRepository = new RestaurantRepository();
 	}
 	
-	public RestaurantService(String path) {
-		this.restaurantRepository = new RestaurantRepository(path);
-	}
-	
 	public List<RestaurantType> getAllRestaurantTypes() {
 		List<RestaurantType> response = new ArrayList<RestaurantType>(Arrays.asList(RestaurantType.values()));
 		return response;
